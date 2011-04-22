@@ -1,0 +1,170 @@
+<html lang="en">
+<head>
+<title>Element Objects - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Intro.html#Intro" title="Intro">
+<link rel="prev" href="Via-Objects.html#Via-Objects" title="Via Objects">
+<link rel="next" href="Layer-Objects.html#Layer-Objects" title="Layer Objects">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Element-Objects"></a>Next:&nbsp;<a rel="next" accesskey="n" href="Layer-Objects.html#Layer-Objects">Layer Objects</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Via-Objects.html#Via-Objects">Via Objects</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Intro.html#Intro">Intro</a>
+<hr><br>
+</div>
+
+   <p><a name="index-element_002c-an-overview-7"></a><a name="index-layout_002dname-8"></a>
+
+<h3 class="section">2.3 Elements</h3>
+
+<p>Elements represent the components on a board. 
+Elements are loaded from <code>ASCII</code> coded files in a
+similar manner to the layout file itself, or from the
+library selector window. 
+An element is composed of lines and arcs on the silk-screen
+layer (used to define the package outline), pins
+(or pads for SMD) and three labels that define the
+description, the element's layout-name (which also
+appears on the silk-screen layer) and its value. You
+can choose which of the names are displayed on the screen
+with the <b>Screen</b> menu; however, the silk screen in
+the printout will always show the layout-name. 
+Element pins are contained on the first logical level
+and so reside on all layers, but the pads of surface-mount
+elements reside on only the component or solder
+layers. An element can have a mixture of pins, pads
+(on one or both sides), and mounting holes.
+
+   <p>A mark is used to position the element with
+respect to the cross hair during pasting. 
+The mark will lie on a grid point when the element
+is positioned.  The mark is drawn as a small diamond
+shape, but is only visible when <em>both</em> the <code>silk</code>
+and <code>pins/pads</code> layers are visible. 
+All parts of an element are treated as one unit, except for
+the name. 
+It is not possible to delete a single pin or move
+only part of an element on the layout. 
+You can resize separate pieces of an element,
+but doing so is usually a bad idea. You can move/rotate
+the element name independently of the element it belongs
+to. When you move an element name, a line is draw from
+the cursor to the element mark so it is easy to tell
+which element the name belongs to.
+
+   <p>Each pin and pad has two string identifiers, one is the
+"name" which is a functional description of the pin
+(<em>e.g.</em> "clock in") and the other is the "number" of the
+pin which is used to identify it in a netlist. The "number"
+is usually an integer, but it can be any string. You
+can edit the "name" of each pin of an element, but the
+"number" is embedded in the element definition and is
+determined when the new element is first created. 
+Pads are similar to lines on a layer but they must be oriented
+either vertically or horizontally. 
+Pads can have either rounded or square ends. Pins
+can be round, square, or octagonal.
+
+   <p>Elements are supported by several special layers: <code>silk</code>, <code>pins/pads</code> and
+<code>far-side</code>.  The <code>silk</code> layer shows the package outline and
+also holds legend text and element names. The <code>pins/pads</code> layer is used to toggle
+whether the element's pins and pads are displayed. The <code>far-side</code> layer controls visibility
+of objects (silkscreen and pads) that are on the far (<em>i.e.</em> not currently viewed) side
+of the board.
+
+   <p>The &ldquo;oldlib&rdquo; style of footprint libraries distributed with
+<code>Pcb</code> rely upon the M4 macro processor.  M4 is typically
+installed under the name <code>m4</code> on most unix-like operating
+systems.  It is recommended that you use the GNU version of M4 to
+avoid limitations found in some vendor implementations.  See the m4
+man page on your system for more information. 
+Every element file is preprocessed by a user-defined command when the file is read. 
+For details see <span class="samp">elementCommand</span>, <a href="Resources.html#Resources">Resources</a>. <code>m4</code>, the default
+value of <span class="samp">elementCommand</span>, allows you to create libraries for
+package definitions that are shared by all elements. 
+The old element libraries distributed with <code>Pcb</code> expect <code>m4</code> or an
+equivalent to be the <em>elementCommand</em>. The new library scheme simply has
+each element stored in a self-contained file, so there is no need to learn
+<code>m4</code> to add to the libraries.
+
+   <p><code>Pcb</code> can create a list of
+all connections from one (or all) elements to the others or a list of
+unconnected pins. 
+It can also verify the layout connections against a netlist file. 
+The element's <span class="samp">layout-name</span> is the name used to identify the element
+in a netlist file (see <a href="Netlist-File.html#Netlist-File">Netlist File</a>).
+
+   <p>The old libraries, or very old (pre-1.6) layout files may have
+incorrect pin numbering since there was no concept of pin numbers
+when they were created. <code>Pcb</code> uses the order of appearance of
+the pin definitions in the layout or library file if it uses the
+old format, but there is no guarantee that it will be correct for
+these old objects.
+
+   <p><a name="index-old-library-9"></a><a name="index-library-accuracy-10"></a><b>Be aware that a few of the old library parts may still be incorrectly
+implemented regarding pin-numbering.</b>  All of the DIL (Dual-
+Inline-Pins) parts are correct and most of the others are too,
+but you should verify the pin numbering
+of any non-DIL part before using an old library part. 
+(use the <span class="samp">generate object report</span> in the <b>Info</b> menu
+to see what <code>Pcb</code> thinks a pin's number is)
+All of the old
+library names begin with a ~, so you can easily identify them. 
+The old libraries also <em>may</em> contain other sorts of errors,
+including incorrect pin spacing, silkscreen overlapping solder areas, etc. 
+<b>Check carefully any element in the old library before using it!</b>
+As the new library grows, the old library will be paired down to
+at least remove all of the elements with errors, but this will
+take time.
+
+   <p>You can make your own element definitions graphically now. 
+Simply draw vias for the pins, lines on the solder and/or
+component layers for surface-mount pads (they must be either horizontal
+or vertical),
+and lines and arcs on the silkscreen layer for the silkscreen
+outline. You should <em>name</em> (<em>N</em> key) each via and copper line with the pin <em>number</em>. 
+Once you are happy with the geometry, select everything that is to become part of
+the element, then choose <span class="samp">convert selection to element</span> from the <b>Select</b> menu. 
+Afterwords you can make pin (or pad) one
+square if you like, and give the element its various names. You can also give
+the pins and pads their functional names. Note that the
+element mark corresponds to the position you click after choosing the
+conversion from the menu, so decide where the mark goes and make
+sure it falls on a grid point before you request the conversion. 
+If the vias/lines are not named, then the pin numbering will correspond to the
+order in which they were placed.
+
+   <p>When you create a new element, remember that silkscreen lines
+should <em>never</em> overlap the copper part of the
+pins or pads, as this can interfere with soldering. The silkscreen
+should identify the maximum extent of the element package so it
+is easy to see how close elements can be placed together.
+
+   <p>If you want to make an element similar to an existing one, you can
+break an element into constituent pieces from the <b>Buffer</b> menu. 
+Paste the pieces to the layout, make the necessary changes, then
+convert it back into an element. If the pin numbers haven't changed,
+there is no need to name each via/line as they are pre-named when
+the element was broken apart. When you create a new element, you
+can save it to a file in order to have easy access to it the next
+time you run <code>Pcb</code>.
+
+   </body></html>
+

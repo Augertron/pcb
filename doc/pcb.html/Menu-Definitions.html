@@ -1,0 +1,87 @@
+<html lang="en">
+<head>
+<title>Menu Definitions - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Custom-Menus.html#Custom-Menus" title="Custom Menus">
+<link rel="prev" href="Resource-Syntax.html#Resource-Syntax" title="Resource Syntax">
+<link rel="next" href="Menu-Files-and-Defaults.html#Menu-Files-and-Defaults" title="Menu Files and Defaults">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Menu-Definitions"></a>Next:&nbsp;<a rel="next" accesskey="n" href="Menu-Files-and-Defaults.html#Menu-Files-and-Defaults">Menu Files and Defaults</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Resource-Syntax.html#Resource-Syntax">Resource Syntax</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Custom-Menus.html#Custom-Menus">Custom Menus</a>
+<hr><br>
+</div>
+
+<h3 class="section">B.2 Menu Definitions</h3>
+
+<p>To best understand this section, you should find the
+<span class="file">pcb-menu.res</span> file that your Pcb uses and refer to it for
+examples (see <a href="Menu-Files-and-Defaults.html#Menu-Files-and-Defaults">Menu Files and Defaults</a>).
+
+   <p>A resource defines a menu when it meets certain semantic requirements. 
+The menu hierarchy is reflected as a hierarchy of unnamed
+subresources, with the first string of each subresource defining the
+label used for the menu button.  A subresource that itself contains
+subresources becomes a submenu, a subresource that does not becomes a
+button.
+
+   <p>A submenu should only contain subresources for the buttons or submenus
+within that submenu.  Two exceptions are allowed: an initial string
+sets the label, and the string &ldquo;-&rdquo; (a single dash) will create a
+separator.
+
+   <p>A button should not contain subresources, but will contain many
+strings, named and unnamed.  The first member shall be an unnamed
+string which is the label for the button.  Any other unnamed strings
+within the button's resource will be used as actions (much like the
+.Xdefaults action strings), which are functions that will be called
+when the button is pressed (or popped up, or created, depending on the
+action).  As a convenience, if a left parenthesis is seen, the current
+&ldquo;word&rdquo; will continue at least until the matching right parenthesis. 
+This allows you to pass strings with spaces as arguments to actions
+without needing to quote the action.
+
+   <p>Named resources in button resources will be used as X resources.  Such
+resources can be used to set the font, color, and spacing of buttons. 
+As a convenience, &ldquo;fg&rdquo; can be used as an abbreviation for &ldquo;foreground&rdquo;.
+
+   <p>Within the menu's resource file, Pcb will look for a few key named
+subresources.  At the moment, the only one it looks for is one called
+<code>MainMenu</code>.  This will be used for the main menu bar.  In the
+future, other named subresources will be used for popup resources.
+
+   <p>Given all this, a small sample <span class="file">pcb-menu.res</span> would be:
+
+<pre class="example">     MainMenu = {
+       {File
+         {"Load layout" Load(Layout)}
+         -
+         {"Quit Program" Quit() fg=red font=10x20}
+       }
+     }
+</pre>
+   <p>Within the Pcb sources are specially crafted comments that mark all
+the actions, flags, menu hooks, and whatnot that Pcb offers.  Read the
+file <span class="file">src/gather-actions</span> in the Pcb source tree for
+documentation for these comments.
+
+   </body></html>
+

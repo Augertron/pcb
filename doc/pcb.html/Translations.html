@@ -1,0 +1,66 @@
+<html lang="en">
+<head>
+<title>Translations - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="X11-Interface.html#X11-Interface" title="X11 Interface">
+<link rel="prev" href="Actions.html#Actions" title="Actions">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Translations"></a>Previous:&nbsp;<a rel="previous" accesskey="p" href="Actions.html#Actions">Actions</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="X11-Interface.html#X11-Interface">X11 Interface</a>
+<hr><br>
+</div>
+
+   <p><a name="index-translations-715"></a><a name="index-default-translations-716"></a><a name="index-X11-default-translations-717"></a>
+
+<h3 class="section">6.3 Default Translations</h3>
+
+<p>This section covers some default translations of key and button events as
+defined in the shipped default application resource file. Most of them have
+already been listed in <a href="Actions.html#Actions">Actions</a>. <code>Pcb</code> makes use of a nice <code>X11</code>
+feature; calling several action routines for one event.
+
+     
+<a name="index-removing-objects-718"></a>
+<a name="index-removing-connections-719"></a>
+<a name="index-object_002c-removing-an-720"></a>
+<a name="index-connection_002c-removing-an-721"></a>
+<dl><dt><span class="samp">None&lt;Key&gt;BackSpace:</span><br><dt><span class="samp">None&lt;key&gt;Delete:</span><dt><span class="samp">!Shift&lt;Key&gt;BackSpace:</span><dt><span class="samp">!Shift Ctrl&lt;Btn1&gt;:</span><dd>The object at the cursor location is removed by <em>None&lt;Key&gt;BackSpace</em> or
+<em>Shift Ctrl&lt;Btn1&gt;</em> whereas <em>Shift&lt;Key&gt;BackSpace</em> also removes
+all other objects that are fully-connected to the one at the cursor location.
+
+     <p><a name="index-scrolling-722"></a><br><dt><span class="samp">!Mod1 Ctrl&lt;Key&gt;Left:</span><dt><span class="samp">!Mod1 Ctrl&lt;Key&gt;Right:</span><dt><span class="samp">!Mod1 Ctrl&lt;Key&gt;Up:</span><dt><span class="samp">!Mod1 Ctrl&lt;Key&gt;Down:</span><dd>Scroll one page in one of the four directions.
+
+     <p><a name="index-scrolling-723"></a><br><dt><span class="samp">None&lt;Key&gt;Left:, !Shift&lt;Key&gt;Left:</span><dt><span class="samp">None&lt;Key&gt;Right:, !Shift&lt;Key&gt;Right:</span><dt><span class="samp">None&lt;Key&gt;Up:, !Shift&lt;Key&gt;Up:</span><dt><span class="samp">None&lt;Key&gt;Down:, !Shift&lt;Key&gt;Down:</span><dd>Move cross hair either one or ten points in grid.
+
+     <p><a name="index-user-input-724"></a><br><dt><span class="samp">None&lt;Key&gt;Return:</span><dd>Finished user input, selects the 'default' button of dialogs.
+
+     <p><a name="index-user-input-725"></a><br><dt><span class="samp">None&lt;Key&gt;Escape:</span><dd><em>Mode(Reset)</em>, aborts user input, selects the 'abort' button of
+dialogs or resets all modes.
+
+     <p><a name="index-element_002c-move-name-of-726"></a><a name="index-object_002c-move-an-727"></a><a name="index-object_002c-copy-an-728"></a><a name="index-move-an-object-729"></a><a name="index-copy-an-object-730"></a><br><dt><span class="samp">None&lt;Btn2Down&gt;, Btn2&lt;Motion&gt;, None&lt;Btn2Up&gt;:</span><dt><span class="samp">!Mod1&lt;Btn2Down&gt;, Btn2&lt;Motion&gt;, !Mod1&lt;Btn2Up&gt;:</span><dd>The first sequence moves the object or element name at the cursor location. 
+The second one copies the objects. Copying isn't available for
+element names.
+
+   </dl>
+
+<!--  chapter 6 - -->
+</body></html>
+

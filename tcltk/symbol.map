@@ -1,0 +1,4 @@
+PCB_3.0 {
+   global: Tclpcb_Init;
+   local: *;
+};

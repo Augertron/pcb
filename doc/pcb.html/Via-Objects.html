@@ -1,0 +1,55 @@
+<html lang="en">
+<head>
+<title>Via Objects - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Intro.html#Intro" title="Intro">
+<link rel="prev" href="Symbol-Objects.html#Symbol-Objects" title="Symbol Objects">
+<link rel="next" href="Element-Objects.html#Element-Objects" title="Element Objects">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Via-Objects"></a>Next:&nbsp;<a rel="next" accesskey="n" href="Element-Objects.html#Element-Objects">Element Objects</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Symbol-Objects.html#Symbol-Objects">Symbol Objects</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Intro.html#Intro">Intro</a>
+<hr><br>
+</div>
+
+   <p><a name="index-vias_002c-an-overview-6"></a>
+
+<h3 class="section">2.2 Vias</h3>
+
+<p>Vias provide through-hole connectivity across all layers. 
+While vias look a lot like element pins, don't use vias
+for adding elements to the layout, even if that seems
+easier than creating a new element. The default solder-mask
+will cover over vias, so you won't be able to solder to them. 
+Of course, you can change this so that vias also have
+solder-mask cut-outs, but it is not the default. 
+Vias are also useful for defining arbitrary drill points such as
+those used for mounting a board. Vias used in this way have
+a special flag set so that they have no annular copper ring,
+and also appear in the unplated drill file. <em>Ctrl-H</em> key over
+a via switches it between being a pure-mounting hole and a regular via. 
+You can assign a name to a via, which is useful during the creation
+of new element definitions. 
+Each via exists on all copper layers. (<em>i.e.</em>
+blind and buried vias are not supported)
+
+   </body></html>
+

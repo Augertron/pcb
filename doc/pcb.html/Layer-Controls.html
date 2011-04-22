@@ -1,0 +1,98 @@
+<html lang="en">
+<head>
+<title>Layer Controls - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Application-Window.html#Application-Window" title="Application Window">
+<link rel="prev" href="Panner-Control.html#Panner-Control" title="Panner Control">
+<link rel="next" href="Tool-Selectors.html#Tool-Selectors" title="Tool Selectors">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Layer-Controls"></a>Next:&nbsp;<a rel="next" accesskey="n" href="Tool-Selectors.html#Tool-Selectors">Tool Selectors</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Panner-Control.html#Panner-Control">Panner Control</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Application-Window.html#Application-Window">Application Window</a>
+<hr><br>
+</div>
+
+   <p><a name="index-layer-controls-61"></a><a name="index-layers_002c-switching-on_002foff-62"></a><a name="index-layers_002c-changing-which-is-active-63"></a><a name="index-change-active-layer-64"></a>
+
+<h4 class="subsection">3.1.4 The Layer Controls</h4>
+
+<p>The layer control panel, located below the panner control, is used to turn on
+and off the display of layer groups and to select the active drawing layer. 
+If a layer hasn't been named, the label "<em>(unknown)</em>" is used as the default. 
+If this happens, it probably means the application resources are not installed
+properly.
+
+   <p>The upper buttons are used to switch layers on and off. Click
+<em>&lt;Btn1&gt;</em> on one or more of them. Each click toggles the setting. 
+If you turn off the currently active layer, another one that is visible
+will become active. If there are no others visible, you will not be
+able to turn off the active layer. 
+When the layers are grouped, clicking on these buttons will toggle
+the visibility of all layers in the same group. This is a good idea because
+layers in the same group reside on the same physical layer of
+the actual board. Notice that this example has 2 groups each having
+3 layers, plus two other layers named <span class="samp">unused</span>. 
+Use the <span class="samp">Edit layer groups</span> option in the <span class="samp">Settings</span> menu to
+change the layer groupings. Note that changing the groupings can
+radically alter the connectivity on the board. 
+Grouping layers is only useful for helping you to color-code
+signals in your layout. Note that grouping layers actually reduces the number
+of different physical layers available for your board, so to make an eight
+layer board, you cannot group any layers.
+
+   <p>The <em>far side</em> button turns on and off the visibility of elements
+(including SMD pads) on the opposite (to the side you're viewing)
+board side, as well as silk screening on that side. It does not
+hide the x-ray view of the other copper layers, these must be turned off
+separately if desired.  Use the <em>tab</em> key to view the entire board from the other
+side.  To see a view of what the back side of the board will actually look like,
+make the solder layer the active layer then press <em>tab</em> until the status
+line says "solder" on the right, then turn off the visibility of all layers
+except solder, pins/pads, vias, and silk. Now turn them all back on.
+
+   <p>The lowest button, named <em>active</em>, is used to change the active
+drawing layer. Pressing <em>&lt;Btn1&gt;</em> on it pops up a menu to select which
+layer should be active. 
+Each entry is labeled with the layer's name and drawn in its color. 
+The active layer is automatically made visible. The active layer is
+always drawn on top of the other layers, so the ordering of layers
+on the screen does not generally reflect the ordering of the manufactured
+board. Only the solder, component, silkscreen, and solder-mask layers
+are always drawn in their physical order. Bringing the active layer
+to the top makes it easier to select and change objects on the active layer. 
+Try changing the active layer's name to <em>ABC</em> by selecting
+<span class="samp">edit name of active layer</span> from the <span class="samp">Edit</span> menu. 
+Changing the active layer can also be done by pressing keys
+<em>1..MAX_LAYER</em>.
+
+   <p>Turn off the visibility of the component layer. 
+Now make the component layer the active layer. Notice that it
+automatically became visible. Try setting a few
+other layers as the active layer. You should also experiment
+with turning on and off each of the layers to see what happens.
+
+   <p>The netlist layer is a special layer for adding connections to
+the netlist by drawing rat lines. This is not the recommended
+way to add to the netlist, but occasionally may be convenient. 
+To learn how to use the netlist layer see <a href="Net-Objects.html#Net-Objects">Net Objects</a>.
+
+   </body></html>
+

@@ -1,0 +1,1066 @@
+This is pcb.info, produced by makeinfo version 4.1 from pcb.texi.
+
+INFO-DIR-SECTION Miscellaneous
+START-INFO-DIR-ENTRY
+* pcb: (pcb).                   An interactive printed circuit board editor.
+END-INFO-DIR-ENTRY
+
+   This file documents how to use Pcb, the interactive printed circuit
+board layout system for `X11'.
+
+   Copyright (C) 1994,1995,1996, 2004 Thomas Nau
+
+   Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002 harry eaton
+
+   Copyright (C) 2003, 2004 Dan McMahill
+
+   Copyright (C) 2004 DJ Delorie
+
+   This program is free software; you may redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or (at
+your option) any later version.
+
+   This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANT-ABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+
+
+File: pcb.info,  Node: Actions,  Next: Translations,  Prev: Resources,  Up: X11 Interface
+
+Actions
+=======
+
+   All user accessible commands may be bound to almost any `X' event.
+Almost no default binding for commands is done in the binaries, so it
+is vital for the application that at least a system-wide application
+resource file exists.  This file normally resides in the `share/pcb'
+directory and is called `Pcb'. The bindings to which the manual refers
+to are the ones as defined by the shipped resource file. Besides
+binding an action to an X11 event, you can also execute any action
+command using a ":" command (see *Note User Commands::).
+
+   Take special care about translations related to the functions keys
+and the pointer buttons because most of the window managers use them
+too.  Change the file according to your hardware/software environment.
+You may have to replace all occurances of _baseTranslations_ to
+_translations_ if you use a `X11R4' server.
+
+   Passing _Object_ as an argument to an action routine causes the
+object at the cursor location to be changed, removed or whatever. If
+more than one object is located at the cross hair position the smallest
+type is used.  If there are two of the same type the newer one is taken.
+_SelectedObjects_ will handle all selected and visible objects.
+
+`AddRats(AllRats|SelectedRats)'
+     Adds rat-lines to the layout using the loaded netlist file (see
+     the _:rn_, *Note User Commands::.). Rat lines are added on the
+     active layer using the current line thickness shown in the status
+     line.  Only missing connectivity is added by the AddRats command
+     so if, for example, the layout is complete nothing will be added.
+     Rat lines are drawn on the screen with a stippled pattern to make
+     them easier to identify since they cannot appear in a completed
+     layout.  The rat-lines are added in the minimum length
+     straight-line tree pattern (always ending on pins or pads) that
+     satisfies the missing connectivity in the circuit.  If a SMD pad
+     is unreachable on the active layer, a warning will be issued about
+     it and the rat-line to that pad will not be generated.  If
+     connections exist on the board which are not listed in the netlist
+     while AllRats are being added, warning messages will be issued and
+     the affected pins and pads will be drawn in a special _warnColor_
+     until the next _Notify()_ event.  If the entire layout agrees
+     completely with the net-list a message informs you that the layout
+     is complete and no rat-lines are added (since none are needed).
+     If _SelectedRats_ is passed as the argument, only those missing
+     connections that might connect among the selected pins and pads
+     are drawn.  Default:
+          None<Key>w:	AddRats(AllRats)
+          !Shift<Key>w:	AddRats(SelectedRats)
+          None<Key>o:	DeleteRats(AllRats) AddRats(AllRats)
+          !Shift<Key>o:	DeleteRats(SelectedRats) AddRats(SelectedRats)
+
+`ApplyVendor()'
+     Applies an already loaded vendor drill map to the design.
+          ApplyVendor()
+
+`Atomic(Save|Restore|Block|Close)'
+     Controls the undo grouping of sequences of actions. Before the
+     first action in a group, Atomic(Save) should be issued.  After
+     each action that might be undoable, Atomic(Restore) should be
+     issued.  Atomic(Block) concludes and save the undo grouping if
+     there was anything in the group to undo.  Atomic(Close) concludes
+     and save the undo grouping even if nothing was actually done.
+     Thus it might produce an "empty" undo.  This can be useful when
+     you want to use undo in a group of actions.
+
+`Bell([-100..100])'
+     Rings the bell of your display. If no value is passed the setting
+     of the resource _volume_ will be used.
+
+`ChangeDrillSize(Object, value)'
+`ChangeDrillSize(SelectedPins|SelectedVias, value)'
+     This action routine changes the drilling hole of pins and vias.
+     If _value_ starts with + or -, then it adds (or subtracts) _value_
+     from the current hole diameter, otherwise it sets the diameter to
+     the value.  Default:
+          !Mod1<Key>s:       Change2ndSize(Object, +5)
+          !Mod1 Shift<Key>s: Change2ndSize(Object, -5)
+
+`ChangeFlag(Object|SelectElements|SelectedPins|SelectedVias|Selected,thermal|octagon|square,0|1)'
+     Sets/clears the indicated flag.  This adds/removes thermals,
+     adds/removes the flag which indicates a pin/pad should be square,
+     or adds/removes the flag which indicates a pin/pad should be
+     octagonal.
+          :ChangeFlag(SelectedVias,thermal,1)
+          :ChangeFlag(SelectedPads,square,0)
+
+`ChangeHole(Object|SelectedVias)'
+     This action routine converts a via to and from a hole.  A hole is
+     a via that has no copper annulus. The drill size for the via
+     determines the hole diameter.
+          !Ctrl<Key>h:	ChangeHole(Object)
+
+`ChangeName(Object)'
+`ChangeName(Layer|Layout)'
+     Changes the name of the visible object at the cursor location. A
+     text object doesn't have a name therefore the text string itself
+     is changed.  The element name currently used for display is always
+     the one changed with this command.  See
+     _Display(Description|NameOnPCB|Value)_ for details.  Passing
+     _Layer_ changes the current layers name.  Default:
+          None<Key>n: ChangeName(Object)
+
+`ChangeOctagon(Object|SelectElements|SelectedPins|SelectedVias|Selected)'
+     Toggles what shape the affected pin(s) or via(s) will be drawn
+     when they are not square. The shape will either be round or
+     octagonal.  Default:
+          !Ctrl<Key>o: ChangeOctagon(Object)
+
+`ChangeSize(Object, value)'
+`ChangeSize(SelectedLines|SelectedPins|SelectedVias, value)'
+`ChangeSize(SelectedPads|SelectedTexts|SelectedNames, value)'
+`ChangeSize(SelectedElements, value)'
+     To change the size of an object you have to bind these action to
+     some `X' event (or use :ChangeSize(...)).  If _value_ begins with
+     a + or - then the value will be added (or subtracted) from the
+     current size, otherwise the size is set equal to _value_. Range
+     checking is done to insure that none of the maximum/minimums of
+     any size are violated.  If _Object_ is passed then a single object
+     at the cursor location is changed. If any of the _Selected_
+     arguments are passed then all selected and visible objects of that
+     type are changed. If the type being modified is an element, then
+     the thickness of the silkscreen lines defining the element is
+     changed.  Default:
+          None<Key>s:   ChangeSize(Object, +5)
+          !Shift<Key>s: ChangeSize(Object, -5)
+
+`ChangeSquare(Object|SelectedElements|SelectedPins)'
+     Toggles the setting of the square flag. The flag is used to
+     identify a certain pin, normally the first one, of circuits. It is
+     also used to make SMD pads have square ends.
+          None<Key>q:   ChangeSquare(Object)
+
+`ClrFlag(Object|SelectElements|SelectedPins|SelectedVias|Selected,thermal|octagon|square)'
+     Clears the indicated flag.  This removes thermals, removes the flag
+     which indicates a pin/pad should be square, or removes the flag
+     which indicates a pin/pad should be octagonal.
+          :ClrFlag(SelectedVias,thermal)
+
+`Command()'
+     Calling _Command()_ pops up an input line at the bottom of the
+     window which allows you to enter commands. Including all action
+     commands!  The dialog ends when _None<Key>Return_ to confirm or
+     _None<Key>Escape_ to abort is entered.  Default:
+          <Key>colon: Command()
+
+`Connection(Find)'
+`Connection(ResetFoundLinesAndRectangles|ResetPinsViasAndPads|Reset)'
+     The _Connection()_ action is used to mark all connections from one
+     pin, line or via to others.  The _ResetFoundLinesAndRectangles,
+     ResetFoundPinsAndVias_ and _Reset_ arguments may be used to reset
+     all marked lines and rectangles, vias and pins or all of them. The
+     search starts with the pin or via at the cursor position. All
+     found objects are drawn with the color defined by the resource
+     _connectedColor_.  See also,
+     _Display(Description|NameOnPCB|Value)_.  Default:
+          !Shift<Key>c: Connection(Reset)
+          None<Key>f:   Connection(Find)
+          !Shift<Key>f: Connection(Reset)
+
+`DeleteRats(AllRats|SelectedRats)'
+     This routine deletes either all rat-lines in the layout, or only
+     the selected and visible ones. Non-rat-lines and other layout
+     objects are unaffected.  Default:
+          None<Key>e:   DeleteRats(AllRats)
+          !Shift<Key>e: DeleteRats(SelectedRats)
+
+`DisableVendor()'
+     Disables automatic drill size mapping to the loaded vendor drill
+     table.
+          DisableVendor()
+
+`Display(Description|NameOnPCB|Value)'
+`Display(Toggle45Degree|CycleClip)'
+`Display(Grid|ToggleGrid)'
+`Display(ToggleRubberBandMode)'
+`Display(Center|ClearAndRedraw|Redraw)'
+`Display(Pinout|PinOrPadName)'
+     This action routines handles some output related settings. It is
+     used to center the display around the cursor location and to
+     redraw the output area optionally after clearing the window.
+     Centering is done with respect to the _grid_ setting. Displaying
+     the grid itself may be switched on and off by _Grid_ but only if
+     the distance between two pixels exceeds 4 pixels.  `Pcb' is able
+     to handle several labels of an element. One of them is a
+     description of the functionality (eg resistor), the second should
+     be a unique identifier (R1) whereas the last one is a value (100k).
+     The _Display()_ action selects which of the names is displayed.
+     It also controls which name will be affected by the _ChangeName_
+     command.  If _ToggleGrid_ is passed, `Pcb' changes between relative
+     ('rel' in the statusline) and absolute grid (an 'abs' in the
+     statusline).  Relative grid means the pointer position when the
+     command is issued is used as the grid origin; while (0,0) is used
+     in the absolute grid case.  Passing _Pinout_ displays the pinout
+     of the element at the current cursor location whereas
+     _PinOrPadName_ toggles displaying of the pins or pads name under
+     the cursor. If none of them matches but the cursor is inside of an
+     element, the flags is toggled for all of its pins and pads.  For
+     details about rubberbands see also the details about _Mode_.
+     Default:
+          None<Key>c:  Display(Center)
+          None<Key>d:  Display(PinOrPadName)
+          !Shift<Key>d: Display(Pinout)
+          None<Key>r:  Display(ClearAndRedraw)
+          None<Key>.:  Display(Toggle45Degree)
+          None<Key>/:  Display(CycleClip)
+
+`DRC()'
+     Initiates design rule checking of the entire layout. Must be
+     repeated until no errors are found.
+
+`ExecuteFile(filename)'
+     Executes the PCB actions contained in the specified file.  This
+     can be used to automate a complex sequence of operations.
+          :ExecuteFile(custom.cmd)
+     The command file contains a list of PCB actions.  Blank lines are
+     ignored and lines starting with a # are treated as comment lines.
+     For example
+          # This is a comment line
+          Display(Grid)
+          SetValue(Zoom,2)
+          DRC()
+
+`EditLayerGroups()'
+     Pops up a dialog box to edit the layergroup setting. The function
+     is also available from the _Objects_ menu.  There are no defaults.
+
+`EnableVendor()'
+     Enables automatic drill size mapping to the loaded vendor drill
+     table.
+          EnableVendor()
+
+`Load(ElementToBuffer|Layout|LayoutToBuffer|Nelist)'
+     This routine pops up a fileselect box to load layout, element data,
+     or netlist.  The passed filename for layout data is saved and may
+     be reused.  _ElementToBuffer_ and _LayoutToBuffer_ load the data
+     into the current buffer.  There are no defaults.
+
+`LoadVendor(vendorfile)'
+     Loads the specified vendor resource file.
+          LoadVendor(myvendor.res)
+
+`MarkCrosshair()'
+     This routine marks the current cursor location with an X, and then
+     the cursor display shows both absolute position and position
+     relative to the mark.  If a mark is already present, this routine
+     removes it and stops displaying relative cursor coordinates.
+     Defaults:
+          !Ctrl<key>m:	MarkCrosshair()
+
+`Mode(Copy|InsertPoint|Line|Move|None|PasteBuffer|Polygon|Thermal)'
+`Mode(Remove|Rectangle|RubberbandMove|Text|Via)'
+`Mode(Cycle)'
+`Mode(Notify)'
+`Mode(Save|Restore)'
+     Switches to a new mode of operation. The active mode is displayed
+     by a thick line around the matching mode selector button.  Most of
+     the functionality of `Pcb' is implemented by selecting a mode and
+     calling _Mode(Notify)_. The arguments _Line_, _Polygon_,
+     _Rectangle_, _Text_ and _Via_ are used to create the appropriate
+     object whenever _Mode(Notify)_ is called. Some of them, such as
+     _Polygon_, need more than one call for one object to be created.
+     _InsertPoint_ adds points to existing polygons or lines.  _Save_
+     and _Restore_ are used to temporarily save the mode, switch to
+     another one, call _Mode(Notify)_ and restore the saved one. Have a
+     look at the application resource file for examples.  _Copy_ and
+     _Move_ modes are used to change an object's location and,
+     optionally, to create a new one. The first call of _Mode(Notify)_
+     attaches the object at the pointer location to the cross hair
+     whereas the second one drops it to the layout. The _rubberband_
+     version of move performs the move while overriding the current
+     rubberband mode.  Passing _PasteBuffer_ attaches the contents of
+     the currently selected buffer to the cross hair. Each call to
+     _Mode(Notify)_ pastes this contents to the layout. _Mode(Cycle)_
+     cycles through the modes available in the mode-button pallet.
+     _Mode(None)_ switches all modes off.  Default:
+          <Key>Escape:             Mode(None)
+          <Key>space:              Mode(Cycle)
+          None<Key>BackSpace:      Mode(Save) Mode(Remove) Mode(Notify) Mode(Restore)
+          None<Key>Delete:         Mode(Save) Mode(Remove) Mode(Notify) Mode(Restore)
+          None<Key>F1:             Mode(Via)
+          None<Key>F2:             Mode(Line)
+          None<Key>F3:             Mode(PasteBuffer)
+          None<Key>F4:             Mode(Rectangle)
+          None<Key>F5:             Mode(Text)
+          None<Key>F6:             Mode(Polygon)
+          None<Key>F7:             Mode(Thermal)
+          None<Key>F8:		 Mode(Arc)
+          None<Key>Insert:         Mode(InsertPoint)
+          None<Key>[:              Mode(Save) Mode(Move) Mode(Notify)
+          None<Key>]:              Mode(Notify) Mode(Restore)
+          None<Btn1>:          Mode(Notify)
+          !Shift Ctrl<Btn1>:   Mode(Save) Mode(Remove) Mode(Notify) Mode(Restore)
+          None<Btn2Down>:          Mode(Save) Mode(Move) Mode(Notify)
+          None<Btn2Up>:            Mode(Notify) Mode(Restore)
+          !Mod1<Btn2Down>:       Mode(Save) Mode(Copy) Mode(Notify)
+          !Mod1<Btn2Up>:         Mode(Notify) Mode(Restore)
+          Shift BTNMOD<Btn2Down>: Mode(Save) Mode(RubberbandMove) Mode(Notify)
+
+`MovePointer(delta_x, delta_y)'
+     With this function it is possible to move the cross hair cursor by
+     using the cursor keys. The `X' server's pointer follows because
+     the necessary events are generated by `Pcb'. All movements are
+     performed with respect to the currently set grid value.  Default:
+          None<Key>Up:      MovePointer(0, -1)
+          !Shift<Key>Up:    MovePointer(0, -10)
+          None<Key>Down:    MovePointer(0, 1)
+          !Shift<Key>Down:  MovePointer(0, 10)
+          None<Key>Right:   MovePointer(1, 0)
+          !Shift<Key>Right: MovePointer(10, 0)
+          None<Key>Left:    MovePointer(-1, 0)
+          !Shift<Key>Left:  MovePointer(-10, 0)
+
+`MoveToCurrentLayer(Object|SelectedObjects)'
+     The function moves a single object at the cross hair location or
+     all selected objects to the current layer. Elements are not
+     movable by this function.  They have to be deleted and replaced on
+     the other side.  If a line segment is moved and the movement would
+     result in a loss of connectivity to another segment then via(s)
+     are automatically added to maintain the connectivity.
+          None<Key>m:       MoveToCurrentLayer(Object)
+          !Shift<Key>m:     MoveToCurrentLayer(SelectedObjects)
+
+`New()'
+     Clear the current layout and starts a new one after entering its
+     name.  Refer to the resource _backup_ for more information.  No
+     defaults.
+
+`PasteBuffer(AddSelected|Clear|1..5)'
+`PasteBuffer(Rotate, 1..3)'
+`PasteBuffer(Convert)'
+     This action routine controls and selects the pastebuffer as well
+     as all cut-and-paste operations. Passing a buffer number selects
+     one in of the range 1..5. The statusline is updated with the new
+     number.  _Rotate_ performs a number of 90 degree counter clockwise
+     rotations of the buffer contents. _AddSelected_ as first argument
+     copies all selected and visible objects into the buffer. Passing
+     _Clear_ removes all objects from the currently selected buffer.
+     _Convert_ causes the contents of the buffer (lines, arc, vias) to
+     be converted into an element definition. Refer to *Note
+     Pastebuffer:: for examples.  Default:
+          !Ctrl<Key>x:       PasteBuffer(Clear) PasteBuffer(AddSelected)
+          		   Mode(PasteBuffer)
+          !Shift Ctrl<Key>x: PasteBuffer(Clear) PasteBuffer(AddSelected)
+          		   RemoveSelected() Mode(PasteBuffer)
+          !Mod1<Key>c:       PasteBuffer(Clear) PasteBuffer(AddSelected)
+          !Mod1<key>x:       PasteBuffer(Clear) PasteBuffer(AddSelected)
+          		   RemoveSelected()
+          !Shift<Key>1:      PasteBuffer(1)
+          !Shift<Key>2:      PasteBuffer(2)
+          !Shift<Key>3:      PasteBuffer(3)
+          !Shift<Key>4:      PasteBuffer(4)
+          !Shift<Key>5:      PasteBuffer(5)
+          None<Key>F3:       Mode(PasteBuffer)
+
+`Polygon((Close|PreviousPoint)'
+     Polygons need a special action routine to make life easier. Calling
+     _Polygon(PreviousPoint)_ resets the newly entered corner to the
+     previous one. The Undo action will call Polygon(PreviousPoint)
+     when appropriate to do so.  _Close_ creates the final segment of
+     the polygon.  This may fail if clipping to 45 degree lines is
+     switched on, in which case a warning is issued.  Default:
+          None<Key>p:             Polygon(Close)
+          !Shift<Key>p:           Polygon(Close)
+
+`Print()'
+     Pops up a print control box that lets you select the output
+     device, scaling and many more options. Each run creates all files
+     that are supported by the selected device. These are mask files as
+     well as drilling files, silk screens and so on. The table shows
+     the filenames for all possible files:
+          	POSIX (extension)             8.3 filename
+          		---------------------------------------------
+          		*_componentmask.*             cmsk.*
+          		*_componentsilk.*             cslk.*
+          		*_soldermask.*                smsk.*
+          		*_soldersilk.*                sslk.*
+          		*_drill.*                     dril.*
+          		*_groundplane.*               gpl.*
+          		*_group[1..8].*     [..8].*
+     The output may be sent to a post-processor by starting the
+     filename with the _pipe_ `("|")' character. Any `"%f"' in a
+     command is replaced with the current filename. The function is
+     available from the _file_ menu.  There are no defaults.
+
+`Quit()'
+     Quits the application after confirming the operation.  Default:
+          <Message>WM_PROTOCOLS: Quit()
+
+`Redo()'
+     This routine allows you to recover from the last undo command.
+     You might want to do this if you thought that undo was going to
+     revert something other than what it actually did (in case you are
+     confused about which operations are un-doable), or if you have
+     been backing up through a long undo list and over-shoot your
+     stopping point.  Any change that is made since the undo in
+     question will trim the redo list.  For example if you add ten
+     lines, then undo three of them you could use redo to put them
+     back, but if you move a line on the board before performing the
+     redo, you will lose the ability to "redo" the three "undone" lines.
+     Default:
+          !Shift<Key>r:	Redo()
+
+`RemoveSelected()'
+     This routine removes all visible and selected objects.  There are
+     no defaults.
+
+`Report(Object|DrillReport)'
+     This routine pops up a dialog box describing the various
+     characteristics of an object (or piece of an object such as a pad
+     or pin) in the layout at the cursor position, or a report about
+     all of the drill holes in the layout.  There are no defaults.
+
+`RouteStyle(1|2|3|4)'
+     This routine copies the sizes corresponding to the numbered route
+     style into the active line thickens, via diameter, and via drill
+     size.  Defaults:
+          !Ctrl<Key>1: RouteStyle(1)
+          ...
+          !Ctrl<Key>NUM_STYLES: RouteStyle(NUM_STYLES)
+     The variable `NUM_STYLES' is set at compile time in
+     `globalconfig.h'.
+
+`Save(Layout|LayoutAs)'
+`Save(AllConnections|AllUnusedPins|ElementConnections)'
+     Passing _Layout_ saves the layout using the file from which it was
+     loaded or, if it is a new layout, calls _Save(LayoutAs)_ which
+     queries the user for a filename.  The values: _AllConnections_,
+     _AllUnusedPins_ and _ElementConnections_ start a connection scan
+     and save all connections, all unused pins or the connections of a
+     single element to a file.  There are no defaults.
+
+`Select(All|Block|Connection|ToggleObject)'
+`Select(ElementByName|ObjectByName|PadByName|PinByName)'
+`Select(TextByName|ViaByName)'
+     Toggles either the selection flag of the object at the cross hair
+     position (_ToggleObject_) or selects all visible objects, all
+     inside a rectangle or all objects which have been found during the
+     last connection scan. The _ByName_ functions use a *Note Regular
+     Expressions:: search, always case insensitive, to select the
+     objects.  Default:
+          None<Btn3Down>:  Select(ToggleObject)
+          None<Btn3Down>,None<Btn3Motion>: See resource file - this is complex
+
+`SetFlag(Object|SelectElements|SelectedPins|SelectedVias|Selected,thermal|octagon|square)'
+     Sets the indicated flag.  This adds thermals, sets the flag which
+     indicates a pin/pad should be square, or sets the flag which
+     indicates a pin/pad should be octagonal.
+          :SetFlag(Selected,thermal)
+
+`SetValue(Grid|LineSize|TextScale|ViaDrillingHole|ViaSize|Zoom, value)'
+     Some internal values may be changed online by this function.  The
+     first parameter specifies which data has to be changed. The other
+     one determines if the resource is set to the passed value, if
+     _value_ is specified without sign, or increments/decrements if it
+     is specified with a plus or minus sign.  The function doesn't
+     change any existing object only the initial values of new objects.
+     Use the _ChangeSize()_ and _ChangeDrillSize()_ to change existing
+     objects.  Default:
+          None<Key>g:        SetValue(Grid, +5)
+          !Shift<Key>g:      SetValue(Grid, -5)
+          None<Key>l:        SetValue(LineSize, +5)
+          !Shift<Key>l:      SetValue(LineSize, -5)
+          None<Key>t:        SetValue(TextScale, +10)
+          !Shift<Key>t:      SetValue(TextScale, -10)
+          None<Key>v:        SetValue(ViaSize, +5)
+          !Shift<Key>v:      SetValue(ViaSize, -5)
+          !Mod1<Key>v:       SetValue(ViaDrillingHole, +5)
+          !Mod1 Shift<Key>v: SetValue(ViaDrillingHole, -5)
+          None<Key>z:        SetValue(Zoom, -1)
+          !Shift<Key>z:      SetValue(Zoom, +1)
+
+`SwapSides()'
+     This routine changes the board side you are viewing.  Default:
+          None<Key>Tab:      SwapSides()
+
+`SwitchDrawingLayer(value)'
+     Makes layer number 1..MAX_LAYER the current one.  Default:
+          None<Key>1:        SwitchDrawingLayer(1)
+          ...
+          None<Key>MAX_LAYER:        SwitchDrawingLayer(MAX_LAYER)
+
+`ToggleHideName(Object|SelectedElements)'
+     Toggles whether the element's name is displayed or hidden. If it
+     is hidden you won't see it on the screen and it will not appear on
+     the silk layer when you print the layout.
+          None<Key>h:	ToggleHideName(Object)
+          !Shift<Key>h:	ToggleHideName(SelectedElements)
+
+`ToggleVendor()'
+     Toggles automatic drill size mapping to the loaded vendor drill
+     table.
+          ToggleVendor()
+
+`ToggleVisibility(Layer)'
+     Toggles the visibility of the layer.
+          Mod1<Key>1:	ToggleVisibility(1)
+          Mod1<Key>2:	ToggleVisibility(2)
+          Mod1<Key>3:	ToggleVisibility(3)
+          Mod1<Key>4:	ToggleVisibility(4)
+
+`Undo()'
+`Undo(ClearList)'
+     The unlimited undo feature of `Pcb' allows you to recover from
+     most operations that materially affect you work.  Calling _Undo()_
+     without any parameter recovers from the last (non-undo) operation.
+     _ClearList_ is used to release the allocated memory. _ClearList_
+     is called whenever a new layout is started or loaded. See also
+     _Redo_.  Default:
+          None<Key>u:        Undo()
+          !Shift Ctrl<Key>u: Undo(ClearList)
+
+`UnloadVendor()'
+     Unloads the loaded vendor drill table.
+          UnloadVendor()
+
+`Unselect(All|Block|Connection)'
+     Unselects all visible objects, all inside a rectangle or all
+     objects which have been found during the last connection scan.
+     Default:
+          !Shift <Btn3Down>: Mode(Save) Mode(None) Unselect(Block)
+          !Shift <Btn3Up>:   Unselect(Block) Mode(Restore)
+
+
+File: pcb.info,  Node: Translations,  Prev: Actions,  Up: X11 Interface
+
+Default Translations
+====================
+
+   This section covers some default translations of key and button
+events as defined in the shipped default application resource file.
+Most of them have already been listed in *Note Actions::. `Pcb' makes
+use of a nice `X11' feature; calling several action routines for one
+event.
+
+`None<Key>BackSpace:'
+
+`None<key>Delete:'
+`!Shift<Key>BackSpace:'
+`!Shift Ctrl<Btn1>:'
+     The object at the cursor location is removed by
+     _None<Key>BackSpace_ or _Shift Ctrl<Btn1>_ whereas
+     _Shift<Key>BackSpace_ also removes all other objects that are
+     fully-connected to the one at the cursor location.
+
+`!Mod1 Ctrl<Key>Left:'
+`!Mod1 Ctrl<Key>Right:'
+`!Mod1 Ctrl<Key>Up:'
+`!Mod1 Ctrl<Key>Down:'
+     Scroll one page in one of the four directions.
+
+`None<Key>Left:, !Shift<Key>Left:'
+`None<Key>Right:, !Shift<Key>Right:'
+`None<Key>Up:, !Shift<Key>Up:'
+`None<Key>Down:, !Shift<Key>Down:'
+     Move cross hair either one or ten points in grid.
+
+`None<Key>Return:'
+     Finished user input, selects the 'default' button of dialogs.
+
+`None<Key>Escape:'
+     _Mode(Reset)_, aborts user input, selects the 'abort' button of
+     dialogs or resets all modes.
+
+`None<Btn2Down>, Btn2<Motion>, None<Btn2Up>:'
+`!Mod1<Btn2Down>, Btn2<Motion>, !Mod1<Btn2Up>:'
+     The first sequence moves the object or element name at the cursor
+     location.  The second one copies the objects. Copying isn't
+     available for element names.
+
+
+File: pcb.info,  Node: File Formats,  Next: Library Creation,  Prev: X11 Interface,  Up: Top
+
+File Formats
+************
+
+   All files used by `Pcb' are read from the standard output of a
+command or written to the standard input of one as plain seven bit
+`ASCII'. This makes it possible to use any editor to change the
+contents of a layout file.  It is the only way for element or font
+description files to be created.  To do so you'll need to study the
+example files `example/*' and `default_font' which are shipped with
+`Pcb'.  For an overview refer to *Note Intro::.
+
+   The following sections provide the necessary information about the
+syntax of the files.  Netlist files are not created by `Pcb', but it
+does use them. For information on the format of a netlist file see the
+_:rn_, *Note User Commands::. Rat lines are added on the current layer
+using the current The commands described allow you to add almost any
+additional functionality you may need. Examples are compressed read and
+write access as well as archives. The commands themselves are defined
+by the resources _elementCommand_, _fileCommand_, _fontCommand_,
+_libraryCommand_, _libraryContentsCommand_ and _saveCommand_.  Note
+that the commands are not saved along with the data.  It is considered
+an advantage to have the layout file contain all necessary information,
+independent of any other files.
+
+   One thing common to all files is they may include comments, newlines,
+and carriage returns at any place except within quoted strings.
+
+* Menu:
+
+* Basic Types::            Basic types used by all data files.
+* Layout File::
+* Element File::
+* Font File::
+* Netlist File::
+* Library Contents File::
+* Library File::
+
+
+File: pcb.info,  Node: Basic Types,  Next: Layout File,  Up: File Formats
+
+Basic Types
+===========
+
+   Here are the basic type definitions used in the other sections of
+this chapter.
+
+     Description     = Name
+     DeltaAngle      = Number
+     DrillingHole    = Number
+     Flags           = Number
+     FontPosition    = Number
+     Grid            = Number
+     GridOffsetX     = Number
+     GridOffsetY     = Number
+     Group           = GroupMember [,GroupMember]...
+     GroupMember     = decimal | [cs]
+     GroupString     = """ Group [:Group]... """
+     StyleString	= """ Style [:Style]... """
+     Height          = Number
+     LayerNumber     = Number
+     LayoutName      = Name
+     Name            = quoted_string
+     Number          = decimal | hex
+     PinNumber	= quoted_string
+     Spacing         = Number
+     StartAngle      = Number
+     SymbolID        = Number | charconst
+     Thickness       = Number
+     TextData        = quoted_string
+     TextFlags       = Flags
+     TextScale       = scale
+     TextX           = Number
+     TextY           = Number
+     Value           = Name
+     Width           = Number
+     X               = Number
+     X1              = Number
+     X2              = Number
+     Y               = Number
+     Y1              = Number
+     Y2              = Number
+     charconst       = "'" <any character> "'"
+     comment         = "#" {<any character up to a newline>}...
+     decimal         = [0-9]+
+     direction       = [0-3]
+     hex             = 0x[0-9a-fA-F]+
+     scale           = [1-<positive integer>]
+     quoted_string   = """ <anything except \n and \r> """
+     zoom            = [0-MAX]
+
+
+File: pcb.info,  Node: Layout File,  Next: Element File,  Prev: Basic Types,  Up: File Formats
+
+Layout File Format
+==================
+
+   The layout file describes a complete layout including symbols, vias,
+elements and layers with lines, rectangles and text. This is the most
+complex file of all.
+
+     File            = Header Font PCBData
+     Header          = PCBName [GridData] [CursorData] [PCBFlags] [Groups]
+     PCBName         = "PCB(" Name Width Height ")"
+     GridData        = "Grid(" Grid GridOffsetX GridOffsetY ")"
+     CursorData      = "Cursor(" X Y zoom ")"
+     PCBFlags        = "Flags(" Flags ")"
+     Groups          = "Groups(" GroupString ")"
+     Styles		= "Styles(" StyleString ")"
+     Font            = {FontData}...
+     FontData        = {Symbol}...
+     Symbol          = "Symbol(" SymbolID Spacing ")"
+     		      "(" {SymbolData}... ")"
+     SymbolData      = {SymbolLine}...
+     SymbolLine      = "SymbolLine(" X1 Y1 X2 Y2 Thickness ")"
+     PCBData         = {Via | Layer | Element}...
+     
+     Via             = "Via(" X Y Thickness DrillingHole Name Flags ")"
+     
+     Element         = "Element(" Flags Description LayoutName Value \
+     		      TextX TextY direction scale TextFlags")"
+     		      "(" {ElementData}... [Mark] ")"
+     ElementData     = {ElementLine | Pad | Pin | ElementArc }...
+     ElementArc      = "ElementArc(" X Y Width Height
+     		      StartAngle DeltaAngle Thickness ")"
+     ElementLine     = "ElementLine(" X1 Y1 X2 Y2 Thickness ")"
+     Mark            = "Mark(" X Y ")"
+     Pad             = "Pad(" X1 Y1 X2 Y2 Thickness Name PinNumber Flags")"
+     Pin             = "Pin(" X Y Thickness DrillingHole Name PinNumber Flags ")"
+     
+     Layer           = "Layer(" LayerNumber Name ")"
+     		      "(" {LayerData}... ")"
+     LayerData       = {Line | Polygon | Text}...
+     Line            = "Line(" X1 Y1 X2 Y2 Thickness Flags")"
+     Arc		= "Arc(" X Y Width Height StartAngle DeltaAngle Thickness Flags")"
+     Polygon         = "Polygon(" Flags ")" \
+     		      "(" {Points}... ")"
+     Points          = "(" X Y ")"
+     Text            = "Text(" X Y direction scale TextData Flags")"
+
+`PCBName'
+     is used to define the layout's name which is independent of its
+     filename.  It is displayed in the lower left corner of the main
+     window.
+
+`GridData'
+     is optional and is used to save the grid setting and offset which
+     were set at the time the layout was saved.
+
+`CursorData'
+     also is an optional parameter to save the last cursor location and
+     zoom value.  The real zoom factor is calculated by scale = 1:(2
+     power value).
+
+`PCBFlags'
+     determine how to draw lines and which name of the elements should
+     be displayed.
+              bit 4:  do rubberband moves and rotates if set
+              bit 5:  display description of elements if set
+              bit 6:  display unique name of an element if set
+              bit 7:  use absolute grid if set
+              bit 8:  don't clip lines to 45 degrees
+
+`Groups'
+     Layergroups are saved by using this optional parameter. The only
+     way of changing them is to use an editor and alter the appropriate
+     line. The characters _c,s_ identify the component- and solder-side
+     for SMD objects.
+
+`Symbol'
+     See the description of font files in this chapter.
+
+`Via'
+     Vias are always connected to all layers which also means vias are
+     one logical level ahead of layers. Vias are defined by position,
+     size, name and by some flags.
+              bit 0:  always clear
+              bit 1:  always set
+              bit 2:  set if via was found during a connection search
+              bit 4:  set if via is a hole (has no copper annulus)
+              bit 5:  display the vias name
+              bit 6:  via has been selected
+              bit 12: set if via has octagonal shape
+              Other bits have special meaning and should not be changed
+              by the user.  See const.h for more information
+
+`Element'
+     See the description of element files in this chapter.
+
+`Layer'
+     A layer is the central object from the user's point of view. It
+     holds all connections and all text objects. Up to 8 may be used
+     individually.  Its number, starting with one, and its name are
+     read as arguments.
+
+    `Line'
+          All lines are identified by their start and endpoints
+          together with their thickness and some flags. They have to
+          fit a 45 degree scheme.
+                   bit 2:  set if line was found during a connection search
+                   bit 4:  line is a rat-line
+                   bit 6:  line has been selected
+
+    `Polygon'
+          used to fill a larger area with `copper'. The coordinates
+          specify the corners. The flags are:
+                   bit 2:  set if polygon was found during a connection search
+                   bit 4:  polygon is a 1.5 style polygon that automatically clears pins
+                   bit 6:  polygon has been selected
+
+    `Text'
+          You may use text objects to add information to your board. An
+          example would be naming a connector or marking pin one of it.
+          The position marks the lower left corner of the string which
+          is also a fix-point for rotations.  Text directions are
+          independent to those of lines. They are counted from zero to
+          three with a meaning of zero to 270 degree rotations
+          counter-clockwise.  The scaling value is a positive integer
+          which determines a zoom factor in percent.
+                   bit 6:  the text has been selected
+                   bit 7:  the text is on the solder (back) side of the board
+                   bit 10: the text is on the silkscreen layer
+
+
+File: pcb.info,  Node: Element File,  Next: Font File,  Prev: Layout File,  Up: File Formats
+
+Element File Format
+===================
+
+   Element files are used to describe one component which then may be
+used several times within one or more layouts. You will normally split
+the file into two parts, one for the pinout and one for the package
+description.  Using `m4' allows you to define pin names as macros in
+one file and include a package description file which evaluates the
+macros. See the resource _elementCommand_ for more information. The
+pins (and pads) must appear in sequential order in the element file
+(new in 1.5) so that pin 1 must be the first PIN(...) in the file.
+
+   Doing things this way makes it possible to use one package file for
+several different circuits. See the sample files `dil*'.
+
+   The lowest x and y coordinates of all sub-objects of an element are
+used as an attachment point for the cross hair cursor of the main
+window.
+
+     File            = {Element}...
+     Element         = "Element(" Flags Description LayoutName Value \
+     		      TextX TextY direction scale TextFlags")"
+     		      "(" {ElementData}... [Mark] ")"
+     ElementData     = {ElementLine | Pad | Pin | ElementArc }...
+     ElementArc      = "ElementArc(" X Y Width Height
+     		      StartAngle DeltaAngle Thickness ")"
+     ElementLine     = "ElementLine(" X1 Y1 X2 Y2 Thickness ")"
+     Mark            = "Mark(" X Y ")"
+     Pad             = "Pad(" X1 Y1 X2 Y2 Thickness Name PinNumber Flags ")"
+     Pin             = "Pin(" X Y Thickness DrillingHole Name PinNumber Flags ")"
+
+`Element'
+     Objects of type element are determined by flags,  some names, a
+     canonical and a layout name as well as a value. Additional fields
+     are text position, their direction counted from zero to three (n *
+     90 degrees counter-clockwise) and element data.
+
+    `Flags'
+          The flag field determines the state of an element.  The bit
+          values are:
+                   bit 4:  the element name is hidden
+                   bit 6:  element has been selected
+                   bit 7:  element is located on the solder side
+
+    `TextFlags'
+    `scale'
+    `direction'
+          See the description of text object earlier in this chapter.
+
+    `ElementLine'
+          A line is defined by its start and end points and by its
+          size, or width.
+
+    `ElementArc'
+          Defines an arc by its center, width, height, start angle, its
+          length in degrees and its size. Remember the y axis on the
+          screen grows downwards.
+
+    `Mark'
+          is just a hint to make positioning easier. The cross hair
+          will be positioned here. Its center is passed as the two
+          arguments.
+
+    `Pad'
+          A pad is very similar to a line except it may not be
+          disconnected from its element and it has an associated name.
+          Is is defined by two end point position, size, name and by
+          some flags.
+                   bit 2:  set if pad was found during a connection search
+                   bit 5:  display the pads name
+                   bit 6:  pad has been selected
+                   bit 7:  pad is located on the solder side
+
+    `Pin'
+          A pin is very similar to a via except it may not be
+          disconnected from its element.
+                   bit 0:  always set
+                   bit 1:  always clear
+                   bit 2:  set if pin was found during a connection search
+                   bit 3:  set if pin is only a mounting hole (no copper annulus)
+                   bit 5:  display the pins name
+                   bit 6:  pin has been selected
+                   bit 8:  pin is drawn as a square
+                   bit 12: set if pin is drawn with an octagonal shape
+
+
+File: pcb.info,  Node: Font File,  Next: Netlist File,  Prev: Element File,  Up: File Formats
+
+Font File Format
+================
+
+   A number of user defined symbols are called a font. There is only
+one per layout. All symbols are made of lines. See the file
+`default_font' as an example.
+
+   The lowest x and y coordinates of all lines of a font are
+transformed to (0,0).
+
+     File            = Font
+     Font            = {FontData}...
+     FontData        = {Symbol}...
+     Symbol          = "Symbol(" SymbolID FontPosition ")"
+     		      "(" {SymbolData}... ")"
+     SymbolData      = {SymbolLine}...
+
+`Symbol'
+     The two arguments are the `ASCII' code of the symbol and its
+     distance to the next symbol. Undefined symbols are drawn as filled
+     rectangles.  The `ASCII' code may be passed as a character
+     constant or as a hexadecimal value.
+
+    `SymbolLine'
+          The symbol data itself is made up of several entries of type
+          _SymbolLine_.
+
+
+File: pcb.info,  Node: Netlist File,  Next: Library Contents File,  Prev: Font File,  Up: File Formats
+
+Netlist File Format
+===================
+
+   Netlists read by `Pcb' must have this simple text form:
+
+     netname [style] NAME-PINNUM NAME2-PINNUM2 NAME3-PINNUM3 ... [\]
+
+   for each net on the layout.
+   where "netname" is the name of the net which must be unique for each
+net, [style] is an optional route-style name, NAME is the layout-name
+name given to an element, and PINNUM is the (usually numeric) pin
+number of the element that connects to the net (for details on pin
+numbering see *Note Element Objects::).  Spaces or tabs separate the
+fields.  If the line ends with a "\" the net continues on the next line
+and the "\" is treated exactly as if it were a space.  If a NAME ends
+with a lower-case letter, all lower-case letters are stripped from the
+end of the NAME to determine the matching layout-name name.  For
+example:
+
+          Data U1-3 U2abc-4 FLOP1a-7 Uabc3-A9
+
+   specifies that the net called "Data" should have pin 3 of U1
+connected to pin 4 of U2, to pin 7 of FLOP1 and to pin A9 of Uabc3.
+Note that element name and pin number strings are case-sensitive.  It
+is up to you to name the elements so that their layout-name names
+agrees with the netlist.
+
+
+File: pcb.info,  Node: Library Contents File,  Next: Library File,  Prev: Netlist File,  Up: File Formats
+
+Library Contents File Format
+============================
+
+   There is nothing like a special library format. The ones that have
+been introduced in 1.4.1 just use some nice (and time consuming)
+features of GNU `m4'. The only predefined format is the one of the
+contents file which is read during startup. It is made up of two basic
+line types:
+
+     menu entry      = "TYPE="name
+     contents line   = template":"package":"value":"description
+     name            = String
+     template        = String
+     package         = String
+     value           = String
+     description     = String
+     String          = <anything except ":", "\n" and "\r">
+
+   No leading white spaces or comments are allowed in this file. If you
+need either one, define a command that removes them before loading.
+Have a look to the _libraryContentsCommand_ resource.
+
+   The menu entry will appear in the selection menu at the top and of
+the library window.
+
+
+File: pcb.info,  Node: Library File,  Prev: Library Contents File,  Up: File Formats
+
+Library File Format
+===================
+
+   This section provides an overview about the existing `m4' definitions
+of the elements. There are basically two different types of files. One
+to define element specific data like the pinout, package and so on, the
+other to define the values. For example the static RAM circuits 43256
+and 62256 are very similar. They therefore share a common definition in
+the macro file but are defined with two different value labels.
+
+   The macro file entry:
+     define(`Description_43256_dil', `SRAM 32Kx8')
+     define(`Param1_43256_dil', 28)
+     define(`Param2_43256_dil', 600)
+     define(`PinList_43256_dil', ``pin1', `pin2', ...')
+
+   And the list file:
+     43256_dil:N:43256:62256
+
+   The macro must define a description, the pin list and up to two
+additional parameters that are passed to the package definitions. The
+first one is the number of pins whereas the second one defines for
+example the width of a package.
+
+   It is very important to select a unique identifier for each macro. In
+the example this would be _43256_dil_ which is also the templates name.
+It is required by some low-level macros that _Description_, Param1_,
+Param2__ and _PinList__ are perpended.
+
+   The list file uses a syntax:
+     template:package:value[:more values]
+
+   This means that the shown example will create two element entries
+with the same package and pinout but with different names.
+
+   A number of packages are defined in `common.m4'. Included are:
+
+     DIL packages with suffix D, DW, J, JD, JG, N, NT, P
+     PLCC
+     TO3
+     generic connectors
+     DIN 41.612 connectors
+     zick-zack (SD suffix)
+     15 pin multiwatt
+
+   If you are going to start your own library please take care about
+`m4' functions. Be aware of quoting and so on and, most important check
+your additional entry by calling the macro:
+
+     CreateObject(`template', `value', `package suffix')
+
+   If quoting is incorrect an endless loop may occur (broken by a
+out-of-memory message).
+
+   The scripts in the `lib' directory handle the creation of libraries
+as well as of their contents files. Querying is also supported.
+
+   I know quite well that this description of the library
+implementation is not what some out there expect. But in my opinion
+it's much more useful to look at the comments and follow the macros
+step by step.
+

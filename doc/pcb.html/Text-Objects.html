@@ -1,0 +1,51 @@
+<html lang="en">
+<head>
+<title>Text Objects - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Intro.html#Intro" title="Intro">
+<link rel="prev" href="Polygon-Objects.html#Polygon-Objects" title="Polygon Objects">
+<link rel="next" href="Net-Objects.html#Net-Objects" title="Net Objects">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Text-Objects"></a>Next:&nbsp;<a rel="next" accesskey="n" href="Net-Objects.html#Net-Objects">Net Objects</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Polygon-Objects.html#Polygon-Objects">Polygon Objects</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Intro.html#Intro">Intro</a>
+<hr><br>
+</div>
+
+   <p><a name="index-text_002c-an-overview-18"></a><a name="index-strings_002c-an-overview-19"></a>
+
+<h3 class="section">2.8 Text</h3>
+
+<p>Text objects should be used to label a layout or to put additional
+information on the board. Elements have their <span class="samp">layout-name</span> labels on the
+silk-screen layer. If you are making a board without a silkscreen,
+you can use copper text to label the elements, but you have to do
+this manually.
+
+   <p>Text is always horizontal when first created, but the
+rotate mode can align it along 0, 90, 180 and 270 degree angles. 
+Text on the far side of the board will automatically appear mirror-imaged.
+
+   <p><em>Warning:</em> <b>TEXT OBJECTS ON A COPPER LAYER CREATE COPPER LINES BUT THEY ARE NOT SCANNED FOR
+CONNECTIONS OR TESTED FOR CREATING SHORTS VS. THE NETLIST. NEITHER ARE TEXT OBJECTS TESTED AGAINST ANY DESIGN RULES</b>.
+
+   </body></html>
+

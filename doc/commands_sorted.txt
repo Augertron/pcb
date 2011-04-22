@@ -1,0 +1,167 @@
+tcl command set for pcb
+"" - optional
+<> - user value
+[] - constrained value
+
+
+arc draw <llx,lly> <urx,ury>
+
+buffer break_up
+buffer clear
+buffer convert
+buffer copy <x,y>
+buffer cut <x,y>
+buffer mirror [90degCW|90degCCW]
+buffer paste <x,y>
+buffer rotate [90degCW|90degCCW]
+buffer save <filename>
+buffer select [1|2|3|4|5]
+
+delete object [all|connected]
+delete object <x,y>
+delete "selected"
+delete track
+delete track [all|auto_only]
+
+deselect object [all|connected]
+deselect object <x,y>
+
+drc minimum_space <minspace> minimum_width <minwidth> 
+    minimum_overlap <minoverlap> minimum_silkwidth <minsilkwidth>
+drc run
+
+grid decrement [5mil|1mm]
+grid display [on|off]
+grid increment [5mil|1mm]
+grid realign
+grid set [0.1mil|0.5mil|1mil|0.1mm|10mil|1mm|25mil|50mil|100mil]
+
+info drill_summary
+info found_pins_pads_report
+info object_report
+
+layer active [1|2|3|4|5|6|7|8]
+layer group <l1,l2,...>
+layer invisible [1|2|3|4|5|6|7|8|all]
+layer name <layername>
+layer visible [1|2|3|4|5|6|7|8|all]
+
+layout center
+layout name <layoutname>
+layout redraw
+layout size <width> <height>
+
+line draw <llx,lly> <urx,ury>
+line size [+10mil|-10mil]
+line selected_size [+10mil|-10mil]
+
+mode [select|delete|pan|lock|rotate|insert]
+mode [via|line|arc|text|rectangle|polygon|buffer|thermal]
+
+object connect_info <x,y>
+object convert "element"
+object copy buffer [1|2|3|4|5] "<x,y>"
+object cut buffer [1|2|3|4|5] "<x,y>"
+object delete <x,y>
+object insert <x,y>
+object move "otherside"
+object paste buffer [1|2|3|4|5] "<x,y>"
+object rotate
+object rotate <x,y>
+object select <x,y>
+
+open buffer [1|2|3|4|5] <filename>
+open layout <filename>
+open netlist <filename>
+
+option all_dir_lines [on|off]
+option auto_enforce_drc_clearance [on|off]
+option auto_swap_line_start_angle [on|off]
+option auto_zero_delta_measurements [on|off]
+option check_polygons [on|off]
+option crosshair_shows_drc_clearance [on|off]
+option crosshair_snaps_to_pins_pads [on|off]
+option new_lines_arcs_clear_polygons [on|off]
+option only_autorouted_nets [on|off]
+option orthogonal_moves [on|off]
+option rubber_band_mode [on|off]
+option show_autorouter_trials [on|off]
+option thin_draw [on|off]
+option unique_element_names [on|off]
+
+pad size [+10mil|-10mil]
+
+pin square [on|off]
+pin hole [+10mil|-10mil]
+pin size [+10mil|-10mil]
+
+polygon draw <llx,lly> <urx,ury>, ... <llx,lly>
+
+print driver eps rotate [on|off] mirror [on|off] color [on|off] invert [on|off] 
+      outline [on|off] alignment [on|off] drillhelper [on|off] dos [on|off] 
+      scale <value> <filename>
+print driver gerber invert [on|off] outline [on|off] alignment [on|off] 
+      drillhelper [on|off] dos [on|off] scale <value> <filename>
+print driver ps rotate [on|off] mirror [on|off] color [on|off] invert [on|off] 
+      outline [on|off] alignment [on|off] drillhelper [on|off] dos [on|off] 
+      media [a3|a4|a5|letter|ledger|legal|executive|c-size|d-size|11x17|user] 
+      scale <value> <filename>
+
+rats auto_route
+rats optimize
+
+rectangle draw <llx,lly> <urx,ury>
+
+redo
+
+route [all|rats]
+route debumpify
+route miter
+route optimize
+route optimize auto [on|off]
+route optimize nets [all|auto_only]
+route ortho
+route simple
+route unjaggy
+
+save element [<name>|all] <filename>
+save layout "<filename>"
+
+scan
+scan reset [pads_pins_vias|lines_polygons|all]
+
+select element <name>
+select object [all|connected]
+select object <x,y>
+select pad <name>
+select pin <name>
+select text <name>
+select via <name>
+
+show element_name [description|reference|value]
+show solder_mask [on|off]
+show solder_side [on|off]
+
+style adjust [<stylename>] name <stylename> line_width <linewidth> 
+      via_hole <viahole> via_size <viasize> clearance <clearance>
+style use stylename
+
+text set <size>
+text size [+10mil|-10mil]
+text selected_size [+10mil|-10mil]
+text write <string> <x,y>
+
+thermal draw <x,y>
+
+undo 
+undo clear_history
+
+via draw <x,y>
+via hole [+10mil|-10mil]
+via nudge
+via size [+10mil|-10mil]
+via selected_size [+10mil|-10mil]
+via trim
+
+zoom [in|out]
+zoom set [4:1|2:1|1:1|1:2|1:4|1:8|1:16]

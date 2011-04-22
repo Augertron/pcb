@@ -1,0 +1,55 @@
+<html lang="en">
+<head>
+<title>X11 - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="problems.html#problems" title="problems">
+<link rel="prev" href="BSD.html#BSD" title="BSD">
+<link rel="next" href="TeX-and-Manuals.html#TeX-and-Manuals" title="TeX and Manuals">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="X11"></a>Next:&nbsp;<a rel="next" accesskey="n" href="TeX-and-Manuals.html#TeX-and-Manuals">TeX and Manuals</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="BSD.html#BSD">BSD</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="problems.html#problems">problems</a>
+<hr><br>
+</div>
+
+   <p><a name="index-X11_002c-problems-800"></a>
+
+<h4 class="subsection">A.2.8 Problems related to X11</h4>
+
+<p>There are a some problems related to <code>X11R4</code> or systems derived from
+<code>X11</code> such as <code>OpenWindows</code>. See <a href="Sun.html#Sun">Sun</a>. You at least have to change
+all occurances of <em>baseTranslations</em> in the resource files to
+<em>translations</em> if you are using a <code>X11R4</code> server. Look at the
+<code>X11R5</code> <em>Intrinsics</em> manual for details.
+
+   <p>The panner widget (print dialog box) appears only in release <code>X11R5</code> and
+later. It really simplifies adjusting the offsets. 
+With earlier releases the printout will always appear in the center of the
+page.
+
+   <p>You may have some problems in a mixed <code>X11-OpenWindows</code>
+environment.
+
+   <p><code>Pcb</code> has been tested successfully with <code>X11R6</code> under Linux 1.1.59
+and later.
+
+   </body></html>
+

@@ -1,0 +1,50 @@
+Name:           pcb
+Version:        %VERSION%
+Release:        1
+Summary:        Printed circuit board drawing tool
+Group:          Applications/Engineering
+License:        GPL
+URL:            http://opencircuitdesign.com/pcb/index.html
+Source:         http://opencircuitdesign.com/pcb/archive/%{name}-%{version}.tgz
+BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+BuildRequires:  libX11-devel, libXt-devel, tcl-devel, tk-devel
+Requires:       libX11, libXt, tcl, tk
+
+%description
+PCB is free software for designing printed circuit board layouts.  It has
+many features and is capable of professional-quality output.  It is available
+for UN*X operating systems, e.g., GNU/Linux, Mac OS-X, or Cygwin under
+Windows.  PCB was orignally written by Thomas Nau of the University of
+Ulm, Germany, and is now maintained by Harry Eaton of the Johns Hopkins
+University Applied Physics Laboratory, Laurel, Maryland, USA.
+
+%prep
+%setup -q
+
+%build
+%configure \
+  --with-tcl=%{_libdir} \
+  --with-tk=%{_libdir} \
+  --with-tclincls=%{_includedir} \
+  --with-tkincls=%{_includedir} \
+  --with-tcllibs=%{_libdir} \
+  --with-tklibs=%{_libdir}
+make
+
+%install
+rm -rf $RPM_BUILD_ROOT
+make install DESTDIR=$RPM_BUILD_ROOT
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+%files
+%defattr(-,root,root,-)
+%doc AUTHORS ChangeLog COPYING NEWS README README.* VERSION
+%{_bindir}/pcb
+%{_bindir}/Merge_dimPCBPS
+%{_bindir}/MergePCBPS
+%{_datadir}/pcb/*
+%{_mandir}/man1/pcb.1.gz
+%{_infodir}/pcb.info.gz
+

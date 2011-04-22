@@ -1,0 +1,80 @@
+<html lang="en">
+<head>
+<title>Drawing and Removing - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Getting-Started.html#Getting-Started" title="Getting Started">
+<link rel="prev" href="Netlist-Window.html#Netlist-Window" title="Netlist Window">
+<link rel="next" href="Moving-and-Copying.html#Moving-and-Copying" title="Moving and Copying">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Drawing-and-Removing"></a>Next:&nbsp;<a rel="next" accesskey="n" href="Moving-and-Copying.html#Moving-and-Copying">Moving and Copying</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Netlist-Window.html#Netlist-Window">Netlist Window</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Getting-Started.html#Getting-Started">Getting Started</a>
+<hr><br>
+</div>
+
+   <p><a name="index-drawing-objects-73"></a><a name="index-removing-objects-74"></a><a name="index-erasing-objects-75"></a><a name="index-object_002c-drawing-and-removing-76"></a>
+
+<h3 class="section">3.5 Drawing and Removing Basic Objects</h3>
+
+<p>hace begging gutting here, and do a real-world tutorial example.
+
+   <p>There are several ways of creating new objects: you can draw them yourself,
+you can copy an existing object (or selection), or you can load an element from a file or
+from the Library window. Each type of object has a particular tool for creating it.
+
+   <p>The active tool can be selected from the tool selectors in the bottom
+left corner or by one of the function keys listed earlier in this chapter. 
+Each <em>&lt;Btn1&gt;</em> press with the tool tells the application to create
+or change the appropriate object or at least take
+the first step to do so. Each tools causes the cursor to take
+on a unique shape and also causes the corresponding
+tool selector button to be highlighted. You can use either cue
+to see which tool is active.
+
+   <p>Insert mode provides the capability of inserting new points into existing
+polygons or lines. The 45 degree line clipping is now enforced when selected. 
+Press and hold the shift key while positioning the new point to only clip
+the line segment to the nearer of the two existing points to 45 degrees. 
+You can also toggle the 45-degree clipping in the middle of a point
+insertion by pressing the <em>&lt;Key&gt;.</em>
+If the shift key is not depressed and the 45 degree line clipping mode
+is on, both new line segments must be on 45 degree angles - greatly
+restricting where the new point may be placed. In some cases this can cause
+confusion as to whether an insertion has been started since the two new
+lines may be forced to lie parallel on top of the original line until the
+pointer is moved far from the end points.
+
+   <p>Removing objects, changing their size or moving them only applies to objects
+that are visible when the command is executed.
+
+<ul class="menu">
+<li><a accesskey="1" href="Common.html#Common">Common</a>:            Keystrokes common to some objects. 
+<li><a accesskey="2" href="Lines.html#Lines">Lines</a>
+<li><a accesskey="3" href="Arcs.html#Arcs">Arcs</a>
+<li><a accesskey="4" href="Polygons.html#Polygons">Polygons</a>:          Drawing polygons and rectangles. 
+<li><a accesskey="5" href="Text.html#Text">Text</a>
+<li><a accesskey="6" href="Vias.html#Vias">Vias</a>
+<li><a accesskey="7" href="Elements.html#Elements">Elements</a>
+<li><a accesskey="8" href="Pastebuffer.html#Pastebuffer">Pastebuffer</a>:       A multi-purpose buffer. 
+</ul>
+
+   </body></html>
+

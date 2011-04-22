@@ -1,0 +1,988 @@
+This is pcb.info, produced by makeinfo version 4.1 from pcb.texi.
+
+INFO-DIR-SECTION Miscellaneous
+START-INFO-DIR-ENTRY
+* pcb: (pcb).                   An interactive printed circuit board editor.
+END-INFO-DIR-ENTRY
+
+   This file documents how to use Pcb, the interactive printed circuit
+board layout system for `X11'.
+
+   Copyright (C) 1994,1995,1996, 2004 Thomas Nau
+
+   Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002 harry eaton
+
+   Copyright (C) 2003, 2004 Dan McMahill
+
+   Copyright (C) 2004 DJ Delorie
+
+   This program is free software; you may redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or (at
+your option) any later version.
+
+   This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANT-ABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+
+
+File: pcb.info,  Node: Layer Controls,  Next: Tool Selectors,  Prev: Panner Control,  Up: Application Window
+
+The Layer Controls
+------------------
+
+   The layer control panel, located below the panner control, is used
+to turn on and off the display of layer groups and to select the active
+drawing layer.  If a layer hasn't been named, the label "_(unknown)_"
+is used as the default.  If this happens, it probably means the
+application resources are not installed properly.
+
+   The upper buttons are used to switch layers on and off. Click
+_<Btn1>_ on one or more of them. Each click toggles the setting.  If
+you turn off the currently active layer, another one that is visible
+will become active. If there are no others visible, you will not be
+able to turn off the active layer.  When the layers are grouped,
+clicking on these buttons will toggle the visibility of all layers in
+the same group. This is a good idea because layers in the same group
+reside on the same physical layer of the actual board. Notice that this
+example has 2 groups each having 3 layers, plus two other layers named
+`unused'.  Use the `Edit layer groups' option in the `Settings' menu to
+change the layer groupings. Note that changing the groupings can
+radically alter the connectivity on the board.  Grouping layers is only
+useful for helping you to color-code signals in your layout. Note that
+grouping layers actually reduces the number of different physical
+layers available for your board, so to make an eight layer board, you
+cannot group any layers.
+
+   The _far side_ button turns on and off the visibility of elements
+(including SMD pads) on the opposite (to the side you're viewing) board
+side, as well as silk screening on that side. It does not hide the
+x-ray view of the other copper layers, these must be turned off
+separately if desired.  Use the _tab_ key to view the entire board from
+the other side.  To see a view of what the back side of the board will
+actually look like, make the solder layer the active layer then press
+_tab_ until the status line says "solder" on the right, then turn off
+the visibility of all layers except solder, pins/pads, vias, and silk.
+Now turn them all back on.
+
+   The lowest button, named _active_, is used to change the active
+drawing layer. Pressing _<Btn1>_ on it pops up a menu to select which
+layer should be active.  Each entry is labeled with the layer's name
+and drawn in its color.  The active layer is automatically made
+visible. The active layer is always drawn on top of the other layers,
+so the ordering of layers on the screen does not generally reflect the
+ordering of the manufactured board. Only the solder, component,
+silkscreen, and solder-mask layers are always drawn in their physical
+order. Bringing the active layer to the top makes it easier to select
+and change objects on the active layer.  Try changing the active
+layer's name to _ABC_ by selecting `edit name of active layer' from the
+`Edit' menu.  Changing the active layer can also be done by pressing
+keys _1..MAX_LAYER_.
+
+   Turn off the visibility of the component layer.  Now make the
+component layer the active layer. Notice that it automatically became
+visible. Try setting a few other layers as the active layer. You should
+also experiment with turning on and off each of the layers to see what
+happens.
+
+   The netlist layer is a special layer for adding connections to the
+netlist by drawing rat lines. This is not the recommended way to add to
+the netlist, but occasionally may be convenient.  To learn how to use
+the netlist layer see *Note Net Objects::.
+
+
+File: pcb.info,  Node: Tool Selectors,  Next: Layout Area,  Prev: Layer Controls,  Up: Application Window
+
+The Tool Selectors
+------------------
+
+   The tool selector buttons reside below the layer controls.  They are
+used to select which layout tool to use in the drawing area. Each tool
+performs its function when _Btn1_ is pressed.  Every tool gives the
+cursor a unique shape that identifies it.  The tool selector buttons
+themselves are icons that illustrate their function.  Each layout tool
+can also be selected from the keyboard:
+         _Escape_ key   Panner tool
+         _F1_ key       Via tool
+         _F2_ key       Line tool
+         _F3_ key       Arc tool
+         _F4_ key       Text tool
+         _F5_ key       Rectangle tool
+         _F6_ key       Polygon tool
+         _F7_ key       Buffer tool
+         _F8_ key       Delete tool
+         _F9_ key       Rotate tool
+         _Insert_ key   Insert-point tool
+         _F10_ key      Thermal tool
+         _F11_ key      Arrow tool
+         _F12_ key      Lock tool
+
+   Some of the tools are very simple, such as the Via tool.  Clicking
+_Btn1_ with the Via tool creates a via at the cross hair position.  The
+via will have the diameter and drill sizes that are active, as shown in
+the status line.  The Buffer tool is similar.  With it, _<Btn1>_ copies
+the contents of the active buffer to the layout, but only those parts
+that reside on visible layers are copied.  The Rotate tool allows you
+to rotate elements, arcs, and text objects 90 degrees counter-clockwise
+with each click. Holding the _Shift_ key down changes the Rotate tool
+to clockwise operation.  Anything including groups of objects can be
+rotated inside a buffer using the rotate buffer menu option.
+
+   The Line tool is explained in detail in *Note Line Objects::. Go read
+that section if you haven't already.  Activate the Line tool. Set the
+active layer to the solder layer.  Try drawing some lines. Use the _U_
+key to undo some of the lines you just created. Zoom in a bit closer
+with the _Z_ key.  Draw some more lines. Be sure to draw some separate
+lines by starting a new anchor point with _Ctrl-Btn1_. Change the
+`crosshair snaps to pin/pads' behavior in the Settings menu. Now draw a
+line. Notice that the new line points must now always be on a grid
+point. It might not be able to reach some pins or pads with this
+setting. Increase the active line thickness by pressing the _L_ key.
+Note that the status line updates to reflect the new active line
+thickness. Now draw another line. Before completing the next line, make
+the component layer active by pressing the _4_ key.  Now finish the
+line. Notice that a via was automatically placed where you switched
+layers. `Pcb' does not do any checks to make sure that the via could
+safely be placed there. Neither does it interfere with your desire to
+place lines haphazardly. It is up to you to place things properly when
+doing manual routing with the Line tool.
+
+   The Arc tool is explained in detail in *Note Arc Objects::. Its use
+is very similar to the Line tool.
+
+   The Rectangle tool, Polygon tool and Thermal tool are explained in
+detail in *Note Polygon Objects::. Go read that section.  Remember that
+the Thermal tool will only create and destroy thermals to polygons on
+the active layer. Use the Rectangle tool to make a small copper plane
+on the component layer. Now place a via in the middle of the plane.
+Notice that it does not touch the plane, and they are not electrically
+connected. Use the Thermal tool to make the via connect to the plane.
+Thermals allow the via or pin to be heated by a soldering iron without
+having to heat the entire plane. If solid connections were made to the
+plane, it could be nearly impossible to solder. Click on the via again
+with the Thermal tool to remove the connection to the plane.
+
+   The Insert-point tool is an editing tool that allows you to add
+points into lines and polygons.  The Insert-point tool enforces the 45
+degree line rule.  You can force only the shorter line segment to 45
+degrees by holding the _Shift_ key down while inserting the point.  Try
+adding a point into one of the lines you created. Since line clipping
+is turned on, you may need to move the cross hair quite far from the
+point where you first clicked on the line. Turn off the line clipping
+by selecting `all-direction lines' from the Settings menu (or hit the
+_Period_ key). Now you can place an inserted point anywhere.  Try
+adding a point to the rectangle you made earlier. Start by clicking
+somewhere along an edge of the rectangle, then move the pointer to a
+new location and click again.
+
+   The delete-mode deletes the object beneath the cursor with each
+_Btn1_ click.  If you click at an end-point that two lines have in
+common, it will replace the two lines with a single line spanning the
+two remaining points.  This can be used to delete an "inserted" point
+in a line, restoring the previous line.  Now delete one of the original
+corner points of the polygon you were just playing with. To do this,
+place the cross hair over the corner and click on it with the Delete
+tool. You could also use the _Backspace_ key if some other tool is
+active. Try deleting some of the lines and intermediate points that you
+created earlier. Use undo repeatedly to undo all the changes that
+you've made. Use redo a few times to see what happens. Now add a new
+line. Notice that you can no longer use redo since the layout has
+changed since the last undo happened. The undo/redo tree is always
+pruned in this way (_i.e._ it has a root, but no branches).
+
+   The Arrow tool is so important, it has its own section: *Note Arrow
+Tool::.  Go read it now.
+
+   The Lock tool allows you to lock objects on the layout. When an
+object is locked, it can't be selected, moved, rotated, or resized.
+This is useful for very large objects like ground planes, or
+board-outlines that are defined as an element. With such large objects,
+nearly anywhere you click with the Arrow tool will be on the large
+object, so it could be hard to draw box selections. If you lock an
+object, the Arrow tool will behave as if it didn't exist.  You cannot
+unlock an object with undo.  You must click on it again with the Lock
+tool. If an object is locked, previous changes to it cannot be undone
+either. When you lock an object, a report message about it is popped up
+and will always tell you what object it is, and that it is locked if
+you just locked it.  Other than noticing your inability to manipulate
+something, the only way to tell an object is locked is with a report
+from the Info menu. Use the Lock tool sparingly.
+
+
+File: pcb.info,  Node: Layout Area,  Next: Menu,  Prev: Tool Selectors,  Up: Application Window
+
+Layout Area
+-----------
+
+   The layout area is where you see the layout. The cursor shape depends
+on the active tool when the pointer is moved into the layout area.  A
+cross hair follows the X11 pointer with respect to the grid setting.
+Select a new grid from the _Screen_ menu.  The new value is updated in
+the status line.  A different way to change the grid is _Shift<Key>g_
+to decrease or _<Key>g_ to increase it, but this only works for English
+(integer mil) grids.  The grid setting is saved along with the data
+when you save a pcb layout.  For homemade layouts a value around 50 is
+a good setting.  The cursor can also be moved in the layout area with
+the cursor (arrow) keys or, for larger distances, by pressing the
+_Shift_ modifier together with a cursor key.
+
+
+File: pcb.info,  Node: Log Window,  Next: Library Window,  Prev: Application Window,  Up: Getting Started
+
+Log Window
+==========
+
+   This optional window is used to display all kind of messages
+including the ones written to _stderr_ by external commands. The main
+advantage of using it is that its contents are saved in a scrolling
+list until the program exits. Disabling this feature by setting the
+resource _useLogWindow_ to _false_ will generate popup windows to
+display messages. The _stderr_ of external commands will appear on
+`Pcb's _stderr_ which normally is the parent shell. I suggest you
+iconify the log window after startup for example by setting
+_*log.iconic_ to _true_ in the resource file. If _raiseLogWindow_ is
+set _true_, the window will deiconify and raise itself whenever new
+messages are to be displayed.
+
+
+File: pcb.info,  Node: Library Window,  Next: Netlist Window,  Prev: Log Window,  Up: Getting Started
+
+Library Window
+==============
+
+   The library window makes loading elements (or even partial layouts)
+easy.  Just click the appropriate library from the list on the left. A
+list of its elements then appears on the right. Select an element from
+the list by clicking on its description. Selecting an element from the
+library will also automatically copy the element into the active
+buffer, then invoke the _Buffer_ tool so you can paste it to the
+layout. Elements in the old library should be taken with a grain of
+salt (_i.e._ check them carefully before using).  The old library names
+all begin with ~ so you can easily distinguish between the old and new
+libraries.  All of the elements in the new library should  be
+thoroughly vetted, so you can use them with confidence. The new
+libraries are stored simply as directories full of element files, so
+making additions to the new library is easy since there is no need to
+learn `m4'.  For details on the old libraries, check-out *Note Library
+File:: and *Note Library Contents File::. For details on the format of
+an element file used for the new libraries, see *Note Element File::.
+
+
+File: pcb.info,  Node: Netlist Window,  Next: Drawing and Removing,  Prev: Library Window,  Up: Getting Started
+
+Netlist Window
+==============
+
+   The netlist window is very similar to the library window. On the left
+is a list of all of the nets, on the right is the list of connections
+belonging to the chosen net. The chosen net is highlighted in the list
+and also shown on the second line of the window in red. If the net name
+has a star to the left of it then it is "disabled". A disabled net is
+treated as if it were not in the net list. This is useful, for example,
+if you plan to use a ground plane and don't want the ground net showing
+up in the rat's nest. You can enable/disable individual nets by
+double-clicking the net name. If you want to enable or disable all nets
+at once, there are two buttons at the top of the netlist window for
+this purpose.
+
+   The button labeled `Sel Net On Layout' can be used to select (on the
+layout) everything that is connected (or is supposed to be connected)
+to the net. If you click on a connection in the connection list, it
+will select/deselect the corresponding pin or pad in the layout and
+also center the layout window where it is located. If you "Find"
+(`lookup connection to object' in the Connects menu [also _F_ key]), a
+pin or pad it will also choose the net and connection in the netlist
+window if it exists in the netlist.
+
+   If no netlist exists for the layout, then the netlist window does not
+appear. You can load a netlist from a file from the File menu. The
+format for netlist files is described in *Note Netlist File::.
+
+
+File: pcb.info,  Node: Drawing and Removing,  Next: Moving and Copying,  Prev: Netlist Window,  Up: Getting Started
+
+Drawing and Removing Basic Objects
+==================================
+
+   hace begging gutting here, and do a real-world tutorial example.
+
+   There are several ways of creating new objects: you can draw them
+yourself, you can copy an existing object (or selection), or you can
+load an element from a file or from the Library window. Each type of
+object has a particular tool for creating it.
+
+   The active tool can be selected from the tool selectors in the bottom
+left corner or by one of the function keys listed earlier in this
+chapter.  Each _<Btn1>_ press with the tool tells the application to
+create or change the appropriate object or at least take the first step
+to do so. Each tools causes the cursor to take on a unique shape and
+also causes the corresponding tool selector button to be highlighted.
+You can use either cue to see which tool is active.
+
+   Insert mode provides the capability of inserting new points into
+existing polygons or lines. The 45 degree line clipping is now enforced
+when selected.  Press and hold the shift key while positioning the new
+point to only clip the line segment to the nearer of the two existing
+points to 45 degrees.  You can also toggle the 45-degree clipping in
+the middle of a point insertion by pressing the _<Key>._ If the shift
+key is not depressed and the 45 degree line clipping mode is on, both
+new line segments must be on 45 degree angles - greatly restricting
+where the new point may be placed. In some cases this can cause
+confusion as to whether an insertion has been started since the two new
+lines may be forced to lie parallel on top of the original line until
+the pointer is moved far from the end points.
+
+   Removing objects, changing their size or moving them only applies to
+objects that are visible when the command is executed.
+
+* Menu:
+
+* Common::           Keystrokes common to some objects.
+* Lines::
+* Arcs::
+* Polygons::         Drawing polygons and rectangles.
+* Text::
+* Vias::
+* Elements::
+* Pastebuffer::      A multi-purpose buffer.
+
+
+File: pcb.info,  Node: Common,  Next: Lines,  Up: Drawing and Removing
+
+   There are several keystrokes and button events referring to an
+_object_ without identifying its type. Here's a list of them:
+
+   _<Btn1>_ creates (or deletes)  an object depending on the current
+mode.
+
+   _<Key>BackSpace_ or _<Key>Delete_ removes the visible object at the
+cursor location. When more than one object exists at the location, the
+order of removal is: via, line, text, polygon and element. The drawn
+layer order also affects the search - whatever is top - most (except
+elements) is affected before lower items.  Basically all this means
+that what is removed is probably just what you expect.  If for some
+reason it isn't, undo and try again.  Only one object is removed for
+each keystroke. If two or more of the same type match, the newest one
+is removed.
+
+   Use _<Key>s_ and _Shift<Key>s_ to change the size (width) of lines,
+arcs, text objects, pins, pads and vias, or to toggle the style of
+polygons (whether pins and vias automatically have clearances).
+
+   _<Key>n_ changes the name of pins, pads, vias, the string of a text
+object, or the currently displayed label of an element.
+
+   _<Key>m_ moves the line, arc, or polygon under the cross hair to the
+active layer if it wasn't on that layer already.
+
+   _<Key>u_ (undo) recovers from an unlimited number of operations such
+as creating, removing, moving, copying, selecting etc. It works like
+you'd expect even if you're in the midst of creating something.
+
+   _Shift<Key>r_ restores the last undone operation provided no other
+changes have been made since the undo was performed.
+
+   _<Key>tab_ changes the board side you are viewing.
+
+   For a complete list of keystrokes and button events see *Note
+Translations::.
+
+
+File: pcb.info,  Node: Lines,  Next: Arcs,  Prev: Common,  Up: Drawing and Removing
+
+Lines
+-----
+
+   To draw new lines you have to be in _line-mode_. Get there either by
+selecting it from the _Tool palette_ or by pressing _<Key>F2_.  Each
+successive _notify_ event creates a new line. The adjustment to 45
+degree lines is done automatically if it is selected from the _Display_
+menu. You can toggle the 45 degree mode setting by pressing the
+_<Key>._ (That is the period key). When 45 degree enforcement is turned
+on there are three distinct modes of line creation: a single line on
+the closest 45 degree vector towards the cross hair (but not necessarily
+actually ending at the cross hair), two lines created such that the
+first leaves the start point on a 90 degree vector and the second
+arrives at the cross hair on a 45 degree vector, and finally two lines
+created such that the first leaves the start point on a 45 degree
+vector and the second arrives at the cross hair on a 90 degree vector.
+These last two modes always connect all the way from the start and end
+points, and all lines have angles in 45 degree multiples.  The _<Key>/_
+cycles through the three modes.  The status line shows a text icon to
+indicate which of the modes is active and the lines following the cross
+hair motion show the outline of the line(s) that will actually be
+created.  Press _<Key>Escape_ to leave line-mode.
+
+   _<Key>l_, _Shift<Key>l_ and the entries in the _Sizes_ menu change
+the initial width of new lines.  This width is also displayed in the
+status line.
+
+
+File: pcb.info,  Node: Arcs,  Next: Polygons,  Prev: Lines,  Up: Drawing and Removing
+
+Arcs
+----
+
+   An Arc is drawn  with the _arc-tool_. Get there either by selecting
+it from the _Tool palette_ or by pressing _<Key>F8_. Press _Btn1_ to
+define the starting point for the arc.  Drag the mouse towards the
+desired end point along the path you want the arc to follow.  The
+outline of the arc that will be created is shown on the screen as you
+move the mouse.  Arcs are always forced to be 90 degrees and have
+symmetrical length and width ( i.e. they are a quarter circle).  The
+next _Btn1_ click creates the arc.  It will have the same width as new
+lines (displayed in the status line) and appear on the active layer.
+The arc leaves the starting point towards the cross hair along the axis
+whose distance from the cross hair is largest.  Normally this means that
+if you drag along the path you want the arc to follow, you'll get what
+you want.  If the grid is set to the arc radius, then the two distances
+will be equal and you won't be able to get all of the possible
+directions.  If this is thwarting your desires, reduce the grid spacing
+(_!Shift<Key>G_) and try again.
+
+
+File: pcb.info,  Node: Polygons,  Next: Text,  Prev: Arcs,  Up: Drawing and Removing
+
+Polygons and Rectangles
+-----------------------
+
+   A polygon is drawn by defining all of its segments as a series of
+consecutive line segments. If the first point matches a new one and if
+the number of points is greater than two, then the polygon is closed.
+Since matching up with the first point may be difficult, you may use
+_Shift<Key>p_ to close the polygon. The _Shift<Key>p_ won't work if
+clipping to 45 degree lines is selected and the final segment cannot
+match this condition.  I suggest you create simple convex polygons in
+order to avoid a strong negative impact on the performance of the
+connection scanning routines.  The _rectangle-mode_ is just an easy way
+to generate rectangular polygons.  _Polygon-mode_ also is selected by
+_<Key>F6_ whereas _rectangle-mode_ uses _<Key>F4_.  Pressing a _<Btn1>_
+at two locations creates a rectangle by defining two of its corners.
+_<Key>Insert_ brings you to _insert-point-mode_ which lets you add
+additional points to an already existing polygon.  Single points may be
+removed by moving the cross hair to them and selecting one of the
+delete actions _(remove-mode, BackSpace, or Delete_. This only works if
+the remaining polygon will still have three or more corners.  Pressing
+_<Key>u_  or _<Key>p_ while entering a new polygon brings you back to
+the previous corner. Removing a point does not force clipping to 45
+degree angles (because it's not generally possible).  Newly created
+polygons will not connect to pins or vias that pierce it unless you
+create a thermal (using the thermal mode) to make the connection. If
+the edge of a polygon gets too close to a pin or via that lies outside
+of it, a warning will be issued and the pin will be given a special
+color. Increasing the distance between them will remove the warning
+color.
+
+
+File: pcb.info,  Node: Text,  Next: Vias,  Prev: Polygons,  Up: Drawing and Removing
+
+Text
+----
+
+   Pressing _<Key>F5_ or clicking one of the text selector buttons
+changes to _text-mode_.  Each successive notify event (_<Btn1>_) pops
+up the input line at the bottom and queries for a string.  Enter it and
+press _<Key>Return_ to confirm or _<Key>Escape_ to abort.  The text
+object is created with its upper left corner at the current pointer
+location.  The initial scaling is changed by _<Key>t_ and _Shift<Key>t_
+or from the _Sizes_ menu.
+
+   Now switch to _rotate-mode_ and press _<Btn1>_ at the text-objects
+location. Text objects on the solder side of the layout are
+automatically mirrored and flipped so that they are seen correctly when
+viewing the solder-side.
+
+   Use _<Key>n_ to edit the string.
+
+   TEXT OBJECTS ON COPPER LAYERS CREATE COPPER LINES BUT THEY ARE NOT
+SCANNED FOR CONNECTIONS. If they are moved to the silkscreen layer, they
+no longer create copper.
+
+
+File: pcb.info,  Node: Vias,  Next: Elements,  Prev: Text,  Up: Drawing and Removing
+
+Vias
+----
+
+   The initial size of new vias may be changed by _<Key>v_ and
+_Shift<Key>v_ or by selecting the appropriate entry from the _Sizes_
+menu. _Mod1<Key>v_ and _Mod1 Shift<Key>v_ do the same for the drilling
+hole of the via.  The statusline is updated with the new values.
+Creating a via is similar to the other objects. Switch to _via-mode_ by
+using either the selector button or _<Key>F1_ then press _<Key>]_ or
+_<Btn1>_ to create one.  _<Key>n_ changes the name of a via. If you
+want to create a mounting hole for your board, then you can place a via
+where you want the hole to be then convert the via into a hole.  The
+conversion is done by pressing _!Ctrl<Key>h_ with the cross hair over
+the via.  Conceptually it is still a via, but it has no copper annulus.
+If you create such a hole in the middle of two polygons on different
+layers, it will short the layers.  Theoretically you could arrange for
+such a hole not to be plated, but a metal screw inserted in the hole
+would still risk shorting the layers.  A good rule is to realize that
+holes in the board really are vias between the layers and so place them
+where they won't interfere with connectivity.  You can convert a hole
+back into a normal via with the same keystroke used to convert it in
+the first place.
+
+
+File: pcb.info,  Node: Elements,  Next: Pastebuffer,  Prev: Vias,  Up: Drawing and Removing
+
+Elements
+--------
+
+   Some of the functions related to elements only work if both the
+package layer and the pin layer are switched on.
+
+   Now that you're familiar with many of the basic commands, it is time
+to put the first element on the layout.  First of all, you have to load
+data into the paste buffer.  There are four ways to do this:
+        1) load the data from a library
+        2) load the data from a file
+        3) copy data from an already existing element
+        4) convert objects in the buffer into an element
+   We don't have any elements on the screen yet nor anything in the
+buffer, so we use number one.
+
+   Select _lsi_ from the menu in the library window press _<Btn1>_
+twice at the appropriate text-line to get the MC68030 CPU.  The data is
+loaded and the mode is switched to _pastebuffer-mode_.  Each notify
+event now creates one of these beasts. Leave the mode by selecting a
+different one or by _<Key>Escape_ which resets all modes..  The cross
+hair is located at the _mark_ position as defined by the data file.
+Rotating the buffer contents is done by selecting the _rotate_ entry of
+the _Buffer_ menu or by pressing _Shift<Key>F3_. The contents of the
+buffer are valid until new data is loaded into it either by a
+cut-to-buffer operation, copy-to-buffer operation or by loading a new
+data file.  There are 5 buffers available  (possibly more or less if
+changed at compile time with the `MAX_BUFFER' variable in
+`globalconfig.h').  Switching between them is done by selecting a menu
+entry or by _Shift<Key>1..MAX_BUFFER_.  Each of the two board sides has
+its own buffers.
+
+   The release includes all data files for the circuits that are used
+by the demo layout. The elements in the LED example are not found in
+the library, but you can lift them from the example itself if you want.
+If you have problems with the color of the cross hair, change the
+resource _cross hairColor_ setting to a different one.
+
+   Now load a second circuit, the MC68882 FPU for example.  Create the
+circuit as explained above. You now have two different unnamed
+elements. Unnamed means that the layout-name of the element hasn't been
+set yet. Selecting _description_ from the _Display_ menu displays the
+description string of the two circuits which are CPU and FPU. The
+values of the circuits are set to MC68030 and MC68882.  Each of the
+names of an element may be changed by _<Key>n_ at the elements location
+and editing the old name in the bottom input line. Naming pins and vias
+is similar to elements.  You can hide the element name so that it won't
+appear on the board silkscreen by pressing _<key>h_ with the cursor
+over the element.  Doing so again un-hides the element name.
+
+   Entering `:le' and selecting an element data file is the second way
+to load circuits.
+
+   The third way to create a new element is to copy an existing one.
+Please refer to *Note Moving and Copying::.
+
+   The fourth way to create a new element is to convert a buffer's
+contents into an element.  Here's how it's done: Select the Via-tool
+from the _Tool pallet_.  Set the grid spacing to something appropriate
+for the element pin spacing.  Now create a series of vias where the pins
+go.  Create them in pin number order. It is often handy to place a
+reference point (_!Ctrl<Key>m_) in the center of the first pin in order
+to measure the location of the other pins.  Next make a solder-side
+layer the active layer from the _active-layer_ popup menu.  Now draw
+the outline of the element using lines and arcs.  When you're done,
+select everything that makes up the element with a box selection
+(_<Btn3Down> drag, <Btn3Up>_). Now select "cut selection to buffer"
+from the _Buffer_ menu. Position the cursor over the center of pin 1
+and press the left button to load the data into the buffer.  Finally
+select "convert buffer to element" from the _Buffer_ menu.  You'll only
+want to create elements this way if they aren't already in the library.
+It's also probably a good idea to do this before starting any of the
+other aspects of a layout, but it isn't necessary.
+
+   To display the pinout of a circuit move to it and press _Shift<Key>d_
+or select _show pinout_ from the _Objects_ menu. A new window pops up
+and displays the complete pinout of the element. This display can be
+difficult to read if the component has been rotated 90 degrees :-(
+therefore, the new window will show an un-rotated view so the pin names
+are readable.  _<Key>d_ displays the name of one or all pins/pads
+inside the Layout area, this is only for display on-screen, it has no
+effect on any printing of the layout.
+
+   You also may want to change a pin's or pad's current size by pressing
+_<Key>s_ to increase or _Shift<Key>s_ to decrease it. While this is
+possible, it is not recommended since care was probably taken to define
+the element structure in the first place. You can also change the
+thickness of the element's silkscreen outline with the same keys. You
+can change whether a pin or SMD pad is rounded or square with the
+_<Key>q_.  SMD pads should usually have squared ends. Finally, you can
+change whether the non-square pins are round or octagonal with the
+_!Ctrl<Key>o_.
+
+   SMD elements and silkscreen objects are drawn in the "invisible
+object" color if they are located on the opposite side of the board.
+
+   For information on element connections refer to *Note Connection
+Lists::.
+
+
+File: pcb.info,  Node: Pastebuffer,  Prev: Elements,  Up: Drawing and Removing
+
+Pastebuffer
+-----------
+
+   The line-stack and element-buffer of former releases have been
+replaced by 5 (possibly more or less if changed at compile time with
+the `MAX_BUFFER' variable in `globalconfig.h') multi-purpose buffers
+that are selected by _Shift<Key>1..MAX_BUFFER_. The status line shows
+which buffer is the active one.  You may load data from a file or
+layout into them.  Cut-and-paste works too.  If you followed the
+instructions earlier in this chapter you should now have several
+objects on the screen. Move the cross hair to one of them and press
+_<Btn3Down>_ to toggle its selection flag. (If you drag the mouse while
+the button is down, a box selection will be attempted instead of
+toggling the selection.)  The object is redrawn in a different color.
+You also may want to try moving the pointer while holding the third
+button down and release it on a different location. This selects all
+objects inside the rectangle and unselects everything else.  If you
+want to add a box selection to an existing selection, drag with
+_Mod1<Btn3Down>_ instead.  Dragging _Shift Mod1<Btn3Down>_ unselects
+objects in a box.  Now change to _pastebuffer-mode_ and select some
+operations from the _Buffer_ menu. Copying objects to the buffer is
+available as _Mod1<Key>c_ while cutting them uses _Mod1<Key>x_ as
+shortcut. Both clear the buffer before new data is added.  If you use
+the menu entries, you have to supply a cross hair position by pressing
+a mouse button. The objects are attached to the pastebuffer relative to
+that cross hair location.  Element data or PCB data may be merged into
+an existing layout by loading the datafiles into the pastebuffer. Both
+operations are available from the _File_ menu or as user commands.
+
+
+File: pcb.info,  Node: Moving and Copying,  Next: Loading and Saving,  Prev: Drawing and Removing,  Up: Getting Started
+
+Moving and Copying
+==================
+
+   All objects can be moved including element-names, by _<Btn2Down>_,
+dragging the pointer while holding the button down and releasing it at
+the new location of the object. If you use _Mod1<Btn2Down>_ instead,
+the object is copied. Copying does not work for element-names of
+course. You can move all selected objects with _Shift <Btn1>_.  This
+uses the Pastebuffer, so it will remove whatever was previously in the
+Pastebuffer.  Please refer to *Note Pastebuffer::.  If you want to give
+a small nudge to an object, but you don't think that the mouse will
+give you the fine level of control that you want, you can position the
+cursor over the object, press _<Key>[_, move it with the arrow keys,
+then press _<Key>]_ when it's at the desired position.  Remember that
+all movements are forced onto grid coordinates, so you may want to
+change the grid spacing first.
+
+
+File: pcb.info,  Node: Loading and Saving,  Next: Printing,  Prev: Moving and Copying,  Up: Getting Started
+
+Loading and Saving
+==================
+
+   After your first experience with `Pcb' you will probably want to save
+your work. `:s name' passes the data to an external program which is
+responsible for saving it. For details see _saveCommand_ in *Note
+Resources::.  Saving also is available from the _File_ menu, either
+with or without supplying a filename. `Pcb' reuses the last filename if
+you do not pass a new one to the save routine.
+
+   To load an existing layout either select _load layout data_ from the
+_File_ menu or use `:l filename'. A file select box pops up if you
+don't specify a filename. Merging existing layouts into the new one is
+supported either by the _File_ menu or by `:m filename'.
+
+   `Pcb' saves a backup of the current layout depending on the resource
+_backup_. The file is named `/tmp/PCB.%i.backup' by default (this may
+have been changed at compilation time via the `BACKUP_NAME' variable in
+`globalconfig.h').  During critical sections of the program or when
+data would be lost it is saved as `/tmp/PCB.%i.save'.  This file name
+may be changed at compile time with the `DEFAULT_MEDIASIZE' variable in
+`globalconfig.h'.
+
+   _%i_ is replaced by the process ID.
+
+
+File: pcb.info,  Node: Printing,  Next: Connection Lists,  Prev: Loading and Saving,  Up: Getting Started
+
+Printing
+========
+
+   `Pcb' now has support for device drivers, `PostScript',
+_encapsulated PostScript_, and _Gerber RS-274-X_ drivers are available
+so far.  The _Gerber RS-274-X_ driver additionally generates a
+numerical control (NC) drill file for automated drilling, a bill of
+materials file to assist in materials procurement and inventory
+control, and a centroid (X-Y) file which includes the centroid data
+needed by automatic assembly (pick and place) machines.   I recommend
+the use of `GhostScript' if you don't have a `PostScript' printer for
+handling the PostScript output. Printing always generates a complete
+set of files for a specified driver.  See the page about the _Print()_
+action for additional information about the filenames.  The control
+panel offers a number of options. Most of them are not available for
+Gerber output because it wouldn't make sense, for example,  to scale
+the gerber output (you'd get an incorrectly made board!)  The options
+are:
+
+`device'
+     The top menu button selects from the available device drivers.
+
+`rotate'
+     Rotate layout 90 degrees counter-clockwise before printing
+     (default).
+
+`mirror'
+     Mirror layout before printing. Use this option depending on your
+     production line.
+
+`color'
+     Created colored output. All colors will be converted to black if
+     this option is inactive.
+
+`outline'
+     Add a board outline to the output file. The size is determined by
+     the maximum board size changeable from the _sizes_ menu. The
+     outline appears on the top and bottom sides of the board, but not
+     on the internal layers.  An outline can be useful for determining
+     where to shear the board from the panel, but be aware that it
+     creates a copper line.  Thus it has the potential to cause short
+     circuits if you don't leave enough room from your wiring to the
+     board edge.  Use a viewer to see what the output outline looks like
+     if you want to know what it looks like.
+
+`alignment'
+     Additional alignment targets are added to the output. The
+     distances between the board outline is set by the resource
+     _alignmentDistance_.  Alignment targets should only be used if you
+     know for certain that YOU WILL BE USING THEM YOURSELF.  It is
+     extremely unlikely that you will want to have alignment targets if
+     you send gerber files to a commercial pcb manufacture to be made.
+
+`scaling'
+     It's quite useful to enlarge your printout for checking the layout.
+     Use the scrollbar to adjust the scaling factor to your needs.
+
+`media'
+     Select the size of the output media from this menu. The user
+     defined size may be set by the resource _media_ either from one of
+     the well known paper sizes or by a `X11' geometry specification.
+     This entry is only available if you use `X11R5' or later.  For
+     earlier releases the user defined size or, if not available, _A4_
+     is used.  Well known size are:
+          	A3
+          	A4
+          	A5
+          	letter
+          	tabloid
+          	ledger
+          	legal
+          	executive
+
+`offset'
+     Adjust the offsets of the printout by using the panner at the
+     right side of the dialog box.  This entry is only available if you
+     use `X11R5' or later. A zero offset is used for earlier releases.
+
+`8.3 filenames'
+     Select this button to generate DOS compatible filenames for the
+     output files.  The _command_ input area will disappear if selected.
+
+`commandline'
+     Use this line to enter a command (starts with `|') or a filename.
+     A %f is replaced by the current filename.  The default is set by
+     the resource _printCommand_.
+
+   The created file includes some labels which are guaranteed to stay
+unchanged
+`PCBMIN'
+     identifies the lowest x and y coordinates in mil.
+
+`PCBMAX'
+     identifies the highest x and y coordinates in mil.
+
+`PCBOFFSET'
+     is set to the x and y offset in mil.
+
+`PCBSCALE'
+     is a floating point value which identifies the scaling factor.
+
+`PCBSTARTDATA'
+`PCBENDDATA'
+     all layout data is included between these two marks. You may use
+     them with an `awk' script to produce several printouts on one
+     piece of paper by duplicating the code and putting some
+     `translate' commands in front.  Note, the normal `PostScript'
+     units are 1/72 inch.
+
+
+File: pcb.info,  Node: Connection Lists,  Next: Arrow Tool,  Prev: Printing,  Up: Getting Started
+
+Connection Lists
+================
+
+   After completing parts of your layout you may want to check if all
+drawn connections match the ones you have in mind. This is probably
+best done in conjunction with a net-list file: see *Note Rats Nest::.
+The following examples give more rudimentary ways to examine the
+connections.
+         1) create at least two elements and name them
+         2) create some connections between their pins
+         3) optionally add some vias and connections to them
+
+   Now select _lookup connection_ from the _Connections_ menu, move the
+cursor to a pin or via and press any mouse button. `Pcb' will look for
+all other pins and/or vias connected to the one you have selected and
+display the objects in a different color.  Now try some of the reset
+options available from the same menu.
+
+   There also is a way to scan all connections of one element. Select
+_a single element_ from the menu and press any button at the element's
+location. All connections of this element will be saved to the
+specified file.  Either the layout name of the element or its canonical
+name is used to identify pins depending on the one which is displayed
+on the screen (may be changed by _Display_ menu).
+
+   An automatic scan of all elements is initiated by choosing _all
+elements_. It behaves in a similar fashion to scanning a single element
+except the resource _resetAfterElement_ is used to determine if
+connections should be reset before a new element is scanned. Doing so
+will produce very long lists because the power lines are rescanned for
+every element. By default the resource is set to _false_ for this
+reason.
+
+   To scan for unconnected pins select _unused pins_ from the same menu.
+
+
+File: pcb.info,  Node: Arrow Tool,  Next: Rats Nest,  Prev: Connection Lists,  Up: Getting Started
+
+Arrow Tool
+==========
+
+   Some commands mentioned earlier in this chapter also are able to
+operate on all selected and visible objects. The Arrow tool is used to
+select/deselect objects and also to move objects or selections.  If you
+click and release on an object with the Arrow tool, it will unselect
+everything else and select the object. Selected objects change color to
+reflect that they are selected. If you _Shift_ click, it will add the
+object to (or remove) the object from the existing selection. If you
+drag with the mouse button down with the Arrow tool, one of several
+things could happen: if you first pressed the button on a selected
+object, you will be moving the selection to where you release the
+button. If you first pressed the button on an unselected object, you
+will be moving that object. If you first pressed the button over empty
+space, you will be drawing a box to select everything inside the box.
+The _Shift_ key works the same way with box selections as it does with
+single objects.
+
+   Moving a single un-selected object is different from moving a
+selection.  First of all, you can move the end of line, or a point in a
+polygon this way which is impossible by moving selections. Secondly, if
+rubber banding is turned on, moving a single object will rubber-band
+the attached lines.  Finally, it is faster to move a single object this
+way since there is no need to select it first.
+
+   You can select any visible object unless it is locked. If you select
+an object, then turn off its visibility with the Layer controls, it
+won't be moved if you move the remaining visible selection.
+
+   If you have not configured to use strokes in the `Pcb' user
+interface, then the middle mouse button is automatically bound to the
+arrow tool, regardless of the active tool (which is bound to the first
+mouse button). So using the middle button any time is just like using
+the first mouse button with the Arrow tool active.
+
+   The entries of the _Selection_ menu are hopefully self-explanatory.
+Many of the _Action Commands_ can take various key words that make them
+function on all or some of the selected items.
+
+
+File: pcb.info,  Node: Rats Nest,  Next: Design Rule Checking,  Prev: Arrow Tool,  Up: Getting Started
+
+Rats Nest
+=========
+
+   If you have a netlist that corresponds to the layout you are working
+on, you can use the rats-nest feature to add rat-lines to the layout.
+First you will need to load a netlist file (see _:rn_, *Note User
+Commands::).  _<Key>w_ adds rat-lines on the active layer using the
+current line thickness shown in the status line (usually you'll want
+them to be thin lines).  Only those rat-lines that fill in missing
+connectivity (since you have probably routed some connections already)
+are added.  If the layout is already completely wired, nothing will be
+added, and you will get a message that the wiring is complete.
+
+   Rat-lines are lines having the special property that they only
+connect to pins and pads at their end points.  Rat-lines are drawn on
+the screen with a stippled pattern to make them easier to identify
+since they have special behavior and cannot remain in a completed
+layout.  Rat-lines are added in the minimum length straight-line tree
+pattern (always ending on pins or pads) that satisfies the missing
+connectivity in the circuit.  Used in connection with moves and rotates
+of the elements, they are extremely useful for deciding where to place
+elements on the board. The rat-lines will always automatically
+rubberband to the elements whether or not the rubberband mode is on.
+The only way for you to move them is by moving the parts they connect
+to.  This is because it is never desirable to have the rat-lines
+disconnected from their element pins.  Rat-lines will normally
+criss-cross all over which gives rise to the name "rats nest"
+describing a layout connected with them.  If a SMD pad is unreachable
+on the active layer, a warning will be issued about it and the rat-line
+to that pad will not be generated.
+
+   A common way to use rats nests is to place some elements on the
+board, add the rat-lines, and then use a series of moves/rotates of the
+elements until the rats nest appears to have minimum tangling.  You may
+want to iterate this step several times. Don't worry if the layout
+looks messy - as long as you can get a sense for whether the
+criss-crossing is better or worse as you move things, you're fine.
+After moving some elements around, you may want to optimize the rats
+nest _<Key>o_ so that the lines are drawn between the closest points
+(this can change once you've moved components).  Adding rat-lines only
+to selected pads/pins (_Shift<Key>w_) is often useful to layout a
+circuit a little bit at a time.  Sometimes you'll want to delete all
+the rat-lines (_<Key>e_) or selected rat-lines (_Shift<Key>e_) in order
+to reduce confusion.  With a little practice you'll be able to achieve
+a near optimal component placement with the use of a rats nest.
+
+   Rat-lines are not only used for assisting your element placement,
+they can also help you to route traces on the board.  Use the _<Key>m_
+to convert a rat-line under the cursor into a normal line on the active
+layer.  Inserting a point into a rat-line will also cause the two new
+lines to be normal lines on the board.  Another way that you can use
+rat-lines is to use the _<Key>f_ with the cursor over a pad or pin.
+All of the pins and pads and rat-lines belonging to that net will be
+highlighted. This is a helpful way to distinguish one net from the rest
+of the rats nest.  You can then route those tracks, turn off the
+highlighting (_Shift<Key>f_) and repeat the process. This will work even
+if the layer that the rat-lines reside on is made invisible - so only
+the pins and pads are highlighted.  Be sure to erase the rat-lines
+(_<Key>e_ erases them all) once you've duplicated their connectivity by
+adding your own lines.  When in doubt, the _<Key>o_ will delete only
+those rat-lines that are no longer needed.
+
+   If connections exist on the board that are not listed in the netlist
+when _<Key>w_ is pressed, warning messages are issued and the affected
+pins and pads are drawn in a special _warnColor_ until the next
+_Notify()_ event.  If the entire layout agrees completely with the
+netlist, a message informs you that the layout is complete and no
+rat-lines will be added (since none are needed).  If the layout is
+complete, but still has rat-lines then you will be warned that
+rat-lines remain. If you get no message at all it's probably because
+some elements listed in the net list can't be found and where reported
+in an earlier message.  There shouldn't be any rat-lines left in a
+completed layout, only normal lines.
+
+   The _Shift<Key>w_ is used to add rat-lines to only those missing
+connections among the selected pins and pads.  This can be used to add
+rat-lines in an incremental manner, or to force a rat-line to route
+between two points that are not the closest points within the net.
+Often it is best to add the rats nest in an incremental fashion, laying
+out a sub-section of the board before going further. This is easy to
+accomplish since new rat-lines are never added where routed
+connectivity already makes the necessary connections.
+

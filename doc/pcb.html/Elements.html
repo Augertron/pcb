@@ -1,0 +1,140 @@
+<html lang="en">
+<head>
+<title>Elements - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Drawing-and-Removing.html#Drawing-and-Removing" title="Drawing and Removing">
+<link rel="prev" href="Vias.html#Vias" title="Vias">
+<link rel="next" href="Pastebuffer.html#Pastebuffer" title="Pastebuffer">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Elements"></a>Next:&nbsp;<a rel="next" accesskey="n" href="Pastebuffer.html#Pastebuffer">Pastebuffer</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Vias.html#Vias">Vias</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Drawing-and-Removing.html#Drawing-and-Removing">Drawing and Removing</a>
+<hr><br>
+</div>
+
+   <p><a name="index-element_002c-an-example-95"></a><a name="index-example-of-element-handling-96"></a>
+
+<h4 class="subsection">3.5.6 Elements</h4>
+
+<p>Some of the functions related to elements only work if both the package
+layer and the pin layer are switched on.
+
+   <p>Now that you're familiar with many of the basic commands, it is
+time to put the first element on the layout. 
+First of all, you have to load data into the paste buffer. 
+There are four ways to do this:
+<pre class="example">        1) load the data from a library
+        2) load the data from a file
+        3) copy data from an already existing element
+        4) convert objects in the buffer into an element
+</pre>
+   <p>We don't have any elements on the screen yet nor anything in the
+buffer, so we use number one.
+
+   <p><a name="index-example-files-97"></a><a name="index-m4_002c-preprocessing-example-files-98"></a>Select <em>lsi</em> from the menu in the library window press
+<em>&lt;Btn1&gt;</em> twice at the appropriate text-line to get
+the MC68030 CPU. 
+The data is loaded and the mode is switched to <em>pastebuffer-mode</em>. 
+Each notify event now creates one of these beasts. Leave the mode
+by selecting a different one or by <em>&lt;Key&gt;Escape</em> which resets
+all modes.. 
+The cross hair is located at the <em>mark</em> position as defined by
+the data file. Rotating the buffer contents is done by selecting
+the <em>rotate</em> entry of the <em>Buffer</em> menu or by pressing
+<em>Shift&lt;Key&gt;F3</em>. The contents of the buffer
+are valid until new data is loaded into it either by a cut-to-buffer
+operation, copy-to-buffer operation or by loading a new data file. 
+There are 5 buffers
+available  (possibly more or less if changed at compile time
+with the <code>MAX_BUFFER</code> variable in <span class="file">globalconfig.h</span>). 
+Switching between them is done by selecting a menu entry or
+by <em>Shift&lt;Key&gt;1..MAX_BUFFER</em>. 
+Each of the two board sides has its own buffers.
+
+   <p>The release includes all data files for the circuits that are used
+by the demo layout. The elements in the LED example are not found in the library,
+but you can lift them from the example itself if you want. 
+If you have problems with the color of the cross hair, change the resource
+<em>cross hairColor</em> setting to a different one.
+
+   <p><a name="index-example-of-loading-an-element-file-99"></a><a name="index-pins_002c-an-example-100"></a><a name="index-example-of-pin-handling-101"></a>Now load a second circuit, the MC68882 FPU for example. 
+Create the circuit as explained above. You now have two different unnamed
+elements. Unnamed means that the layout-name of the element
+hasn't been set yet. Selecting <em>description</em> from the <em>Display</em>
+menu displays the description string of the two circuits which
+are CPU and FPU. The values of the circuits are set to MC68030 and MC68882. 
+Each of the names of an element may be changed
+by <em>&lt;Key&gt;n</em> at the elements location and editing the old name in
+the bottom input line. Naming pins and vias is similar to elements. 
+You can hide the element name so that it won't appear on the board
+silkscreen by pressing <em>&lt;key&gt;h</em> with the cursor over the element. 
+Doing so again un-hides the element name.
+
+   <p>Entering <kbd>:le</kbd> and selecting an element data file is
+the second way to load circuits.
+
+   <p>The third way to create a new element is to copy an existing one. 
+Please refer to <a href="Moving-and-Copying.html#Moving-and-Copying">Moving and Copying</a>.
+
+   <p><a name="index-example-of-creating-an-element-102"></a><a name="index-element_002c-creating-a-new-package-103"></a><a name="index-pastebuffer_002c-convert-contents-to-element-104"></a><a name="index-buffer_002c-convert-contents-to-element-105"></a>The fourth way to create a new element is to convert a buffer's contents
+into an element.  Here's how it's done: Select the Via-tool from the
+<em>Tool pallet</em>.  Set the grid spacing to something appropriate for
+the element pin spacing.  Now create a series of vias where the pins
+go.  Create them in pin number order. It is often handy to place a reference
+point (<em>!Ctrl&lt;Key&gt;m</em>) in the center of the first pin in order to measure
+the location of the other pins.  Next make a solder-side layer the active
+layer from the <em>active-layer</em> popup menu.  Now draw the outline of
+the element using lines and arcs.  When you're done, select everything that
+makes up the element with a box selection (<em>&lt;Btn3Down&gt; drag,
+&lt;Btn3Up&gt;</em>). Now select "cut selection to buffer" from the <em>Buffer</em>
+menu. Position the cursor over the center of pin 1 and press the left
+button to load the data into the buffer. 
+Finally select "convert buffer to element" from the <em>Buffer</em> menu. 
+You'll only want to create elements this way if they aren't already in the
+library.  It's also probably a good idea to do this before starting any of
+the other aspects of a layout, but it isn't necessary.
+
+   <p>To display the pinout of a circuit move to it and press <em>Shift&lt;Key&gt;d</em>
+or select <em>show pinout</em> from the <em>Objects</em> menu. A new window
+pops up and displays the complete pinout of the element. This display can
+be difficult to read if the component has been rotated 90 degrees :-(
+therefore, the new window will show an un-rotated view so the pin names
+are readable. 
+<em>&lt;Key&gt;d</em> displays the name of one or all pins/pads inside the
+Layout area, this is only for display on-screen, it has no effect on any
+printing of the layout.
+
+   <p>You also may want to change a pin's or pad's current size by pressing
+<em>&lt;Key&gt;s</em> to increase or <em>Shift&lt;Key&gt;s</em> to decrease it. While
+this is possible, it is not recommended since care was probably taken
+to define the element structure in the first place. You can also change the thickness
+of the element's silkscreen outline with the same keys. You can
+change whether a pin or SMD pad is rounded or square with the <em>&lt;Key&gt;q</em>. 
+SMD pads should usually have squared ends. Finally, you can change whether
+the non-square pins are round or octagonal with the <em>!Ctrl&lt;Key&gt;o</em>.
+
+   <p>SMD elements and silkscreen objects are drawn in the "invisible object"
+color if they are located on the opposite side of the board.
+
+   <p>For information on element connections refer to <a href="Connection-Lists.html#Connection-Lists">Connection Lists</a>.
+
+   </body></html>
+

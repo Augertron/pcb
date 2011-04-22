@@ -1,0 +1,51 @@
+<html lang="en">
+<head>
+<title>Log Window - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Getting-Started.html#Getting-Started" title="Getting Started">
+<link rel="prev" href="Application-Window.html#Application-Window" title="Application Window">
+<link rel="next" href="Library-Window.html#Library-Window" title="Library Window">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Log-Window"></a>Next:&nbsp;<a rel="next" accesskey="n" href="Library-Window.html#Library-Window">Library Window</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Application-Window.html#Application-Window">Application Window</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Getting-Started.html#Getting-Started">Getting Started</a>
+<hr><br>
+</div>
+
+   <p><a name="index-log-window-69"></a><a name="index-messages-70"></a>
+
+<h3 class="section">3.2 Log Window</h3>
+
+<p>This optional window is used to display all kind of messages including
+the ones written to <em>stderr</em> by external commands. The main advantage
+of using it is
+that its contents are saved in a scrolling list until the
+program exits. Disabling this feature by setting the resource
+<em>useLogWindow</em> to <em>false</em> will generate popup windows to display
+messages. The <em>stderr</em> of external commands will appear on <code>Pcb</code>s
+<em>stderr</em> which normally is the parent shell. I suggest you iconify
+the log window after startup for example by setting <em>*log.iconic</em> to
+<em>true</em> in the resource file. If <em>raiseLogWindow</em> is set <em>true</em>,
+the window will deiconify and raise itself whenever new messages are to be
+displayed.
+
+   </body></html>
+

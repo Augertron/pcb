@@ -1,0 +1,66 @@
+<html lang="en">
+<head>
+<title>running configure - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="compiling.html#compiling" title="compiling">
+<link rel="prev" href="quickstart.html#quickstart" title="quickstart">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="running-configure"></a>Previous:&nbsp;<a rel="previous" accesskey="p" href="quickstart.html#quickstart">quickstart</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="compiling.html#compiling">compiling</a>
+<hr><br>
+</div>
+
+   <p><a name="index-GNU-configure-script-768"></a><a name="index-configure-769"></a>
+
+<h4 class="subsection">A.1.2 Running the configure Script</h4>
+
+<p>The <code>configure</code> script accepts all of the standard GNU configure
+options.  For a complete list of configuration options, run
+<code>./configure --help</code>.
+
+     
+<a name="index-INFOLIBDIR-770"></a>
+<dl><dt><span class="samp">INFOLIBDIR</span><dd>must be set to the directory where your GNU info files are located.
+
+     <p><a name="index-PCBLIBDIR-771"></a><br><dt><span class="samp">PCBLIBDIR</span><dd>is the path of a directory where the font files will be installed.
+
+     <p><a name="index-DEFAULTFONT-772"></a><br><dt><span class="samp">DEFAULTFONT</span><dd>the name of the default font file.
+
+     <p><a name="index-DEFAULTLIBRARY-773"></a><br><dt><span class="samp">DEFAULTLIBRARY</span><dd>the name of the default library.
+
+     <p><a name="index-GNUM4-774"></a><br><dt><span class="samp">GNUM4</span><dd>the name of GNUs m4 version.
+
+     <p><a name="index-BTNMOD-775"></a><br><dt><span class="samp">BTNMOD</span><dd>If your window manager has already bound <em>Mod1</em> together with some
+function keys you may want to change this setting. This is true for HP-VUE.
+
+   </dl>
+
+   <p>If you find things which must be changed to compile on your system,
+please add the appropriate autoconf tests (if you are familiar with
+that) and mail a copy to the maintainer, harry eaton,  at
+<a href="mailto:haceaton@aplcomm.jhuapl.edu">haceaton@aplcomm.jhuapl.edu</a>.
+
+   <p>If you do not have the appropriate permissions you should run
+<span class="file">./pcbtest.sh</span> in the <span class="file">src</span> directory to run <code>Pcb</code> from
+the installation directory.
+
+   </body></html>
+

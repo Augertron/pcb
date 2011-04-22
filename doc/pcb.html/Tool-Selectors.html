@@ -1,0 +1,155 @@
+<html lang="en">
+<head>
+<title>Tool Selectors - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Application-Window.html#Application-Window" title="Application Window">
+<link rel="prev" href="Layer-Controls.html#Layer-Controls" title="Layer Controls">
+<link rel="next" href="Layout-Area.html#Layout-Area" title="Layout Area">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Tool-Selectors"></a>Next:&nbsp;<a rel="next" accesskey="n" href="Layout-Area.html#Layout-Area">Layout Area</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Layer-Controls.html#Layer-Controls">Layer Controls</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Application-Window.html#Application-Window">Application Window</a>
+<hr><br>
+</div>
+
+   <p><a name="index-mode-selection-65"></a><a name="index-tool-selection-66"></a><a name="index-selecting-a-new-tool-67"></a>
+
+<h4 class="subsection">3.1.5 The Tool Selectors</h4>
+
+<p>The tool selector buttons reside below the layer controls. 
+They are used to select which layout tool to use in the drawing
+area. Each tool performs its function when <em>Btn1</em> is pressed. 
+Every tool gives the cursor a unique shape that identifies it. 
+The tool selector buttons themselves are icons that illustrate their function. 
+Each layout tool can also be selected from the keyboard:
+<pre class="example">         <em>Escape</em> key   Panner tool
+         <em>F1</em> key       Via tool
+         <em>F2</em> key       Line tool
+         <em>F3</em> key       Arc tool
+         <em>F4</em> key       Text tool
+         <em>F5</em> key       Rectangle tool
+         <em>F6</em> key       Polygon tool
+         <em>F7</em> key       Buffer tool
+         <em>F8</em> key       Delete tool
+         <em>F9</em> key       Rotate tool
+         <em>Insert</em> key   Insert-point tool
+         <em>F10</em> key      Thermal tool
+         <em>F11</em> key      Arrow tool
+         <em>F12</em> key      Lock tool
+</pre>
+   <p>Some of the tools are very simple, such as the Via tool.  Clicking
+<em>Btn1</em> with the Via tool creates a via at the cross hair position. 
+The via will have the diameter and drill sizes that are active,
+as shown in the status line. 
+The Buffer tool is similar.  With it, <em>&lt;Btn1&gt;</em> copies
+the contents of the active buffer to the layout, but only
+those parts that reside on visible layers are copied. 
+The Rotate tool allows you to rotate elements, arcs, and text objects
+90 degrees counter-clockwise with each click. Holding the <em>Shift</em>
+key down changes the Rotate tool to clockwise operation. 
+Anything including groups of objects
+can be rotated inside a buffer using the rotate buffer menu option.
+
+   <p>The Line tool is explained in detail in <a href="Line-Objects.html#Line-Objects">Line Objects</a>. Go read
+that section if you haven't already. 
+Activate the Line tool. Set the active layer to the solder layer. 
+Try drawing some lines. Use the <em>U</em> key to undo some of the
+lines you just created. Zoom in a bit closer with the <em>Z</em> key. 
+Draw some more lines. Be sure to draw some separate lines by starting
+a new anchor point with <em>Ctrl-Btn1</em>. Change the <span class="samp">crosshair snaps to pin/pads</span>
+behavior in the <b>Settings</b> menu. Now draw a line. Notice that
+the new line points must now always be on a grid point. It might not
+be able to reach some pins or pads with this setting. Increase the active line thickness
+by pressing the <em>L</em> key. Note that the status line updates
+to reflect the new active line thickness. Now draw another line. Before completing the
+next line, make the component layer active by pressing the <em>4</em> key. 
+Now finish the line. Notice that a via was automatically placed where
+you switched layers. <code>Pcb</code> does not do any checks to make sure that
+the via could safely be placed there. Neither does it interfere with
+your desire to place lines haphazardly. It is up to you to place
+things properly when doing manual routing with the Line tool.
+
+   <p>The Arc tool is explained in detail in <a href="Arc-Objects.html#Arc-Objects">Arc Objects</a>. Its
+use is very similar to the Line tool.
+
+   <p>The Rectangle tool, Polygon tool and Thermal tool are explained in detail in
+<a href="Polygon-Objects.html#Polygon-Objects">Polygon Objects</a>. Go read that section. 
+Remember that the Thermal tool will only create and destroy thermals
+to polygons on the active layer. Use the Rectangle tool to make a
+small copper plane on the component layer. Now place a via in the
+middle of the plane. Notice that it does not touch the plane, and
+they are not electrically connected. Use the Thermal tool to make
+the via connect to the plane. Thermals allow the via or pin to
+be heated by a soldering iron without having to heat the entire
+plane. If solid connections were made to the plane, it could be
+nearly impossible to solder. Click on the via again with the
+Thermal tool to remove the connection to the plane.
+
+   <p>The Insert-point tool is an editing tool that allows you to add
+points into lines and polygons.  The
+Insert-point tool enforces the 45 degree line
+rule.  You can force only the shorter line segment to 45
+degrees by holding the <em>Shift</em> key down while inserting the point. 
+Try adding a point into one of the lines you created. Since line
+clipping is turned on, you may need to move the cross hair quite far
+from the point where you first clicked on the line. Turn off the
+line clipping by selecting <span class="samp">all-direction lines</span> from the
+<b>Settings</b> menu (or hit
+the <em>Period</em> key). Now you can place an inserted point anywhere. 
+Try adding a point to the rectangle you made earlier. Start by clicking
+somewhere along an edge of the rectangle, then move the pointer to
+a new location and click again.
+
+   <p>The delete-mode deletes the object beneath the cursor with each
+<em>Btn1</em> click. 
+If you click at an end-point that two lines have in common, it will replace the two lines with a single line
+spanning the two remaining points.  This can be used to delete an "inserted"
+point in a line, restoring the previous line.  Now delete one of the original corner
+points of the polygon you were just playing with. To do this, place the cross hair over the
+corner and click on it with the Delete tool. You could also use the <em>Backspace</em> key
+if some other tool is active. Try deleting some of
+the lines and intermediate points that you created earlier. Use undo
+repeatedly to undo all the changes that you've made. Use redo
+a few times to see what happens. Now add a new line. Notice that
+you can no longer use redo since the layout has changed since
+the last undo happened. The undo/redo tree is always pruned in this
+way (<em>i.e.</em> it has a root, but no branches).
+
+   <p>The Arrow tool is so important, it has its own section: <a href="Arrow-Tool.html#Arrow-Tool">Arrow Tool</a>. 
+Go read it now.
+
+   <p>The Lock tool allows you to lock objects on the layout. When an object
+is locked, it can't be selected, moved, rotated, or resized. This is
+useful for very large objects like ground planes, or board-outlines that
+are defined as an element. With such large objects, nearly anywhere you
+click with the Arrow tool will be on the large object, so it could be
+hard to draw box selections. If you lock an object, the Arrow tool will
+behave as if it didn't exist.  You cannot unlock an object with undo. 
+You must click on it again with the Lock tool. If an object is locked,
+previous changes to it cannot be undone either. When you lock
+an object, a report message about it is popped up and will always tell
+you what object it is, and that it is locked if you just locked it. 
+Other than noticing your inability to manipulate something, the only
+way to tell an object is locked is with a report from the <b>Info</b>
+menu. Use the Lock tool sparingly.
+
+   </body></html>
+

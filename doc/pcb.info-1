@@ -1,0 +1,945 @@
+This is pcb.info, produced by makeinfo version 4.1 from pcb.texi.
+
+INFO-DIR-SECTION Miscellaneous
+START-INFO-DIR-ENTRY
+* pcb: (pcb).                   An interactive printed circuit board editor.
+END-INFO-DIR-ENTRY
+
+   This file documents how to use Pcb, the interactive printed circuit
+board layout system for `X11'.
+
+   Copyright (C) 1994,1995,1996, 2004 Thomas Nau
+
+   Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002 harry eaton
+
+   Copyright (C) 2003, 2004 Dan McMahill
+
+   Copyright (C) 2004 DJ Delorie
+
+   This program is free software; you may redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or (at
+your option) any later version.
+
+   This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANT-ABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+
+
+File: pcb.info,  Node: Top,  Next: Copying,  Prev: (dir),  Up: (dir)
+
+Pcb
+***
+
+   This document is a manual for `Pcb', the interactive printed circuit
+board layout system for `X11'.
+
+* Menu:
+
+* Copying::                `Pcb' is freely redistributable!
+* History::                How it all began.
+* Overview::               An overview of `Pcb'.
+* Intro::                  A short description of the basic objects.
+* Getting Started::        Introduction to `Pcb'.
+* User Commands::          User commands of `Pcb'.
+* Command-Line Options::   Calling `Pcb' from a shell.
+* X11 Interface::          Action routines, resources and default translation.
+* File Formats::           Description of `ASCII' files used by `Pcb'.
+* Library Creation::       Detailed description of symbol library creation.
+* Schematic Frontends::    Schematic capture programs that work with PCB.
+* Installation::           Compiling, installing and troubleshooting.
+* Custom Menus::           Customizing the menu bar.
+* Regular Expressions::    Searching for elements with regular expressions
+* Index::                  The Index.
+
+
+File: pcb.info,  Node: Copying,  Next: History,  Prev: Top,  Up: Top
+
+Copying
+*******
+
+   Copyright (C) 1994,1995,1996,1997 Thomas Nau
+
+   Copyright (C) 1998,1999,2000,2001,2002 harry eaton
+
+   This program is free software; you may redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or (at
+your option) any later version.
+
+   This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANT-ABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+General Public License for more details.
+
+
+File: pcb.info,  Node: History,  Next: Overview,  Prev: Copying,  Up: Top
+
+History
+*******
+
+   `Pcb' is a handy tool for laying out printed circuit boards.
+
+   `Pcb' was first written by Thomas Nau for an Atari ST in 1990 and
+ported to `UNIX' and `X11' in 1994.  It was not intended as a
+professional layout system, but as a tool which supports people who do
+some home-developing of hardware.
+
+   The second release 1.2 included menus for the first time. This made
+`Pcb' easier to use and thus a more important tool.
+
+   Release 1.3 introduced undo for highly-destructive commands, more
+straightforward action handling and scalable fonts. Layer-groups were
+introduced to group signal-layers together.
+
+   Release 1.4 provided support for add-on device drivers.  Two layers
+(the solder and the component side) were added to support SMD elements.
+The handling of libraries was also improved in 1.4.1. Support for
+additional devices like GERBER plotters started in 1.4.4. The undo
+feature was expanded and the redo-feature added in 1.4.5.
+
+   harry eaton took over pcb development beginning with Release 1.5,
+although he contributed some code beginning with Release 1.4.3
+
+   Release 1.5 provides support for rats-nest generation from simple net
+lists.  It also allows for automatic clearances around pins that pierce
+a polygon.  A variety of other enhancements including a Gerber RS-274-X
+driver and NC drill file generation have also been added.
+
+   Release 1.6 provides automatic screen updates of changed regions.
+This should eliminate most of the need for the redraw ((_R_ key).  Also
+some changes to what order items under the cursor are selected were
+made for better consistency - it is no longer possible to accidentally
+move a line or line point that is completely obscured by a polygon
+laying over top of it.  Larger objects on the upper most layers can be
+selected ahead of smaller objects on lower layers.  These changes make
+operations more intuitive.  A new mode of line creation was added that
+creates two line on 45 degree angles with a single click. The actual
+outline of the prospective line(s) are now shown during line creation.
+An arc creation mode was added.  Drawn arcs are quarter circles and can
+be useful for high frequency controlled impedance lines.  (You can have
+eighth circle arc if the source is compiled with -DARC45, but be aware
+that the ends of such arcs can never intersect a grid point).  Two new
+flags for pins and vias were created - one indicates that the pin or
+via is purely a drill hole and has no copper annulus.  You can only
+toggle this flag for vias - for elements, it must be an integral part
+of the element definition.  The other flag controls whether the pad
+will be round or octagonal.  There is also now a feature for converting
+the contents of a buffer into an element.
+
+   Release 1.6.1 added the ability to make groups of action commands
+bound to a single X11 event to be undone by a single undo. Also a
+simple design rule checker was added - it checks for minimum spacing
+and overlap rules. Plus many fixes for bugs introduced with the many
+changes of 1.6
+
+   Release 1.7 added support for routing tracks through polygons
+without touching them. It also added support for unplated drill files,
+and drawing directly on the silk layer. A Netlist window for easily
+working with netlist was also added.
+
+   Release 2.0 adds an auto-router, a new simpler library mechanism,
+much improved support for graphically creating (and editing) elements,
+viewable solder-mask layers (and editing), snap to pins and pads,
+netlist entry by drawing rats, element files (and libraries) that can
+contain whole sub-layouts, metric grids, improved user interface, a GNU
+autoconf/automake based build system, and a host of other improvements.
+
+   Special thanks goes to:
+     Thomas Nau (who started the project and wrote the early versions).
+     C. Scott Ananian (who wrote the auto-router code).
+     Bernhard Daeubler (Bernhard.Daeubler@physik.uni-ulm.de)
+     Harald Daeubler (Harald.Daeubler@physik.uni-ulm.de)
+     DJ Delorie (djdelorie@users.sourceforge.net)
+     Larry Doolittle (ldoolitt@recycle.lbl.gov)
+     Dan McMahill (danmc@users.sourceforge.net)
+     Roland Merk (merk@faw.uni-ulm.de)
+     Erland Unruh (Erland.Unruh@malmo.trab.se)
+     Albert John FitzPatrick III (ajf_nylorac@acm.org)
+     Boerge Strand (borges@ifi.uio.no)
+     Andre M. Hedrick (hedrick@Astro.Dyer.Vanderbilt.Edu)
+
+   who provided all sorts of help including porting `Pcb' to
+   several operating systems and platforms, bug fixes, library
+enhancement, user interface suggestions and more. In addition to these
+people, many others donated time for bug-fixing and other important
+work. Some of them can be identified in the source code files.  Thanks
+to all of them. If you feel left out of this list, I apologize; please
+send me an e-mail and I'll try to correct the omission.
+
+
+File: pcb.info,  Node: Overview,  Next: Intro,  Prev: History,  Up: Top
+
+Overview
+********
+
+   Pcb is a printed circuit board editor for the X11 window system.
+Pcb includes many professional features such as:
+   * Up to 8 copper layer designs
+
+   * RS-274-X (Gerber) output
+
+   * NC Drill output
+
+   * Centroid (X-Y) data output
+
+   * Postscript and Encapsulated Postscript output
+
+   * Autorouter
+
+   * Trace optimizer
+
+   * Rats nest
+
+   * Design Rule Checker (DRC)
+
+   * Connectivity verification
+
+   * Pcb is Free Software
+
+   * Can interoperate with free schematic capture tools such as gEDA and
+      xcircuit
+
+
+File: pcb.info,  Node: Intro,  Next: Getting Started,  Prev: Overview,  Up: Top
+
+Introduction
+************
+
+   Each layout consists of several, mostly independent, objects. This
+chapter gives an overview of the object types and their relationship to
+each other.  For a complete description of how to use `Pcb', refer to
+*Note Getting Started::.  The layout is generated on-screen on a grid
+that can have its origin at any desired location.  The X coordinate
+increases to the right, Y increases down to the bottom.  All distances
+and sizes in `Pcb' are measured in mils (0.001 inch).  One unit on the
+coordinate display is one mil in distance on the board.  The grid may
+be set on a metric pitch, but is only correct to within the nearest +/-
+0.01 mil because `Pcb' stores all dimensions as integer multiples of
+1/100 of a mil or 0.00001 inch.
+
+   The sections in this chapter are sorted by the order of appearance
+of the objects within a layout file.
+
+* Menu:
+
+* Symbol Objects::         Information about fonts and symbols.
+* Via Objects::            Vias and pins connect layers.
+* Element Objects::        Element, the basic type of circuits.
+* Layer Objects::          A `container' for lines, text...
+* Line Objects::           Tracks on the board
+* Arc Objects::            Curved tracks
+* Polygon Objects::        Planes and such
+* Text Objects::           Objects to add symbols to your board.
+* Net Objects::            Describes the desired connections on the board.
+
+
+File: pcb.info,  Node: Symbol Objects,  Next: Via Objects,  Up: Intro
+
+Symbols
+=======
+
+   The top object is the layout itself. It uses a set of symbols that
+resides at the first logical level. Each symbol is uniquely identified
+by a seven bit `ASCII' code. All layout objects share the same set of
+symbols. These symbols are used to form text objects on the silkscreen
+and copper layers.  Undefined symbols are drawn as filled rectangles.
+
+   Every font file is preprocessed by a user-defined command when it is
+loaded.  For details see `fontCommand', *Note Resources::.
+
+
+File: pcb.info,  Node: Via Objects,  Next: Element Objects,  Prev: Symbol Objects,  Up: Intro
+
+Vias
+====
+
+   Vias provide through-hole connectivity across all layers.  While
+vias look a lot like element pins, don't use vias for adding elements
+to the layout, even if that seems easier than creating a new element.
+The default solder-mask will cover over vias, so you won't be able to
+solder to them.  Of course, you can change this so that vias also have
+solder-mask cut-outs, but it is not the default.  Vias are also useful
+for defining arbitrary drill points such as those used for mounting a
+board. Vias used in this way have a special flag set so that they have
+no annular copper ring, and also appear in the unplated drill file.
+_Ctrl-H_ key over a via switches it between being a pure-mounting hole
+and a regular via.  You can assign a name to a via, which is useful
+during the creation of new element definitions.  Each via exists on all
+copper layers. (_i.e._ blind and buried vias are not supported)
+
+
+File: pcb.info,  Node: Element Objects,  Next: Layer Objects,  Prev: Via Objects,  Up: Intro
+
+Elements
+========
+
+   Elements represent the components on a board.  Elements are loaded
+from `ASCII' coded files in a similar manner to the layout file itself,
+or from the library selector window.  An element is composed of lines
+and arcs on the silk-screen layer (used to define the package outline),
+pins (or pads for SMD) and three labels that define the description,
+the element's layout-name (which also appears on the silk-screen layer)
+and its value. You can choose which of the names are displayed on the
+screen with the Screen menu; however, the silk screen in the printout
+will always show the layout-name.  Element pins are contained on the
+first logical level and so reside on all layers, but the pads of
+surface-mount elements reside on only the component or solder layers.
+An element can have a mixture of pins, pads (on one or both sides), and
+mounting holes.
+
+   A mark is used to position the element with respect to the cross
+hair during pasting.  The mark will lie on a grid point when the element
+is positioned.  The mark is drawn as a small diamond shape, but is only
+visible when _both_ the `silk' and `pins/pads' layers are visible.  All
+parts of an element are treated as one unit, except for the name.  It
+is not possible to delete a single pin or move only part of an element
+on the layout.  You can resize separate pieces of an element, but doing
+so is usually a bad idea. You can move/rotate the element name
+independently of the element it belongs to. When you move an element
+name, a line is draw from the cursor to the element mark so it is easy
+to tell which element the name belongs to.
+
+   Each pin and pad has two string identifiers, one is the "name" which
+is a functional description of the pin (_e.g._ "clock in") and the
+other is the "number" of the pin which is used to identify it in a
+netlist. The "number" is usually an integer, but it can be any string.
+You can edit the "name" of each pin of an element, but the "number" is
+embedded in the element definition and is determined when the new
+element is first created.  Pads are similar to lines on a layer but
+they must be oriented either vertically or horizontally.  Pads can have
+either rounded or square ends. Pins can be round, square, or octagonal.
+
+   Elements are supported by several special layers: `silk',
+`pins/pads' and `far-side'.  The `silk' layer shows the package outline
+and also holds legend text and element names. The `pins/pads' layer is
+used to toggle whether the element's pins and pads are displayed. The
+`far-side' layer controls visibility of objects (silkscreen and pads)
+that are on the far (_i.e._ not currently viewed) side of the board.
+
+   The "oldlib" style of footprint libraries distributed with `Pcb'
+rely upon the M4 macro processor.  M4 is typically installed under the
+name `m4' on most unix-like operating systems.  It is recommended that
+you use the GNU version of M4 to avoid limitations found in some vendor
+implementations.  See the m4 man page on your system for more
+information.  Every element file is preprocessed by a user-defined
+command when the file is read.  For details see `elementCommand', *Note
+Resources::. `m4', the default value of `elementCommand', allows you to
+create libraries for package definitions that are shared by all
+elements.  The old element libraries distributed with `Pcb' expect `m4'
+or an equivalent to be the _elementCommand_. The new library scheme
+simply has each element stored in a self-contained file, so there is no
+need to learn `m4' to add to the libraries.
+
+   `Pcb' can create a list of all connections from one (or all)
+elements to the others or a list of unconnected pins.  It can also
+verify the layout connections against a netlist file.  The element's
+`layout-name' is the name used to identify the element in a netlist
+file (see *Note Netlist File::).
+
+   The old libraries, or very old (pre-1.6) layout files may have
+incorrect pin numbering since there was no concept of pin numbers when
+they were created. `Pcb' uses the order of appearance of the pin
+definitions in the layout or library file if it uses the old format,
+but there is no guarantee that it will be correct for these old objects.
+
+   Be aware that a few of the old library parts may still be incorrectly
+implemented regarding pin-numbering.  All of the DIL (Dual-
+Inline-Pins) parts are correct and most of the others are too, but you
+should verify the pin numbering of any non-DIL part before using an old
+library part.  (use the `generate object report' in the Info menu to
+see what `Pcb' thinks a pin's number is) All of the old library names
+begin with a ~, so you can easily identify them.  The old libraries
+also _may_ contain other sorts of errors, including incorrect pin
+spacing, silkscreen overlapping solder areas, etc.  Check carefully any
+element in the old library before using it!  As the new library grows,
+the old library will be paired down to at least remove all of the
+elements with errors, but this will take time.
+
+   You can make your own element definitions graphically now.  Simply
+draw vias for the pins, lines on the solder and/or component layers for
+surface-mount pads (they must be either horizontal or vertical), and
+lines and arcs on the silkscreen layer for the silkscreen outline. You
+should _name_ (_N_ key) each via and copper line with the pin _number_.
+Once you are happy with the geometry, select everything that is to
+become part of the element, then choose `convert selection to element'
+from the Select menu.  Afterwords you can make pin (or pad) one square
+if you like, and give the element its various names. You can also give
+the pins and pads their functional names. Note that the element mark
+corresponds to the position you click after choosing the conversion
+from the menu, so decide where the mark goes and make sure it falls on
+a grid point before you request the conversion.  If the vias/lines are
+not named, then the pin numbering will correspond to the order in which
+they were placed.
+
+   When you create a new element, remember that silkscreen lines should
+_never_ overlap the copper part of the pins or pads, as this can
+interfere with soldering. The silkscreen should identify the maximum
+extent of the element package so it is easy to see how close elements
+can be placed together.
+
+   If you want to make an element similar to an existing one, you can
+break an element into constituent pieces from the Buffer menu.  Paste
+the pieces to the layout, make the necessary changes, then convert it
+back into an element. If the pin numbers haven't changed, there is no
+need to name each via/line as they are pre-named when the element was
+broken apart. When you create a new element, you can save it to a file
+in order to have easy access to it the next time you run `Pcb'.
+
+
+File: pcb.info,  Node: Layer Objects,  Next: Line Objects,  Prev: Element Objects,  Up: Intro
+
+Layers
+======
+
+   Every layout consists of several layers that can be used
+independently or treated as a group.  Layer groups can be used to
+logically separate (and color-code) different traces (_e.g._ power and
+signal); however, all layers within a group reside on the same physical
+copper layer of a board, so using different layers within the same
+group won't provide electrical separation where they touch or overlap.
+For details, see `layerGroups', *Note Resources::.  Each layer is drawn
+in a color defined in the resource file and identified by a name that
+you can change (for details see `layerColor', *Note Resources::.)
+Layers are really just containers for line, arc, polygon, and text
+objects.  The component and solder layers contain SMD elements as well,
+but the file structure doesn't reflect that fact directly.
+
+   Each layer group represents a physical layer on the printed circuit
+board.  If you want to make a four layer board, you'll need to have at
+least four layer groups.  Connections between layer groups are
+established only through element pins and vias.  The relationship
+between a specific layer and the board itself is configurable from the
+`Edit layer groups' option in the Settings menu.  The layer groups
+corresponding to the physical layers: _component-side_ and
+_solder-side_ are always defined and you must map at least one logical
+layer to each, even if you plan to make a single-sided board.  You are
+not obligated to put tracks on either of them.  Surface mount elements
+always reside on either the component-side or the solder-side layer
+group. When you paste an element from the buffer, it will go onto
+whichever side of the board you are viewing.  You can swap which side
+of the board you are viewing by pressing the _Tab_ key, or by selecting
+`view solder side' from the Screen menu.  The layer groups just have a
+name or number associated with them - where they are sandwiched in the
+board is left for you to tell the manufacturer.
+
+   The silkscreen layer is special because there are actually two
+silkscreen layers, one for the top (component) and one for the bottom
+(solder) side of the board. Which silk layer you draw on is determined
+by the side of the board that you are viewing. If you are viewing the
+component side, then drawing on the silk layer draws to the
+component-side silk layer.
+
+   The netlist layer is another special layer. It shows rat's-nest lines
+(_i.e._ guides that show how the netlist expects the element to
+interconnect).  If you make this the active layer, you can use the Line
+tool to add entries into the netlist, or to delete connections from the
+netlist window. Except for these two purposes, you should not make the
+netlist layer the active layer. Usually there is no need to do this
+because a separate schematic package should be used to create the
+netlist. `Pcb' can automatically draw all of the rats from the netlist.
+In some cases you may want to make a small change without going to the
+trouble of modifying the schematic, which is why this facility is
+provided.
+
+
+File: pcb.info,  Node: Line Objects,  Next: Arc Objects,  Prev: Layer Objects,  Up: Intro
+
+Lines
+=====
+
+   Lines are used to draw tracks on the pc board.  When in the line
+mode, each _Btn1_ press establishes one end of a line.  Once the second
+point is defined, the line is drawn and a new line started where the
+first one ended.  You can abandon the new starting point in favor of
+another by pressing _Ctrl-Btn1_, or _Btn3_, but don't use _Btn2_.  The
+undo function (_U_ key or `undo last operation' from the Edit menu)
+will take you back point by point if you use it while in the line mode.
+If you drag the pointer out of the Layout area while drawing a line, the
+display will auto-scroll (assuming sufficient zoom for scrolling).  To
+stop auto-scroll, simply pass the pointer over the panner control.
+
+   New lines can be restricted to 45 degree angles if desired. You can
+toggle this restriction on and off while creating lines by pressing the
+_period_ key.  If the 45 degree restriction is turned on, then the _/_
+(forward slash) key can be used to cycle through three different modes
+of 45 degree line creation.  One mode just creates a single line forced
+to the nearest 45 degree vector.  The next mode creates two lines from
+the start to end points such that the first line leaves the start point
+at a 90 degree vector, and the second line enters the end point on a 45
+degree vector. The last mode creates two lines such that the first line
+leaves the start point on a 45 degree vector and arrives at the end
+point on a 90 degree vector.  You can temporarily swap between the last
+two modes by holding the _Shift_ key down.
+
+   It is simple to edit a line object by breaking it into pieces
+(insert point mode), moving an end point or the whole line (_Arrow
+tool_), or changing the layer it resides on (_M_ key moves the line
+under the pointer to the active layer).  In the case when two line
+segments meet at exactly the same point you can delete the intermediate
+point, otherwise the delete tool removes an entire line.  Feel free to
+experiment since `Pcb' will allow you to undo and redo anything that
+materially affects your work.  If you switch active layers in the midst
+of placing lines a via will automatically be placed, when necessary, in
+order to continue the connection.
+
+   If you draw a line inside a polygon, it will either plow through the
+polygon creating a clearance, or touch the polygon. This behavior is
+selectable in the Settings menu for new lines. To change the behavior
+of an existing line, hit the _J_ key with the cross hair over the line.
+You can increase the size of the clearance with the _K_ key. _Shift-K_
+will decrease the clearance.
+
+   Lines do not need to intersect the center of a pin, pad, via, or
+other line for `Pcb' to understand that they make electrical connection.
+If the connection is too tenuous, running the design rule checker will
+report that the connection may break if the line width shrinks slightly.
+
+
+File: pcb.info,  Node: Arc Objects,  Next: Polygon Objects,  Prev: Line Objects,  Up: Intro
+
+Arcs
+====
+
+   `Pcb' can handle arcs of any angular extent, but when you create an
+arc with the Arc tool, it will be a quarter circle (this means they
+always bend a right angle).  Arcs are very similar to lines otherwise.
+They are created on the active layer and have the same thickness that
+new lines will have.  The various clicks for creating lines work pretty
+much the same way for creating arcs.  In order to make the arc curve in
+the desired direction, drag the mouse along the tangent line from the
+starting position towards the end position. If the grid is too coarse,
+it may not be possible to distinguish whether you've moved over then up,
+or up then over, so if you can't seem to make the arc go in the
+direction you want, try pressing the _Shift_ key while drawing the arc.
+Decreasing the grid spacing may also help.  Alternatively you can draw
+the wrong arc, then rotate and move it where you want. Like the Line
+tool, after an arc is drawn a new starting point is established at the
+end point.
+
+   Whenever a starting point is established by either the Line or Arc
+tools it will be retained if you switch directly between the tools
+(e.g. _F2_ key for Lines, _F8_ key for Arcs. Arcs can either touch or
+clear polygons just like lines do. Of course connection searches, undo
+and all the other features you'd expect work with arcs too.
+
+
+File: pcb.info,  Node: Polygon Objects,  Next: Text Objects,  Prev: Arc Objects,  Up: Intro
+
+Polygons
+========
+
+   Sometimes it's useful to fill large areas with solid copper.  The
+way to do this is with polygons.  Polygons can be created in either the
+polygon mode or the rectangle mode.  In the polygon mode, you'll have
+to define each corner of the polygon with a mouse click (_Btn1_). When
+the last point is clicked exactly on top of the starting point, the
+polygon is finished.  Since this can be hard to do, the _Shift-P_ key
+will enter the final point for you, closing the polygon.  If the 45
+degree angle restriction is turned on and you try to close the polygon
+when it is not possible, you'll get a warning instead. If you haven't
+finished entering a polygon, but want to undo one (or more) of the
+points that you've already defined, use the undo command (_U_ key).
+
+   With the rectangle tool, defining the two diagonally opposite
+corners is sufficient, but of course the resulting polygon is a
+rectangle.  Like lines, a polygon can by edited by deleting, inserting
+and moving the points that define it. Pins and vias _always_ clear
+through polygons without touching them when first positioned. You must
+add a thermal with the thermal tool in order to connect pins and vias
+to polygons. Thermals can be added and removed by clicking _Btn1_ with
+the thermal tool over the pin or via.  The thermal tool always places a
+thermal to polygons on the active layer, so if the tool doesn't seem to
+work, it's probably because the polygon you want to touch is not on the
+active layer.
+
+   `Pcb' is capable of handling complex polygons, but using a number of
+simpler ones improves performance of the connection tracing code.  You
+also must be careful not to create polygons that touch or overlap
+themselves.  The fabricated board may not look the way you expect if
+you violate this principle. It is always ok to have two (or more)
+polygons touch or overlap each other, but not for points within the
+same polygon to do so.
+
+   The great advantage to this new polygon behavior is that simple or
+complex ground and/or power planes can be easily made with polygons and
+seen on the screen.  If you don't want this auto-clearance behavior, or
+you load a layout created by an early version of `Pcb', the old behavior
+(shorts to all piercing pins and vias) is available.  A `ChangeSize'
+operation (_S_ key) toggles a polygon between the new and old
+polygon/pin behavior.
+
+
+File: pcb.info,  Node: Text Objects,  Next: Net Objects,  Prev: Polygon Objects,  Up: Intro
+
+Text
+====
+
+   Text objects should be used to label a layout or to put additional
+information on the board. Elements have their `layout-name' labels on
+the silk-screen layer. If you are making a board without a silkscreen,
+you can use copper text to label the elements, but you have to do this
+manually.
+
+   Text is always horizontal when first created, but the rotate mode
+can align it along 0, 90, 180 and 270 degree angles.  Text on the far
+side of the board will automatically appear mirror-imaged.
+
+   _Warning:_ TEXT OBJECTS ON A COPPER LAYER CREATE COPPER LINES BUT
+THEY ARE NOT SCANNED FOR CONNECTIONS OR TESTED FOR CREATING SHORTS VS.
+THE NETLIST. NEITHER ARE TEXT OBJECTS TESTED AGAINST ANY DESIGN RULES.
+
+
+File: pcb.info,  Node: Net Objects,  Prev: Text Objects,  Up: Intro
+
+Nets
+====
+
+   Layout files also contain the netlist that describes how the elements
+are supposed to be interconnected. This list of connections can be
+loaded from a netlist file (see *Note Netlist File::), or entered by
+drawing rat-lines as described previously. Each net has a name and
+routing style associated with it.  The net contains a list of all
+element _layout-name_ names and pin _numbers_ that should be connected
+to the net. Loading a netlist file will replace all existing nets with
+the ones from the file.  The _Netlist_ window provides an easy way to
+browse through the net list. You can display the rat's-nest by selecting
+`optimize rats-nest' from the Connects menu. If you move or rotate
+elements, the rat's-nest will automatically follow the movements, but
+they won't necessarily show the shortest paths until you optimize them
+again.
+
+
+File: pcb.info,  Node: Getting Started,  Next: User Commands,  Prev: Intro,  Up: Top
+
+Getting Started
+***************
+
+   The goal of this chapter is to give you enough information to learn
+how `Pcb' works and how to develop your layouts to make the best use of
+`Pcb''s features. All event translations (_i.e._ the buttons and keys
+you press) refer to the default application resource file shipped with
+`Pcb'.  There is probably no need to change this unless your window
+manager uses some of the button events itself; however, if you _want_
+to customize the behavior of `Pcb' then changing the resource file is
+usually the best way to do it.
+
+   Get yourself a printout of this chapter and _User Commands_, if you
+haven't already done so, and follow the examples.
+
+   Start `Pcb' (the actual command will use all lower-case letters)
+without any additional options.  If you get the error message:
+
+         can't find default font-symbol-file 'default_font'
+then the font searchpath or filename in the application resource
+   file is wrong. Be sure that your `m4' program supports search paths.
+If not, get `GNU m4'.  For other messages, see *Note problems::.
+Another quick-start is provided by `pcbtest.sh' in the `src' directory.
+If some features don't seem to work, try running `pcbtest.sh', if that
+works, then `Pcb' hasn't been installed properly.
+
+* Menu:
+
+* Application Window::     The elements of the main window.
+* Log Window::             The optional logging window
+* Library Window::         The circuit selection window
+* Netlist Window::         The desired connections window
+* Drawing and Removing::
+* Moving and Copying::
+* Loading and Saving::
+* Printing::               Creating Gerber files or postscript files
+* Arrow Tool::             Selecting/Moving objects.
+* Rats Nest::		   Helps you place and route tracks against a netlist.
+* Design Rule Checking::   Check for manufactureability
+* Trace Optimizer::        Optimization of layouts
+* Searching for elements:: Searching for elements
+* Measuring distances::    Measuring distances
+* Vendor drill mapping::   Mapping drills to a vendor specified list
+* Connection Lists::       How to get a list of all or some connections.
+
+
+File: pcb.info,  Node: Application Window,  Next: Log Window,  Up: Getting Started
+
+The Application Window
+======================
+
+   The main window consists of six areas: the menu at the top, the
+panner control in the upper left corner, the layer controls located
+below the panner, the tool buttons located below the layer controls,
+the Layout area to the right of these, and the status line at the
+bottom of the window.
+
+* Menu:
+
+* Menu::
+* Status-line and Input-field::  What is the program configuration.
+* Panner Control::               Used to pan the layout view when zoomed in.
+* Layer Controls::               Switch layers on/off; change current one.
+* Tool Selectors::               Select a layout tool.
+* Layout Area::		         Where the layout is drawn.
+
+
+File: pcb.info,  Node: Menu,  Next: Status-line and Input-field,  Prev: Layout Area,  Up: Application Window
+
+Menus
+-----
+
+   The menus are located at the top of the Layout area. Most, but not
+all, of their functions are also available from the keyboard.
+Similarly, some functions are only achievable through the keyboard or
+command entry.  Some menu entries such as `center layout' in the Screen
+menu require a certain cross hair position.  In this case a prompt
+message will popup at the bottom of the screen with wording similar to
+the following:
+     move pointer to the appropriate screen position and press a button
+   Any mouse button will do the job, whereas any key except the arrow
+(cursor) keys will cancel the operation. If it seems like the menu
+hasn't done what you expected, check to see if it is waiting for the
+position click. For details see *Note Actions::.
+
+   Pressing _Btn3_ in the Layout area also pops up a menu with many of
+the most common operations (except when you're in the midst of drawing
+a line or arc). When a choice in the _Btn3_ popup menu needs a cross
+hair position, it uses the position where the cross hair was when
+_Btn3_ was pressed. For example, to get detailed information on an
+object, place the cross hair over the object, press _Btn3_, then choose
+`object report'.  If you pop up the _Btn3_ menu but don't want to take
+any of the actions, click on one of the headers in the menu.
+
+File
+     This menu offers a choice of loading, saving and printing data,
+     saving connection information to a file or quitting the
+     application. Most of the entries in the File menu are self
+     explanatory.  Selecting `print layout' pops up a printer control
+     dialog.  A selection of several device drivers is available from
+     the printer control dialog. Presently _PostScript_, _encapsulated
+     PostScript_, and _GerberX_ are supported. The _GerberX_ driver
+     produces all of the files necessary to have the board
+     professionally manufactured.  The connection saving features in
+     the File menu produce outputs in an arcane format that is not too
+     useful. They do _not_ produce netlist files.
+
+Edit
+     The Edit menu provides the usual cut, copy, paste which work on
+     selections. To learn how to create complex selections, see *Note
+     Arrow Tool::.  The Edit menu also provides access to Undo and Redo
+     of the last operation. These can also be accomplished with the _U_
+     key and _Shift-R_ key.  Finally, the Edit menu allows you to
+     change the names of: the layout, the active layer, or text objects
+     on the layout.
+
+Screen
+     The Screen menu supports most functions related to the whole
+     Layout area. There are various entries to change the grid to some
+     popular values, the zoom factor, and which kind of element name is
+     displayed.  You can also re-align the grid origin and turn on and
+     off the display of the grid.  Before changing the grid alignment,
+     I recommend that you zoom in as close as possible so that you're
+     sure the grid points appear exactly where you want them.
+
+     The Screen menu also allows you to turn on and off the visibility
+     of the solder-mask layer. When the solder-mask layer is made
+     visible it obscures most of the layout, so only turn this on when
+     you really want to know what the solder-mask will look like. The
+     solder-mask that you see belongs to the side of the board you are
+     viewing, which can be changed with the `view solder side' option,
+     also found in the Screen menu.  When the solder-mask is displayed,
+     the pin and pad clearance adjustments (*note Line Objects::) alter
+     the size of mask cut-outs.
+
+Sizes
+     The Sizes menu allows you to select a group of line thickness, via
+     diameter, via drill size, and clearance (keepaway) (collectively
+     called a "routing style") to be copied to the "active" sizes.  You
+     can also change the names given to the routing styles and adjust
+     their values from this menu.  The "active" sizes are also
+     adjustable from this menu.  The "active" sizes are shown in the
+     status-line and control the initial size of new vias, drilling
+     holes, lines, clearances, text-objects and also the maximum
+     dimensions of the board layout.
+
+Settings
+     The Settings menu controls several operating configuration
+     parameters. The `edit layer groups' entry brings up a dialog that
+     allows you to change the way layers are grouped. Layer grouping is
+     described in *Note Layer Objects::. The `all-direction lines'
+     entry controls the clipping of lines to 45-degree angles. You can
+     also control whether moving individual objects causes the attached
+     lines to "rubber band" with the move or not from the Settings
+     menu. Another entry controls whether the starting clip angle for
+     the two-line mode (*note Line Objects::) alternates every other
+     line. You can also control whether element names must be unique
+     from the Settings menu.  When unique element names are enforced,
+     copying a new element will automatically create a unique
+     `layout-name' name for it provided that the name originally ended
+     with a digit (_e.g._ U7 or R6). The Settings menu allows you to
+     control whether the cross hair will snap to pins and pads even
+     when they are off-grid. Finally you can control whether new lines
+     and arcs touch or clear intersecting polygons from this menu.
+
+Select
+     This menu covers most of the operations that work with selected
+     objects.  You may either (un)select all visible objects on a
+     layout or only the ones which have been found by the last
+     connection scan see .  You can delete all selected objects from
+     this menu.  Other entries in the Select menu change the sizes of
+     selected objects.  Note that a select action only affects those
+     objects that are selected _and_ have their visibility turned on in
+     the Layer Control panel. The Select menu also provides a means for
+     selecting objects by name using unix *Note Regular Expressions::.
+
+Buffer
+     From the Buffer menu you may select one out of five buffers to
+     use, rotate or clear its contents or save the buffer contents to a
+     file. You can also use the `break buffer element to pieces' entry
+     to de-compose an element into pieces for editing.  Note: only
+     objects with visibility turned on are pasted to the layout. If you
+     have something in a buffer, then change which side of the board you
+     are viewing, the contents of the buffer will automatically be
+     mirrored for pasting on the side you are viewing. It is not
+     necessary to clear a buffer before cutting or copying something
+     into it - it will automatically be cleared first.
+
+Connects
+     The entries available through the Connects menu allow you to find
+     connections from objects and to manipulate these.  You can also
+     optimize or erase rat's nests from this menu. Finally, the
+     `auto-route all rats' entry allows you to auto-route all
+     connections show by the rat's nest. The auto-router will use any
+     visible copper layer for routing, so turn off the visibility of any
+     layers you don't want it to use. The auto-router will automatically
+     understand and avoid any traces that are already on the board, but
+     it is not restricted to the grid. Finally, the auto-router routes
+     using the active sizes (except for nets that have a route-style
+     defined). `Pcb' always knows which tracks were routed by the
+     auto-router, and you can selectively remove them without fear of
+     changing tracks that you have manually routed with the `rip-up all
+     auto-routed tracks' entry in the Connects menu.  The `design rule
+     checker' entry runs a check for copper areas that are too close
+     together, or connections that touch too tenuously for reliable
+     production. The DRC stops when the first problem is encountered so
+     after fixing a problem be sure to run it again until no problems
+     are found.
+          _Warning:_ COPPER TEXT IS IGNORED BY THE DRC CHECKER.
+
+Info
+     The `generate object report' entry from the Info menu provides a
+     way to get detailed information about an object, such as its
+     coordinates, dimensions, etc.  You can also get a report
+     summarizing all of the drills used on the board with `generate
+     drill summary'. Lastly, you can get a list of all pins, pads and
+     vias that were found during a connection search.
+
+Window
+     The Window menu provides a way to bring each of `Pcb's' windows to
+     the front. The _Library_ window is used to bring elements from the
+     library into the paste-buffer. The _Message Log_ window holds the
+     various messages that `Pcb' sends to the user. The _Netlist_
+     window shows the list of connections desired.
+
+   Now that you're familiar with the various menus, it's time to try
+some things out. From the File menu choose `load layout', navigate to
+the tutorial folder, then load the file `tut1.pcb'.
+
+
+File: pcb.info,  Node: Status-line and Input-field,  Next: Panner Control,  Prev: Menu,  Up: Application Window
+
+The Status-line and Input-field
+-------------------------------
+
+   The status-line is located at the bottom edge of the main window.
+During normal operation the status information is visible there.  When
+a selected menu operation requires an additional button click, the
+status-line is replaced by a message telling you to position the cursor
+and click.  When a text input is required, the status-line is replaced
+by the Input-field which has a prompt for typing the input.
+
+   The status-line shows, from left to right, the side of the board
+that you are viewing (_Tab_ key changes this), the current grid values,
+if new lines are restricted to 45 degrees, which type of 45 degree line
+mode is active, whether rubberband move and rotate mode is on (R), and
+the zoom factor.  This information is followed by the active
+line-width, via-size and drilling hole, keepaway spacing, and text
+scaling. Last is the active buffer number and the name of the layout.
+An asterisk appearing at the far left indicates that the layout has
+been modified since the last save.  Note that the name of the layout is
+not the same thing as the filename of the layout.  Change the grid
+factor to 1.0 mm from the Screen menu. Observe how the status line
+shows the new grid setting. Except for the case of the metric grid, all
+dimensions in the status line are in units of 0.001 inch (1 mil).
+
+   The input-field pops up (temporarily replacing the status-line)
+whenever user input is required. Two keys are bound to the input field:
+the _Escape_ key aborts the input, _Return_ accepts it. Let's change
+the name of a component on the board to see how the input-field works.
+Position the cross hair over R5, and press the _N_ key. The input field
+pops-up showing the name for you to edit. Go ahead and change the name,
+then hit return. Notice the name of the element changed. Now undo the
+change by pressing the _U_ key. You can position the cross hair over
+the name, or the element before pressing the _N_ key.
+
+   Now select `realign grid' from the Screen menu. Notice that the
+status line has been replaced with an instruction to position the cursor
+where you want a grid point to fall. In this case, since the cross hair
+can only fall on a grid point, you must move the tip of the finger
+cursor to the place where you want a grid point to appear. Do not worry
+that the cross hair is not coincident with the cursor. Click _Btn1_ at
+your chosen location. See how the grid has shifted, and the status line
+has returned.
+
+   The present cross hair position is displayed in the upper right
+corner of the window.  Normally this position is an absolute
+coordinate, but you can anchor a marker at the cross hair location by
+pressing _Ctrl-M_ (try it now) and then the display will read both the
+absolute cross hair position as well as the difference between it and
+the marker. The numbers enclosed in < > are the X and Y distances
+between the cross hair and the mark, while the numbers enclosed in
+parenthesis are the distance and angle from the mark to the cross hair.
+The values displayed are always in units of 0.001 inch (1 mil).
+Pressing _Ctrl-M_ again turns the marker off.
+
+
+File: pcb.info,  Node: Panner Control,  Next: Layer Controls,  Prev: Status-line and Input-field,  Up: Application Window
+
+The Panner Control
+------------------
+
+   The panner control, located at the upper left side of the window, is
+used to adjust what portion of the layout is seen in the Layout area.
+The outer rectangle of the panner represents the whole layout (extended
+to have the panner aspect ratio), while the inner control rectangle
+represents the portion seen through the Layout area. Slowly drag this
+part around with the mouse (_Btn1_) to see how it pans the layout.
+Release the panner control, but leave the pointer within the outer most
+rectangle of the control. Now hit a few keyboard arrow keys. Each arrow
+key moves the region seen one-half window size in the arrow direction.
+If you want to see a portion of the layout that is off the top of the
+screen, you need to drag the panner up, or hit the up arrow key.
+
+   Move the pointer back into the Layout area.  Increase the zoom by
+hitting the _Z_ key. See how the inner part of the panner becomes
+smaller to reflect that you are viewing a smaller part of the layout.
+Now zoom out by hitting _Shift-Z_. If you hit the arrow key with the
+pointer in the Layout area, it moves the pointer rather than scrolling
+the window. In general the keyboard shortcuts depend on which region of
+`Pcb's' window the pointer is over. For the most part, the key strokes
+in this manual refer to the case when the pointer is in the Layout
+area. You can do fine scrolling in the Layout area by dragging it
+directly with the Panner tool. Press the _Escape_ key to select the
+panner tool.  Now drag in the layout area with _Btn1_ down. You can
+scroll the drawing window while the pointer is inside it with
+_Mod-Arrow_ keys.
+
+   If you are moving or drawing an object and go beyond the drawing
+window borders, the window will auto-scroll. If you want to stop the
+auto-scrolling while the pointer is outside the Layout area, simply
+pass the pointer briefly over the panner control area, or a menu button.
+
+   Another way to navigate around a layout is with _Shift-Btn3_.  When
+pressed down, the layout will zoom so the whole extent of objects is
+visible, and will return to the previous zoom when you release the
+button, but will be centered at the cross hair position where the
+button is released. You can do this while in the middle of drawing an
+object. Try it now to center near U7.
+

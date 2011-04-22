@@ -1,0 +1,153 @@
+<html lang="en">
+<head>
+<title>Layout File - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="File-Formats.html#File-Formats" title="File Formats">
+<link rel="prev" href="Basic-Types.html#Basic-Types" title="Basic Types">
+<link rel="next" href="Element-File.html#Element-File" title="Element File">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Layout-File"></a>Next:&nbsp;<a rel="next" accesskey="n" href="Element-File.html#Element-File">Element File</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Basic-Types.html#Basic-Types">Basic Types</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="File-Formats.html#File-Formats">File Formats</a>
+<hr><br>
+</div>
+
+   <p><a name="index-layout-files_002c-format-of-741"></a><a name="index-format-of-layout-files-742"></a><a name="index-file-format_002c-layout-data-743"></a>
+
+<h3 class="section">7.2 Layout File Format</h3>
+
+<p>The layout file describes a complete layout including symbols, vias,
+elements and layers with lines, rectangles and text. This is the most
+complex file of all.
+
+<pre class="example">     File            = Header Font PCBData
+     Header          = PCBName [GridData] [CursorData] [PCBFlags] [Groups]
+     PCBName         = "PCB(" Name Width Height ")"
+     GridData        = "Grid(" Grid GridOffsetX GridOffsetY ")"
+     CursorData      = "Cursor(" X Y zoom ")"
+     PCBFlags        = "Flags(" Flags ")"
+     Groups          = "Groups(" GroupString ")"
+     Styles		= "Styles(" StyleString ")"
+     Font            = {FontData}...
+     FontData        = {Symbol}...
+     Symbol          = "Symbol(" SymbolID Spacing ")"
+     		      "(" {SymbolData}... ")"
+     SymbolData      = {SymbolLine}...
+     SymbolLine      = "SymbolLine(" X1 Y1 X2 Y2 Thickness ")"
+     PCBData         = {Via | Layer | Element}...
+     
+     Via             = "Via(" X Y Thickness DrillingHole Name Flags ")"
+     
+     Element         = "Element(" Flags Description LayoutName Value \
+     		      TextX TextY direction scale TextFlags")"
+     		      "(" {ElementData}... [Mark] ")"
+     ElementData     = {ElementLine | Pad | Pin | ElementArc }...
+     ElementArc      = "ElementArc(" X Y Width Height
+     		      StartAngle DeltaAngle Thickness ")"
+     ElementLine     = "ElementLine(" X1 Y1 X2 Y2 Thickness ")"
+     Mark            = "Mark(" X Y ")"
+     Pad             = "Pad(" X1 Y1 X2 Y2 Thickness Name PinNumber Flags")"
+     Pin             = "Pin(" X Y Thickness DrillingHole Name PinNumber Flags ")"
+     
+     Layer           = "Layer(" LayerNumber Name ")"
+     		      "(" {LayerData}... ")"
+     LayerData       = {Line | Polygon | Text}...
+     Line            = "Line(" X1 Y1 X2 Y2 Thickness Flags")"
+     Arc		= "Arc(" X Y Width Height StartAngle DeltaAngle Thickness Flags")"
+     Polygon         = "Polygon(" Flags ")" \
+     		      "(" {Points}... ")"
+     Points          = "(" X Y ")"
+     Text            = "Text(" X Y direction scale TextData Flags")"
+</pre>
+     <dl>
+<dt><span class="samp">PCBName</span><dd>is used to define the layout's name which is independent of its filename. 
+It is displayed in the lower left corner of the main window.
+
+     <br><dt><span class="samp">GridData</span><dd>is optional and is used to save the grid setting and offset which were set
+at the time the layout was saved.
+
+     <br><dt><span class="samp">CursorData</span><dd>also is an optional parameter to save the last cursor location and zoom value. 
+The real zoom factor is calculated by scale = 1:(2 power value).
+
+     <br><dt><span class="samp">PCBFlags</span><dd>determine how to draw lines and which name of the elements should be
+displayed.
+     <pre class="example">              bit 4:  do rubberband moves and rotates if set
+              bit 5:  display description of elements if set
+              bit 6:  display unique name of an element if set
+              bit 7:  use absolute grid if set
+              bit 8:  don't clip lines to 45 degrees
+     </pre>
+     <br><dt><span class="samp">Groups</span><dd>Layergroups are saved by using this optional parameter. The only way of
+changing them is to use an editor and alter the appropriate line. The
+characters <em>c,s</em> identify the component- and solder-side for SMD
+objects.
+
+     <br><dt><span class="samp">Symbol</span><dd>See the description of font files in this chapter.
+
+     <br><dt><span class="samp">Via</span><dd>Vias are always connected to all layers which also means vias are one
+logical level ahead of layers. Vias are defined by position, size, name and
+by some flags.
+     <pre class="example">              bit 0:  always clear
+              bit 1:  always set
+              bit 2:  set if via was found during a connection search
+              bit 4:  set if via is a hole (has no copper annulus)
+              bit 5:  display the vias name
+              bit 6:  via has been selected
+              bit 12: set if via has octagonal shape
+              Other bits have special meaning and should not be changed
+              by the user.  See const.h for more information
+     </pre>
+     <br><dt><span class="samp">Element</span><dd>See the description of element files in this chapter.
+
+     <br><dt><span class="samp">Layer</span><dd>A layer is the central object from the user's point of view. It holds all
+connections and all text objects. Up to 8 may be used individually. 
+Its number, starting with one, and its name are read as arguments.
+
+          <dl>
+<dt><span class="samp">Line</span><dd>All lines are identified by their start and endpoints together with their
+thickness and some flags. They have to fit a 45 degree scheme.
+          <pre class="example">                   bit 2:  set if line was found during a connection search
+                   bit 4:  line is a rat-line
+                   bit 6:  line has been selected
+          </pre>
+          <br><dt><span class="samp">Polygon</span><dd>used to fill a larger area with <span class="samp">copper</span>. The coordinates specify the
+corners. The flags are:
+          <pre class="example">                   bit 2:  set if polygon was found during a connection search
+                   bit 4:  polygon is a 1.5 style polygon that automatically clears pins
+                   bit 6:  polygon has been selected
+          </pre>
+          <br><dt><span class="samp">Text</span><dd>You may use text objects to add information to your board. An example would
+be naming a connector or marking pin one of it. The position marks the
+lower left corner of the string which is also a fix-point for rotations. 
+Text directions are independent to those of lines. They are counted from
+zero to three with a meaning of zero to 270 degree rotations counter-clockwise. 
+The scaling value is a positive integer which determines a zoom factor in
+percent.
+          <pre class="example">                   bit 6:  the text has been selected
+                   bit 7:  the text is on the solder (back) side of the board
+                   bit 10: the text is on the silkscreen layer
+          </pre>
+          </dl>
+
+   </dl>
+
+   </body></html>
+

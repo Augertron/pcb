@@ -1,0 +1,61 @@
+<html lang="en">
+<head>
+<title>Lines - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Drawing-and-Removing.html#Drawing-and-Removing" title="Drawing and Removing">
+<link rel="prev" href="Common.html#Common" title="Common">
+<link rel="next" href="Arcs.html#Arcs" title="Arcs">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Lines"></a>Next:&nbsp;<a rel="next" accesskey="n" href="Arcs.html#Arcs">Arcs</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Common.html#Common">Common</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Drawing-and-Removing.html#Drawing-and-Removing">Drawing and Removing</a>
+<hr><br>
+</div>
+
+   <p><a name="index-lines_002c-an-example-83"></a><a name="index-example-of-line-handling-84"></a>
+
+<h4 class="subsection">3.5.1 Lines</h4>
+
+<p>To draw new lines you have to be in <em>line-mode</em>. Get there either by
+selecting it from the <em>Tool palette</em> or by pressing <em>&lt;Key&gt;F2</em>. 
+Each successive <em>notify</em> event creates a new line. The
+adjustment to 45 degree lines is done automatically if it is selected from the
+<em>Display</em> menu. You can toggle the 45 degree mode setting by
+pressing the <em>&lt;Key&gt;.</em> (That is the period key). When 45 degree enforcement
+is turned on there are three distinct modes of line creation: a single
+line on the closest 45 degree vector towards the cross hair (but not necessarily
+actually ending at the cross hair), two lines created such that the first leaves
+the start point on a 90 degree vector and the second arrives at the cross hair
+on a 45 degree vector, and finally two lines created such that the first leaves
+the start point on a 45 degree vector and the second arrives at the cross hair
+on a 90 degree vector.  These last two modes always connect all the way from
+the start and end points, and all lines have angles in 45 degree multiples. 
+The <em>&lt;Key&gt;/</em> cycles through the three modes.  The status line shows a
+text icon to indicate which of the modes is active and the lines following
+the cross hair motion show the outline of the line(s) that will actually be created. 
+Press <em>&lt;Key&gt;Escape</em> to leave line-mode.
+
+   <p><em>&lt;Key&gt;l</em>, <em>Shift&lt;Key&gt;l</em> and the entries in the
+<em>Sizes</em> menu change the initial width of new lines.  This width is also
+displayed in the status line.
+
+   </body></html>
+

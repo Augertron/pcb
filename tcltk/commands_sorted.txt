@@ -1,0 +1,290 @@
+tcl command set for pcb
+
+-------------------------------------------
+"" - optional
+<> - user value
+[] - constrained value
+-------------------------------------------
+-------------------------------------------
+BY NP
+ **   - Command definition differ from previous
+                 commands_sorted.txt(before made following changes).
+          Shows actual implementation in tclcommand*.c file.
+ ++  - Command newly implemented.
+ XX - Command removed from previous list.
+-------------------------------------------
+
+arc draw <llx,lly> <urx,ury>
+
+buffer
+buffer "[1|2|3|4|5]" add
+buffer "[1|2|3|4|5]" breakup
+buffer "[1|2|3|4|5]" clear
+buffer "[1|2|3|4|5]" convert
+**buffer "[1|2|3|4|5]" copy "<x> <y>"
+**buffer "[1|2|3|4|5]" cut  "<x> <y>"                                 --  Use CrossHair data.
+buffer "[1|2|3|4|5]" mirror [X|Y]                                        --  Use CrossHair data.
+buffer "[1|2|3|4|5]" load [layout|element] <filename>
+**buffer "[1|2|3|4|5]" paste                                              --  No need to have X,Y value!
+buffer "[1|2|3|4|5]" rotate [90|180|270|-90|-180|-270]
+buffer "[1|2|3|4|5]" save <filename>
+buffer [1|2|3|4|5] select
+
+crosshair "<x> <y>"
+
+delete object [all|connected]
+**delete object "<x> <y>"                                              --  Use CrossHair data.
+delete "selected"
+delete track
+delete track [all|auto_only]
+
+deselect object [all|connected]
+**deselect object "<x> <y>"                                          --  Use CrossHair data.
+
+drc overlap <minoverlap>                                             --  Returns back Settings data.
+drc run
+drc space <minspace>                                                 --  Returns back Settings data.
+drc width <minwidth>                                                    --  Returns back Settings data.
+drc silk <minwidth>                                                       --  Returns back Settings data.
+                                                                                 --  Returns back Settings data.
+drill summary
+drill vendor
+
+
+++**element display_name [object|selected_elements]
+                                                                                 -- Toggles name display of Object or Selected elements.
+++**element breakup "[<x> <y>]"                                    -- Convert element into pieces.
+element flip_selected                                                    -- Flip selected elements to other side
+element save_connections [<name>|all] <filename>          -- Save specified/all connection to a file
+element save_unused_pins <filename>                          --  Save unused pins to a file.
+**element square "[on|off]"                                            -- Toggles square flag.
+
+
+grid display "[on|off]"                                                   -- Toggles Grid display.
+grid get "[value|units]"                                                 -- Report Grid value and/or units.
+grid set "[+|-]"<value>"[mil|mm]"                                    -- Set grid value in mil or mm.
+grid realign
+
+**layer active "[<number>|<layername>]"                          -- Returns active layer name.
+**layer color "["[<number>|<layername>]" "<colorname>"]"  -- Reports/Changes color of currentlayer/specified layer.
+layer group <l1,l2,...>                                                     --
+**layer invisible "[<number>|<layername>|all]"                   -- Reports/Changes invisibility of currentlayer/specified layer.
+**layer name ""[<layername>|all]" <newname>"                 -- Reports/Changes name of currentlayer/specified layer.
+**layer visible "[<number>|<layername>|all]"                     -- Reports/Changes visibility of currentlayer/specified layer.
+++** layer members [<number>|<layername>]                    -- Reports group members .
+++**layer toggle_visible [<number>|<layername>]              -- Toggles visibility of layer.
+++**layer is_visible [<number>|<layername>]                    -- Reports visibility of layer.
+
+
+
+layout center
+layout name "<layoutname>"                                       -- Reports/Changes name of layout.
+layout new
+layout load <filename>
+layout redraw
+layout save "<filename>"                                            -- Save/Save As layout. Raise FileDialog if saving first time filename not specified.
+layout size "<width> <height>"                                    --  Reports/changes size of layout.
+layout size_range                                     	      --  Reports mix/max size of layout.
+min/max width and height
+layout view "<ulx> <uly> <brx> <bry>"                         --  Reports/changes viewport bounds of layout.
+
+library elements <libraryname>
+library info
+++**library pick <name>
+
+line draw <llx,lly> <urx,ury>
+**line size "[+|-]"<value> "[mm|mil]"                              -- Change size of line thickness.
+++**line size_range                                                    -- Report min/max line size.
+++**line selected_size "[+|-]"<value> "[mm|mil]"             -- Change size of selected lines.
+**line clearance "[+|-]"<value> "[mm|mil]"                              -- Change clearance around line.
+++**line selected_clearance "[+|-]"<value> "[mm|mil]"             -- Change clearance around selected lines.
+
+mode [arrow|delete|pan|lock|rotate|insert_point]
+mode [via|line|arc|text|rectangle|polygon|paste_buffer|thermal]
+mode [notify|release|restore|save|stroke]
+
+netlist add_rats [all|selected]                                     -- Add Selected/All rats.
+++**netlist clearance "[+|-]"<value> "[mm|mil]"             -- Set/Report minimum separation between two nets.
+++**netlist clearance_range                                      -- Report min/max net clearance..
+netlist delete_rats [all|selected]                                  -- Remove Selected/All rats.
+netlist optimize_rats                                                  -- Optimize rats
+++**netlist disable [<net-name>|all]                            -- Disable all/specified net.
+++**netlist enable [<net-name>|all]                             -- Enable all/specified net.
+netlist connections <netname>                                   -- Report pin junctions for specified net.
+netlist load <filename>                                              -- Load netlist data from netlist file.
+netlist info                                                               -- Report avaliable nets.
+netlist show_pin <pinname>                                      -- Select specified pin.
+netlist show_net <netname>                                      -- Select specified net.
+++**netlist style <netname>                                       -- Report style of specified net.
+
+**object connections "<x> <y>"                                  --  Use CrossHair data if X, Y value not given.
+++**object clearance "[selected_arcs|selected_lines|selected_objects|selected_pads|selected_pins|selected_vias]" <"[+|-]"size>
+                                                                             --   Changes clearance of objects.( refer polygon toggle_clearance for more info).
+object convert "element"                                           -- Convert selected elements into elements
+object copy buffer [1|2|3|4|5] "<x> <y>"                       -- Don't get exact meaning. Required?
+object cut buffer [1|2|3|4|5] "<x> <y>"                          -- Don't get exact meaning. Required?
+**object delete "<x> <y>"                                          --  Use CrossHair data.
+++**object display_name "<x> <y>"                            --  Toggles name dispaly of pin/pad/vias/elements under x,y/pointer.
+++**object hole "seleted" "[+|-]"<size>                        --  Changes drill hole size of (Selected) objects.
+**object insert "<x> <y>"                                           --  Use CrossHair data.
+++**object move "[otherside|current|[<layer-num>|<layername>]]"
+                                                                              --   Move object to otherside/ specified layer.
+++**object name "<x><y>"                                         -- change name of object under X,Y/Pointer point.
+object paste buffer [1|2|3|4|5] "<x> <y>"                       -- Don't get exact meaning. Required?
+object report                                                            -- report parameters of selected objects.
+++L**object report [-list|-dialog]                                        -- -list flag forces to report summary of selected object.
+                                                                                  -dialog flag displays report in small window.
+**object rotate "[cw|ccw]" "<x> <y>"                           -- Rotate object in CW/CCW direction .
+**object select "<x> <y>"                                         --  Implemented. Not required! Not mentioned in this file before. Use CrossHair data.
+++** object size "selected" <"[+|-]"size>                    --  Changes size of (Selected) objects.
+++** object square "selected" "[on|off]"                       --  Changes suqare flag of (Selected) objects.
+
+++**option all_dir_lines "[on|off|toggle]"                       -- Toggles/Report all_dir_lines flag. Not written in this file before!
+option auto_enforce_drc_clearance "[on|off]"              -- Set/Report appropriate flag.
+option auto_swap_line_start_angle "[on|off]"                -- Set/Report appropriate flag.
+option auto_zero_delta_measurements "[on|off]"           -- Set/Report appropriate flag.
+option check_polygons "[on|off]"                               -- Set/Report appropriate flag.
+option crosshair_shows_drc_clearance "[on|off]"         -- Set/Report appropriate flag.
+option crosshair_snaps_to_pins_pads "[on|off]"           -- Set/Report appropriate flag.
+++**option cycle_clip "[on|off]"                                  -- Set/Report appropriate flag.
+option new_lines_arcs_clear_polygons "[on|off]"         --Set/Report appropriate flag.
+option only_autorouted_nets "[on|off]"                        -- Set/Report appropriate flag.
+option orthogonal_moves "[on|off]"                            -- Set/Report appropriate flag.
+option rubber_band_mode "[on|off]"                          -- Set/Report appropriate flag.
+option show_autorouter_trials "[on|off]"                      -- Set/Report appropriate flag.
+option thin_draw "[on|off]"                                       -- Set/Report appropriate flag.
+option unique_element_names "[on|off]"                    -- Set/Report appropriate flag.
+option pinout_shows_number_not_name "[on|off]"       -- Set/Report appropriate flag.
+
+pad name <padname>
+pad report
+**pad  size "[+|-]"<value> "[mm|mil]"                               -- Change size of selected pads.
+
+pin name <pinname>
+pin square "[on|off]"                                                     --  Toggles/Set square flag for selected pins.
+**pin hole "[+|-]"<value> "[mm|mil]"                                --  Change size of selected Drill hole.
+pin report
+**pin size "[+|-]"<value> "[mm|mil]"                                --  Change size of selected Pins.
+**pin clearance "[+|-]"<value> "[mm|mil]"                                --  Change clearance around selected Pins.
+
+pinout create "<x> <y>"                                              -- Creates pinout window
+pinout [delete|redraw]                                                 -- Delete/Redraw pinout window
+++**pinout name                                                        -- Report name of element
+++**pinout title                                                          -- Report title of element in pinout window
+++**pinout height                                                       -- Report height of pinout window
+++**pinout width                                                        -- Report width of pinout window
+++**pinout zoom "[in|out]"                                           -- Reports/Set zoom of pinout window.
+
+
+place
+
+++**pointer "["[+|-]"<deltax> "[+|-]"<deltay>]"                 --   Reports/Move pointer to relative direction according to x,y value.
+++**pointer "[up|down|left|right]"                                   --   Move pointer to relative direction to 1 unit.
+++**pointer mark "[center|set|reset]"                              --   Toggle/Set/Reset/Center crosshair marking.
+
+polygon draw <x1,y1> <x2,y2>, ... <xN,yN>
+polygon close
+polygon previous
+++**polygon toggle_clearance [object|selected_lines|selected_arcs|selected_objects]
+                                                                                -- Changes joint clearance of objects with Polygon.
+
+
+print driver "[ps|eps|gerber]"                                                                 -- Set/Report printing driver.
+**print rotate "[on|off]"                                                                          -- Set/Report rotate flag for printing.
+**print mirror "[on|off]"                                                                          -- Set/Report mirror flag for printing.
+**print color "[on|off"]                                                                           -- Set/Report color flag for printing.
+**print invert "[on|off]"                                                                          -- Set/Report invert flag for printing.
+**print outline "[on|off]"                                                                         -- Set/Report outline flag for printing.
+**print alignment "[on|off]"                                                                     -- Set/Report  alignment flag for printing.
+**print drillhelper "[on|off]"                                                                    -- Set/Report drillhelper flag for printing.
+**print dos "[on|off]"                                                                             -- Set/Report dos flag for printing.
+print scale <value>                                                                             -- Set/Report  printing scale.
+print media [a3|a4|a5|letter|ledger|legal|executive|C|D|11x17|user]             -- Set/Report  printing media.
+print <filename>                                                                                  -- Print/Report in PrintFile.
+**print offset <x> <ly>                                                                          -- Not required??? Not avail in this command list!
+
+quit
+
+rectangle draw <llx> <lly> <urx> <ury>
+
+redo
+
+route [all|rats]
+route optimize                                                                                    -- Optimize according to flag set..
+route optimize auto "[on|off]"                                                                -- Optimize/Set according to flags.
+route optimize auto_routed_only "[on|off]"
+route optimize debumpify "[on|off]"
+route optimize miter "[on|off]"
+**route optimize orthopull "[on|off]"
+route optimize simple "[on|off]"
+route optimize unjaggy "[on|off]"
+**route optimize vianudge "[on|off]"
+**route optimize viatrim "[on|off]"
+
+**scan "connection"                                                                        -- scan connected objects with selected object.
+scan reset [pads_pins_vias|lines_polygons|all]
+
+select element <name>
+select object [all|connected]
+select object "<x> <y>"                                                                    -- select object on x,y(or behind cursor) point on layout.
+select pad <name>
+select pin <name>
+select text <name>
+select via <name>
+
+show element_name "[description|reference|value]"                          --  Shows different element parameter or reports current
+                                                                                                                feature of element_name.
+show solder_mask "[on|off]"                                                            -- Set/Reports solder_mask.
+**show solder_side "[on|off|toggle]"                                                 -- Set/Toggles/Reports solder side flag.
+++**show vias "[on|off]"                                                                 -- Set/Toggles vias visibility.
+++**show pins_pads "[on|off]"                                                        -- Set/Toggles  pin and pads visibility.
+++**show far_side "[on|off]"                                                           -- Set/Toggles far side visibility.
+++**show rats "[on|off]"                                                                 -- Set/Toggles rats visibility.
+
+>> [Style number range : 1-4]  <<
+style adjust <stylename>
+**style info                                                                                   -- Report all style information
+**style use "[<stylename>|<styleNum>]"                                            -- Use/Report specified/current style.
+++**style "[<stylename>|<styleNum>]" clearance "<newvalue>"           --  Report/Set clearance of specified/current style.
+++**style "[<stylename>|<styleNum>]" line_width "<newvalue>"           --  Report/Set line width of specified/current style.
+++**style "[<stylename>|<styleNum>]" name       "<newvalue>"           --  Report/Set name of specified/current style.
+++**style "[<stylename>|<styleNum>]" via_hole  "<newvalue>"            --  Report/Set via diameter of specified/current style.
+++**style "[<stylename>|<styleNum>]" via_size  "<newvalue>"             --  Report/Set via hole size of specified/current style.
+++**style "[<stylename>|<styleNum>]" via_hole_range                        -- Report min/max via hole for current/specified style.
+++**style "[<stylename>|<styleNum>]" via_size_range                        -- Report min/max via size for current/specified style.
+++**style "[<stylename>|<styleNum>]" line_width_range                     -- Report min/max line_width
+++**style "[<stylename>|<styleNum>]" clearance_range                      -- Report min/max clearance
+style number                                                                                 -- Report current style number.
+
+
+XX**style clearance "<clearance>"                                                 -- Report/Set clearance.
+XX**style line_width <linewidth>                                                     -- Report/Set line width.
+XX**style name <stylename>                                                          -- Report/Set current style anme.
+XX**style via_hole <viahole>                                                         -- Report/Set via drilling hole.
+XX**style via_size <viasize>                                                          -- Report/Set via size.
+
+**text draw <string>  "<x> <y>"                                                       -- Draw text on current layer on specified X, Y point or using crosshair data.
+**text size "[+|-]"<value> "[mm|mil]"                                                 --  Change size of selected Texts.
+text scale <"[+|-]"value>                                                                --  Set/Report text size.
+++**text scale_range                                                                     --  Report min/max text size.
+
+thermal toggle <x> <y>
+
+undo
+undo clear
+
+**via draw <x> <y>                                                                      -- Draw via on current layer on specified X, Y point or using crosshair data.
+++**via hole "[+|-]"<value> "[mm|mil]"                                            --  Change size of via drilling hole.
+++**via selected_hole "[+|-]"<value> "[mm|mil]"                                            --  Change size of selected via drilling hole.
+++**via size "[+|-]"<value> "[mm|mil]"                                             --  Change size of via.
+++**via selected_hole "[+|-]"<value> "[mm|mil]"                               --  Change size of selected via drilling hole.
+++**via selected_size "[+|-]"<value> "[mm|mil]"                                --  Change size of selected via.
+++**via hole_range                                                                      --  Report min/max via hole.
+++**via size_range                                                                      --  Report min/max via size.
+**via clearance "[+|-]"<value> "[mm|mil]"                              -- Change clearance around via.
+++**via selected_clearance "[+|-]"<value> "[mm|mil]"             -- Change clearance around selected vias.
+
+**zoom                                                                                       -- Reports currrent zoom setting.
+zoom [in|out]
+**zoom set <n>:<d> | "[+|-]"<value>                                               -- Set zoom with or without reference to old zoom value.
+

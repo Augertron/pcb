@@ -1,0 +1,52 @@
+<html lang="en">
+<head>
+<title>Net Objects - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Intro.html#Intro" title="Intro">
+<link rel="prev" href="Text-Objects.html#Text-Objects" title="Text Objects">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Net-Objects"></a>Previous:&nbsp;<a rel="previous" accesskey="p" href="Text-Objects.html#Text-Objects">Text Objects</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Intro.html#Intro">Intro</a>
+<hr><br>
+</div>
+
+   <p><a name="index-rats_002dnest-20"></a><a name="index-netlist-21"></a>
+
+<h3 class="section">2.9 Nets</h3>
+
+<p>Layout files also contain the netlist that describes how the elements
+are supposed to be interconnected. This list of connections can be
+loaded from a netlist file (see <a href="Netlist-File.html#Netlist-File">Netlist File</a>), or
+entered by drawing rat-lines as described
+previously. Each net has a name and routing style associated with it. 
+The net contains a list of all element <em>layout-name</em> names and
+pin <em>numbers</em> that should
+be connected to the net. Loading a netlist file will replace all
+existing nets with the ones from the file. 
+The <em>Netlist</em> window provides an easy way to
+browse through the net list. You can display the rat's-nest by selecting
+<span class="samp">optimize rats-nest</span> from the <b>Connects</b> menu. If you move or rotate elements,
+the rat's-nest will automatically follow the movements, but they won't
+necessarily show the shortest paths until you optimize them again.
+
+<!--  chapter 2 - -->
+</body></html>
+

@@ -1,0 +1,1163 @@
+This is pcb.info, produced by makeinfo version 4.1 from pcb.texi.
+
+INFO-DIR-SECTION Miscellaneous
+START-INFO-DIR-ENTRY
+* pcb: (pcb).                   An interactive printed circuit board editor.
+END-INFO-DIR-ENTRY
+
+   This file documents how to use Pcb, the interactive printed circuit
+board layout system for `X11'.
+
+   Copyright (C) 1994,1995,1996, 2004 Thomas Nau
+
+   Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002 harry eaton
+
+   Copyright (C) 2003, 2004 Dan McMahill
+
+   Copyright (C) 2004 DJ Delorie
+
+   This program is free software; you may redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or (at
+your option) any later version.
+
+   This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANT-ABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+
+
+File: pcb.info,  Node: Library Creation,  Next: Schematic Frontends,  Prev: File Formats,  Up: Top
+
+Library Creation
+****************
+
+   This chapter provides a detailed look at how footprint libraries are
+created and used.  The chapter is split into two section, the first
+section covers the "old" style libraries which use the `m4' macro
+processor and the second section covers the "new" style libraries.
+
+   Despite the names "old" and "new", both styles of libraries are
+useful and the "old" style should not be discounted because of its
+name.  The advantage of the old style libraries is that one can define
+a family of footprints, say a DIP package, and then quickly produce all
+the members of that family.  Because the individual packages make use
+of a base definition, corrections made to the base definition propagate
+to all the members of a family.  The primary drawback to using this
+library approach is that the effort to create a single footprint is
+more than a graphical interface and may take even longer if the user
+has not used the `m4' macro language previously.
+
+   The new style of footprint libraries stores each footprint in its own
+file.  The footprints are created graphically by placing pads and then
+converting a group of pads to a component.  This library method has the
+advantage of being quick to learn and it is easily to build single
+footprints quickly.  If you are building a family of parts, however, the
+additional effort in creating each one individually makes this approach
+undesirable.  In addition, creating a part with a large pin count can
+be quite tedious when done by hand.
+
+Old Style (m4) Libraries
+========================
+
+   The old style libraries for pcb use the `m4' macro processor to
+allow the definition of a family of parts.  There are several files
+associated with the old style library.  The file `common.m4' is the top
+level file associated with the library.  `common.m4' defines a few
+utility macros which are used by other portions of the library, and
+then includes a predefined set of library files (the lines like
+`include(geda.inc)').
+
+Overview of Oldlib Operation
+----------------------------
+
+   The big picture view of the old style library system is that the
+library is simply a collection of macro definitions.  The macros are
+written in the `m4' macro language.  An example of a macro and what it
+expands to is the following.  One of the predefined footprints in the
+library which comes with PCB is the `PKG_SO8' macro.  Note that all the
+footprint macros begin with `PKG_'.  For this particular example,
+`PKG_SO8' is a macro for an 8-pin small outline surface mount package.
+All of the footprint macros take 3 arguments.  The first is the
+canonical name of the footprint on the board.  In this case "SO8" is an
+appropriate name.  The second argument is the reference designator on
+the board such as "U1" or "U23".  The third and final argument is the
+value.  For an integrated circuit this is usually the part number such
+as "MAX4107" or "78L05" and for a component such as a resistor or
+capacitor it is the resistance or capacitance.  The complete call to the
+macro in our example is `PKG_SO8(SO8, U1, MAX4107)'.  When processed by
+`m4' using the macros defined in the PCB library, this macro expands to
+     Element(0x00 "SO8" "U1" "MAX4107" 146 50 3 100 0x00)
+     (
+     	Pad(10 25 38 25 20 "1" 0x00)
+     	Pad(10 75 38 75 20 "2" 0x100)
+     	Pad(10 125 38 125 20 "3" 0x100)
+     	Pad(10 175 38 175 20 "4" 0x100)
+     	Pad(214 175 242 175 20 "5" 0x100)
+     	Pad(214 125 242 125 20 "6" 0x100)
+     	Pad(214 75 242 75 20 "7" 0x100)
+     	Pad(214 25 242 25 20 "8" 0x100)
+     	ElementLine(0 0 151 0 10)
+     	ElementArc(126 0 25 25 0 180 10)
+     	ElementLine(101 0 252 0 10)
+     	ElementLine(252 0 252 200 10)
+     	ElementLine(252 200 0 200 10)
+     	ElementLine(0 200 0 0 10)
+     	Mark(29 25)
+     )
+   which is the actual definition of the footprint that the PCB program
+works with.  As a user of PCB the only time you will need or want to run
+`m4' directly is when you are debugging a new library addition.  In
+normal operation, the calls to `m4' are made by helper scripts that
+come with PCB.
+
+   Tools such as `gsch2pcb' (used to interface the gEDA schematic
+capture program to PCB layout) will call `m4' to produce an initial PCB
+layout that includes all the components on a schematic.  In addition,
+when manually instantiating parts from within PCB, `m4' will be called
+by PCB's helper scripts to produce the footprints.
+
+The Library Scripts
+-------------------
+
+   There are several scripts that are used for processing the m4
+libraries.  This section briefly describes these scripts and details how
+they are used by PCB.
+
+Scripts Used During Compilation
+...............................
+
+   The scripts described in this section are used during compilation of
+PCB.  They are run automatically by the build system, but are described
+here to help document the complete library processing that occurs.
+During the build of PCB, the following actions are taken.  The
+`CreateLibrary.sh' script is run to produce an M4 "frozen file".  This
+frozen file is simply a partially processed M4 input file which can be
+loaded by M4 more quickly than the original input file.
+
+   A typical call to `CreateLibrary.sh' used during the compilation of
+PCB is:
+     ./CreateLibrary.sh -I . pcblib ./common.m4 TTL_74xx_DIL.m4
+     connector.m4 crystal.m4 generic.m4 genericsmt.m4 gtag.m4
+     jerry.m4 linear.m4 logic.m4 lsi.m4 memory.m4 optical.m4 pci.m4
+     resistor_0.25W.m4 resistor_adjust.m4 resistor_array.m4
+     texas_inst_amplifier.m4 texas_inst_voltage_reg.m4
+     transistor.m4 geda.m4
+   The `-I .' says to search in the current directory for the `.m4'
+files.  The output frozen file is `pcblib'.  The main `common.m4' file
+is listed as well as all of the `*.m4' files which define the
+components in the library.
+
+   In addition, a library contents file is created during the build with
+the `CreateLibraryContents.sh' script.  A typical call to
+`CreateLibrary.sh' used during the compilation of PCB is:
+     ./CreateLibraryContents.sh -I . ./common.m4 TTL_74xx_DIL.list
+     connector.list crystal.list generic.list genericsmt.list gtag.list
+     jerry.list linear.list logic.list lsi.list memory.list optical.list
+     pci.list resistor_0.25W.list resistor_adjust.list resistor_array.list
+     texas_inst_amplifier.list texas_inst_voltage_reg.list transistor.list
+     geda.list > pcblib.contents
+
+   The `pcblib.contents' file is used by the PCB program to define the
+libraries and components which will be displayed when you bring up the
+library window from within PCB.  An example of part of the
+`pcblib.contents' file is:
+     TYPE=~TTL 74xx DIL
+     7400_dil:N:7400:4 dual-NAND
+     7401_dil:N:7401:4 dual-NAND OC
+     7402_dil:N:7402:4 dual-NOR
+     TYPE=~geda
+     geda_DIP6:DIP6:DIP6:Dual in-line package, narrow (300 mil)
+     geda_DIP8:DIP8:DIP8:Dual in-line package, narrow (300 mil)
+     geda_DIP14:DIP14:DIP14:Dual in-line package, narrow (300 mil)
+     geda_ACY300:ACY300:ACY300:Axial non-polar component,
+   The `TYPE=' lines define the library name that will show up in the
+library window in PCB.  The other lines define the actual components in
+the library.
+
+Scripts Used by PCB at Runtime
+..............................
+
+   When PCB is first executed, it makes a call to the
+`ListLibraryContents.sh' script.  This script provides the PCB program
+with the contents of the library contents file created when PCB was
+compiled.  A typical call to `ListLibraryContents.sh' is
+     ../lib/ListLibraryContents.sh .:/tmp/pcb-20030903/src/../lib pcblib
+   This command says to search the path
+`.:/tmp/pcb-20030903/src/../lib' for a file called `pcblib.contents'
+(the `.contents' part is added automatically) and display the contents
+of the file.  PCB parses this output and generates the library window
+entries.
+
+   When you pick a library component from the library window, PCB calls
+the `QueryLibrary.sh' script to actually pull the footprint into the
+layout.  For example, when the ACY300 component is selected from the
+`~geda' library, the generated call may be:
+
+     /tmp/pcb-20030903/src/../lib/QueryLibrary.sh
+     .:/tmp/pcb-20030903/src/../lib pcblib geda_ACY300 ACY300
+     ACY300
+   If you were to run this command by hand you would see the PCB code
+for the element:
+     Element(0x00 "Axial non-polar component," "" "ACY300" 245 70 0 100 0x00)
+     (
+     	Pin(0 25 50 20 "1" 0x101)
+     	Pin(300 25 50 20 "2" 0x01)
+     
+     	ElementLine(0 25 75 25 10)
+     	ElementLine(225 25 300 25 10)
+     
+     	ElementLine(75 0 225 0 10)
+     	ElementLine(225 0 225 50 10)
+     	ElementLine(225 50 75 50 10)
+     	ElementLine(75 50 75 0 10)
+     
+     #       ElementArc(X1 Y 50 50 270 180 10)
+     #       ElementArc(X2 Y 50 50 90 180 10)
+     
+     	Mark(75 25)
+     )
+
+Creating an Oldlib Footprint
+----------------------------
+
+   This section provides a complete example of defining a family of
+footprints using the M4 style library.  As a vehicle for this example, a
+family of footprints for surface mount resistors and capacitors will be
+developed.   The file `example.inc' should have been installed on your
+system as `$prefix/share/examples/oldlib/example.inc' where `$prefix'
+is often times `/usr/local'.
+
+   The `example.inc' file defines a macro called `COMMON_PKG_RCSMT'
+which is a generic definition for a surface mount footprint with two
+identical, rectangular pads.  This macro will be called with different
+parameters to fill out the family of parts.  The arguments to the
+`COMMON_PKG_RCSMT' are:
+     # -------------------------------------------------------------------
+     # the definition for surface mount resistors and capacitors
+     # $1: canonical name
+     # $2: name on PCB
+     # $3: value
+     # $4: pad width   (in direction perpendicular to part)
+     # $5: pad length  (in direction parallel with part)
+     # $6: pad spacing (center to center)
+     # $7: distance from edge of pad to silk (in direction
+     #     perpendicular to part)
+     # $8: distance from edge of pad to silk (in direction parallel
+     #     with part)
+     # $9: Set to "no" to skip silk screen on the sides of the part
+
+     define(`COMMON_PKG_RCSMT',
+     	`define(`XMIN', `eval( -1*`$6'/2 - `$5'/2 - `$8')')
+     	define(`XMAX', `eval(  `$6'/2 + `$5'/2 + `$8')')
+     	define(`YMIN', `eval(-1*`$4'/2 - `$7')')
+     	define(`YMAX', `eval(   `$4'/2 + `$7')')
+     Element(0x00 "$1" "$2" "$3" eval(XMIN+20) eval(YMAX+20) 0 100 0x00)
+     (
+     	ifelse(0, eval($4>$5),
+     	# Pads which have the perpendicular pad dimension less
+     	# than or equal to the parallel pad dimension
+     	Pad(eval(-1*(   $6 + $5 - $4)/2) 0
+     	    eval((-1*$6 + $5 - $4)/2) 0 eval($4) "1" 0x100)
+     	Pad(eval(-1*(-1*$6 + $5 - $4)/2) 0
+     	    eval((   $6 + $5 - $4)/2) 0 eval($4) "2" 0x100)
+     	,
+     	# Pads which have the perpendicular pad dimension greater
+     	# than or equal to the parallel pad dimension
+     	Pad(eval(-1*$6/2) eval(-1*($4 - $5)/2)
+     	    eval(-1*$6/2)  eval(($4 - $5)/2) eval($5) "1" 0x100)
+     	Pad(eval(   $6/2) eval(-1*($4 - $5)/2)
+     	    eval(   $6/2)  eval(($4 - $5)/2) eval($5) "2" 0x100)
+     	)
+     
+     	# silk screen
+     	# ends
+     	ElementLine(XMIN YMIN XMIN YMAX 10)
+     	ElementLine(XMAX YMAX XMAX YMIN 10)
+     	# sides
+     ifelse($9,"no",
+     	#skip side silk
+     	,
+     	ElementLine(XMIN YMIN XMAX YMIN 10)
+     	ElementLine(XMAX YMAX XMIN YMAX 10)
+     )
+     	Mark(0 0)
+     )')
+   Note that the part has been defined with the mark located at `(0,0)'
+and that the pads have been placed with the mark at the common centroid
+of the footprint.  While not a requirement, this is highly desirable
+when developing a library that will need to interface with a pick and
+place machine used for factory assembly of a board.
+
+   The final part of `example.inc' defines particular versions of the
+generic footprint we have created.  These particular versions correspond
+to various industry standard package sizes.
+     # 0402 package
+     #
+     # 30x30 mil pad, 15 mil metal-metal spacing=>
+     # 15 + 15 + 15 = 45 center-to-center
+     define(`PKG_RC0402',
+       `COMMON_PKG_RCSMT(`$1', `$2', `$3', 30, 30, 45, 0, 10, "no")')
+     
+     # 0603 package
+     #
+     # 40x40 mil pad, 30 mil metal-metal spacing=>
+     #  30 + 20 + 20 = 70 center-to-center
+     define(`PKG_RC0603',
+       `COMMON_PKG_RCSMT(`$1', `$2', `$3', 40, 40, 70, 10, 10)')
+     
+     # 1206 package
+     #
+     # 40x60 mil pad, 90 mil metal-metal spacing=>
+     #  90 + 20 + 20 = 130 center-to-center
+     define(`PKG_RC1206',
+       `COMMON_PKG_RCSMT(`$1', `$2', `$3', 60, 40, 130, 10, 10)')
+
+   At this point, the `example.inc' file could be used by third party
+tools such as `gsch2pcb'.  However to fully integrate our footprints
+into PCB we need to create the `example.m4' and `example.list' files.
+The `example.m4' file defines descriptions for the new footprints.
+     define(`Description_my_RC0402',
+       ``Standard SMT resistor/capacitor (0402)'')
+     define(`Description_my_RC0603',
+       ``Standard SMT resistor/capacitor (0603)'')
+     define(`Description_my_RC1206',
+       ``Standard SMT resistor/capacitor (1206)'')
+   Finally we need to create the `example.list' file.
+     my_RC0402:RC0402:RES0402
+     my_RC0402:RC0402:CAP0402
+     my_RC0603:RC0603:RES0603
+     my_RC0603:RC0603:CAP0603
+     my_RC1206:RC1206:RES1206
+     my_RC1206:RC1206:CAP1206
+   The first field in the list file has the name corresponding to the
+Description definitions in `example.m4'.  The second field is the
+template name which corresponds to the macros `PKG_*' we defined in
+`example.inc' with the leading `PKG_' removed.  It is the second field
+which controls what footprint will actually appear on the board.  The
+final field is the name of the part type on the board.  The first line
+in our `example.list' file will produce a menu entry in the library
+window that reads:
+     CAP0402, Standard SMT resistor/capacitor (0402)
+   The `CAP0402' portion comes directly from the third field in
+`example.list' and the longer description comes from descriptions
+macros in `example.m4'.  Please note that any extra white space at the
+end of a line in the `.list' files will cause them to not work properly.
+
+Troubleshooting Old Style Libraries
+-----------------------------------
+
+   A powerful technique to help debug problems with libraries is to
+invoke the `m4' processor directly.  This approach will provide error
+output which is not visible from within PCB.  The following example
+shows how one might try to debug an 8 pin small outline (SO8) package.
+The macro name for the package is PKG_SO8.  In this example, the
+canonical name that is to be associated with the part is SO8, the
+reference designator is U1, and the value is MAX4107 (the part number).
+
+     echo "PKG_SO8(SO8, U1, MAX4107)" | \
+        gm4 common.m4 - | \
+        awk '/^[ \t]*$/ {next} {print}' | \
+        more
+   The `awk' call simply removes blank lines which make the output hard
+to read.
+
+   For this particular example, the output is:
+     Element(0x00 "SO8" "U1" "MAX4107" 146 50 3 100 0x00)
+     (
+     	Pad(10 25 38 25 20 "1" 0x00)
+     	Pad(10 75 38 75 20 "2" 0x100)
+     	Pad(10 125 38 125 20 "3" 0x100)
+     	Pad(10 175 38 175 20 "4" 0x100)
+     	Pad(214 175 242 175 20 "5" 0x100)
+     	Pad(214 125 242 125 20 "6" 0x100)
+     	Pad(214 75 242 75 20 "7" 0x100)
+     	Pad(214 25 242 25 20 "8" 0x100)
+     	ElementLine(0 0 151 0 10)
+     	ElementArc(126 0 25 25 0 180 10)
+     	ElementLine(101 0 252 0 10)
+     	ElementLine(252 0 252 200 10)
+     	ElementLine(252 200 0 200 10)
+     	ElementLine(0 200 0 0 10)
+     	Mark(29 25)
+     )
+
+New Style Libraries
+===================
+
+   Footprints for the new style library are created graphically using
+the PCB program.  A single footprint is saved in each file.
+
+Creating Newlib Footprints
+--------------------------
+
+   To create
+  1. Start PCB with an empty layout.
+
+  2. Make the component layer active.
+
+  3. For a leaded part, select the via tool and place vias where the
+     pads for the part should go.  For surface mount pads, draw line
+     segments.  Note that until the footprint is completed, the surface
+     mount pads will remain rounded.  Currently a rectangle or polygon
+     may not be used as a pad.
+
+  4. For each via and line segment which will become a pad, select it,
+     right-click to bring up the popup menu and choose "edit name".
+     Enter the pin number and press enter.  Alternatively, you can use
+     the "n" hotkey to activate the rename command.
+
+  5. Make the silk layer active.
+
+  6. Using the line and arc tools, draw a silk screen outline for the
+     part.
+
+  7. Using the selection tool, select all of the pins and silk screen
+     for the part.
+
+  8. Place the pointer above the reference point for the part.  This is
+     typically the common centroid.  Keeping the pointer there,
+     right-click to bring up the popup menu and choose "convert
+     selection to element".
+
+  9. At this point, the vias, line segments, and silk screen will have
+     been converted to an element.  To change any of the line segments
+     to have square ends rather than round ends, select the pads by
+     holding down the shift key and clicking each pad with the center
+     mouse button.  Now under the Select menu, "Change square-flag of
+     selected objects" section, choose "Pins".
+
+ 10. Select the element, right-click to bring up the popup menu, and
+     choose "Copy Selection to Buffer".  Now left-click on the center of
+     the new element.
+
+ 11. Under the buffer menu, choose "save buffer elements to file" to
+     save the new footprint to a file.
+
+ 12. Press ESC to exit from buffer mode.
+
+Modifying Newlib Footprints
+---------------------------
+
+  1. In the `Pcb' program, instantiate the footprint you wish to modify.
+
+  2. Using the selection tool, select the footprint.
+
+  3. Now left-click on the selected element, this brings up a popup
+     menu, choose "Cut Selection to Buffer" from the popup menu.
+
+  4. Under the buffer menu, choose "break buffer element to pieces",
+     and then left-click to place the broken apart footprint to an open
+     area of the layout.  Note that you must use the items under the
+     buffer menu, the items with the same names in the popup menu do
+     not work.
+
+  5. Make your desired modifications to the footprint and then convert
+     the pieces back to an element using the same procedure as when
+     starting from scratch on a new footprint.
+
+
+File: pcb.info,  Node: Schematic Frontends,  Next: Installation,  Prev: Library Creation,  Up: Top
+
+Schematic Capture for PCB
+*************************
+
+   When designing a circuit board of any complexity, a schematic capture
+front-end for the design is highly desired.  Any schematic capture
+program which is able to generate a netlist in a user defined format as
+well as a bill of materials can be made to work with PCB.  Currently, we
+are aware of two freely available schematic capture programs which can
+interface with PCB.  This chapter shows how a design can be taken from
+start to finish using either of these two tools for schematic capture
+and PCB for layout.
+
+* Menu:
+
+* gEDA::          Interfacing with GNU EDA (gEDA).
+* xcircuit::      Interfacing with xcircuit.
+
+
+File: pcb.info,  Node: gEDA,  Next: xcircuit,  Up: Schematic Frontends
+
+gEDA
+====
+
+   This section shows how to use gEDA as the schematic capture
+front-end for a PCB design.  This section is not intended to be
+complete documentation on gEDA and it is assumed that the user has at
+least some familiarity with the gEDA suite of programs.
+
+   The basic steps in a gEDA + PCB design flow are:
+  1. Set up project directories
+
+  2. Set up gEDA (gschem/gnetlist) config files
+
+  3. Set up gsch2pcb config files
+
+  4. Capture schematics using `gschem' (part of gEDA)
+
+  5. Create any unique PCB footprints needed for the design
+
+  6. Generate initial PCB design using `gsch2pcb' (part of gEDA)
+
+  7. Layout circuit board using `pcb'
+
+  8. Make any additional schematic changes with `gschem' and forward
+     annotate to PCB with `gsch2pcb'
+
+  9. Generate photoplot files (RS-274-X, also known as "Gerber") for
+     board vendor
+
+Set Up Project Directories
+--------------------------
+
+   Although not required, a typical project directory will contain the
+schematics and board layout at the top level.  Schematic symbols and
+circuit board footprints which are unique to this project are stored in
+subdirectories.  For this example, `sym' contains the project specific
+schematic symbols and `pkg' contains the project specific footprints.
+Set up the project subdirectory and subdirectories by executing:
+     mkdir ~/myproj
+     cd ~/myproj
+     mkdir sym
+     mkdir pkg
+     mkdir pkg/newlib
+     mkdir pkg/m4
+
+Set Up gEDA Config Files
+------------------------
+
+   The gEDA tools, specifically `gschem' and `gnetlist', use
+configuration files to set the search path for symbol libraries in
+addition to other user preferences.  Create a file in the top level
+project directory called `gschemrc'.  Add the following lines to that
+file:
+
+     ;; list libraries here.  Order matters as it sets the
+     ;; search order
+     (component-library "./sym")
+   This sets the local search path for the schematic capture program
+`gschem'.  Now the netlister, `gnetlist', must also be configured.
+This can be done by copying the file `gschemrc' to `gnetlistrc' by
+running `cp gschemrc gnetlistrc'.  Alternatively, you can create a soft
+link so only a single file needs to be updated if additional symbol
+paths are added.  The link is created by running `ln -s gschemrc
+gnetlistrc'.
+
+Set Up `gsch2pcb' Config Files
+------------------------------
+
+   The program `gsch2pcb', not to be confused with the older
+`gschem2pcb' script, is used to link the schematic to layout.
+`gsch2pcb' is responsible for creating the netlist used to provide
+connectivity information to PCB as well creating an initial layout with
+all components instantiated in the design.  Forward annotation of
+schematic changes to the layout is also done using `gsch2pcb'.
+`gsch2pcb' uses a project file to set up the schematic file names, PCB
+library locations, and output file names.  Create a project file called
+`project' using the following as an example:
+
+     # List all the schematics to be netlisted
+     # and laid out on the pc board.
+     schematics      first.sch second.sch third.sch
+     
+     # For an output-name of foo, gsch2pcb generates files
+     # foo.net, foo.pcb, and foo.new.pcb.  If there is no
+     # output-name specified, the file names are derived from
+     # the first listed schematic, i.e. first.net, etc.
+     output-name  preamp
+
+Capture Schematics Using `gschem'
+---------------------------------
+
+   This section is fairly brief and assumes familiarity with using the
+`gschem' schematic capture program.  As you are creating your
+schematics, be sure to observe the following rules:
+   * Make sure that each component in the schematic has a `footprint'
+     attribute that corresponds to a footprint in the PCB library or a
+     footprint you plan on creating.
+
+   * Make sure all reference designators are unique.  One way to ensure
+     this is to run the `refdes_renum' script (part of gEDA) after the
+     schematics are created.
+
+Create Any Unique PCB Footprints
+--------------------------------
+
+   Create the new footprints you design needs using either the m4 style
+or newlib style of PCB libraries.  Refer to *Note Library Creation::
+for details on this process.  For m4 style footprints, store them in
+the `pkg/m4' subdirectory and for newlib footprints, store them in the
+`pkg/newlib' subdirectory.
+
+Generate Initial PCB Design Using `gsch2pcb'
+--------------------------------------------
+
+   The `gsch2pcb' program connects the schematic and layout.  It basic
+operation is to call `gnetlist' to generate the connectivity netlist
+that PCB used to verify connectivity and to instantiate all elements
+found in the schematic to a new layout.  The default, as of `gsch2pcb'
+version 0.9,  is to use any found  m4 style parts first and then search
+for newlib style if no old style part was found.  By using the
+`--use-files' or `-f' flag to `gsch2pcb' priority is given to newlib
+style parts even if m4 style are found.  You may wish to verify this in
+the `gsch2pcb' documentation in case this changes in the future.  To
+start your layout, run `gsch2pcb project' where `project' is the
+project file created previously.  This will create a new netlist file,
+`preamp.net', and a new layout file, `preamp.pcb'.
+
+Layout Circuit Board
+--------------------
+
+   Run PCB on the new layout by running `pcb preamp.pcb'.  Load the
+netlist file by selecting "load netlist file" from the "file" menu.  In
+the file selection dialog box, choose `preamp.net'.  This loads
+connectivity information into PCB.
+
+   Using the selection tool, grab and move apart the various footprints
+with the middle mouse button.  Once the parts are moved apart from each
+other, choose "optimize rats-nest" from the "Connects" menu.  This menu
+choice will display and optimize the rats nest.  Use the rats nest to
+help guide placement of the parts.  You may wish to re-run the "optimize
+rats-nest" command after moving parts around.
+
+   After the placement is complete, use the line tool to add traces to
+the board.  As traces are added, the corresponding rats line will
+disappear.
+
+Forward Annotation of Schematic Changes
+=======================================
+
+   If schematic changes are made after the layout has started,
+`gsch2pcb' can be used to forward annotate these changes to the layout.
+To forward annotate schematic changes, run `gsch2pcb project'.  This
+command will create the files `preamp.new.pcb', `preamp.net', and
+modify the file `preamp.pcb'.  The modifications to `preamp.pcb'
+include forward annotation of schematic component value changes, adds
+any new components, and removes any deleted components.
+
+Generate Photoplot Files (RS-274-X)
+-----------------------------------
+
+   After the layout is complete, choose "edit layer-groupings" from the
+"Settings" menu.  The LayerGroups form lets you specify which layers
+will appear in each output layer group.  For example, in the default
+form, layer group 1 has "front" and "front side" in it.  The output
+file `1.gbr' if DOS file names are used, or `somename_front.gbr' if
+long file names are used will contain the "front" and "front side"
+layers in it.  Usually the defaults are sufficient, but this form is
+still a useful reference.
+
+   Choose "print layout..." from the "File" menu.  In the print dialog
+box, select "Gerber/RS-274X" for the device driver.  Select the
+"outline", "alignment", and "drillhelper" options.  To get DOS
+compatible file names, select the "DOS (8.3) names" option, otherwise
+enter "preamp" for the filename.  Press "OK".
+
+   The following output files should have been created in the project
+directory.  The names in parentheses correspond to the DOS compatible
+output file names.
+`preamp_frontsilk.gbr (csilk.gbr)'
+     Top side silk screen.
+
+`preamp_frontmask.gbr (cmask.gbr)'
+     Top side soldermask relief.
+
+`preamp_front.gbr (1.gbr)'
+     Top copper.
+
+`preamp_backmask.gbr (smask.gbr)'
+     Bottom side soldermask relief.
+
+`preamp_back.gbr (2.gbr)'
+     Bottom Copper.
+
+`preamp_fab.gbr (fab.gbr)'
+     Fabrication drawing.  Also known as the drill drawing.  This
+     drawing is used for reference by the board vendor but is not
+     directly used in the fabrication process.
+
+`preamp_plated-drill.cnc (pdrill.cnc)'
+     NC Drill format file for the plated through holes.
+
+`preamp_unplated-drill.cnc (udrill.cnc)'
+     NC Drill format file for the unplated through holes.
+
+`preamp_bom.txt (bom.txt)'
+     A bill of materials for the layout.
+
+`preamp_xy.txt (xy.txt)'
+     Centroid (X-Y) data for driving automated assembly equipment.
+
+
+File: pcb.info,  Node: xcircuit,  Prev: gEDA,  Up: Schematic Frontends
+
+xcircuit
+========
+
+   If anyone cares to contribute this section, it will get added.
+Please submit changes to the bug tracking system at the sourceforge
+project page for PCB which can be found from the PCB homepage at
+<http://pcb.sourceforge.net>.
+
+
+File: pcb.info,  Node: Installation,  Next: Custom Menus,  Prev: Schematic Frontends,  Up: Top
+
+Installation and Troubleshooting
+********************************
+
+   Compiling and installing the package should be straightforward. If
+any problems occur, please contact the author
+<Thomas.Nau@rz.uni-ulm.de>, or the current maintainer
+<haceaton@aplcomm.jhuapl.edu> to find a solution and include it into
+the next release.
+
+* Menu:
+
+* compiling::     Compiling and installing.
+* problems::      Troubleshooting.
+
+
+File: pcb.info,  Node: compiling,  Next: problems,  Up: Installation
+
+Compiling and Installing
+========================
+
+   This section covers the steps which are necessary to compile the
+package.
+
+* Menu:
+
+* quickstart::                 Quick start.
+* running configure::          Customizing Pcb with Configure
+
+
+File: pcb.info,  Node: quickstart,  Next: running configure,  Up: compiling
+
+Quick Start
+-----------
+
+   Starting with version 2.0, `Pcb' has switched to a GNU
+autoconf/automake build system.  Installation of `Pcb' consists of
+three steps:  configuration, building, and installing.  In a typical
+installation, these steps are as simple as
+     ./configure
+     make
+     make install
+
+
+File: pcb.info,  Node: running configure,  Prev: quickstart,  Up: compiling
+
+Running the configure Script
+----------------------------
+
+   The `configure' script accepts all of the standard GNU configure
+options.  For a complete list of configuration options, run
+`./configure --help'.
+
+`INFOLIBDIR'
+     must be set to the directory where your GNU info files are located.
+
+`PCBLIBDIR'
+     is the path of a directory where the font files will be installed.
+
+`DEFAULTFONT'
+     the name of the default font file.
+
+`DEFAULTLIBRARY'
+     the name of the default library.
+
+`GNUM4'
+     the name of GNUs m4 version.
+
+`BTNMOD'
+     If your window manager has already bound _Mod1_ together with some
+     function keys you may want to change this setting. This is true
+     for HP-VUE.
+
+   If you find things which must be changed to compile on your system,
+please add the appropriate autoconf tests (if you are familiar with
+that) and mail a copy to the maintainer, harry eaton,  at
+<haceaton@aplcomm.jhuapl.edu>.
+
+   If you do not have the appropriate permissions you should run
+`./pcbtest.sh' in the `src' directory to run `Pcb' from the
+installation directory.
+
+
+File: pcb.info,  Node: problems,  Prev: compiling,  Up: Installation
+
+Troubleshooting
+===============
+
+   There are some known problems. Most of them are related to missing
+parts of a standard `X11' distribution. Some others are caused by third
+party applications such as `X' servers. To make this list more complete
+please mail your problems and, if available, solutions to the author.
+The mail address may be found at the beginning of this chapter.  In any
+case, read *Note X11::.
+
+   By the way, you `MUST HAVE AN ANSI COMPILER' to make `Pcb' work.
+
+   Another source of problems are older versions of `flex' and `bison'.
+`Pcb' definitely works with `flex-2.4.7' and `bison-1.22' or later. The
+problems will result in a _syntax error_ while parsing files.  This
+should only be a problem if you have modified the `flex' or `bison'
+input files.
+
+   The following list gives you just an idea because I'm not able to
+test all `Pcb' releases on all platforms.
+
+* Menu:
+
+* HP::              Hewlett-Packard series 700 and 800 running HP-UX 10.*
+* Sun::             Sun, Solaris 2.5
+* SGI::             SGI, IRIX 5.3 and 6.*
+* DEC Alpha::       DEC Alpha, DEC UNIX 3.2c and 4.0
+* SCO::             SCO Unix ODT 3.0, PC hardware
+* Linux::           Linux 0.99pl14 and later
+* BSD::             FreeBSD, NetBSD ...
+* X11::             Refers to `X11R4', `X11R5', and `OpenWindows'
+* TeX and Manuals:: Problems creating the `pcb.dvi'
+
+
+File: pcb.info,  Node: HP,  Next: Sun,  Up: problems
+
+HP Series 700 and 800
+---------------------
+
+   You have to install several `X11' include files or, better, install
+a complete `X11R5' release. Hewlett-Packard doesn't support the Athena
+Widgets. So the header files and libraries are missing from the
+application media, but they are available as a patch.  They also do not
+ship the `ANSI' compiler with the normal operating system release so
+you have to buy one or use `GCC'.  Some of the tools are available as
+patches.
+
+   In addition, `Pcb' has been successfully tested on these platforms
+with `HPUX 9.*, 10.*' running self-compiled `X11R5'.
+
+
+File: pcb.info,  Node: Sun,  Next: SGI,  Prev: HP,  Up: problems
+
+Sun SPARC architecture
+----------------------
+
+   There are no known problems with Sun machines if they use `X11R5'
+instead of `OpenWindows'. `Pcb' compiled successfully with all kinds of
+SPARCstations `Solaris-2.[345]'.
+
+   For problems with `OpenWindows' refer to *Note X11::.
+
+
+File: pcb.info,  Node: SGI,  Next: DEC Alpha,  Prev: Sun,  Up: problems
+
+Silicon Graphics
+----------------
+
+   `Pcb' has been tested on some boxes running either `IRIX-4.0.5' or
+`IRIX-5.3'. The former one uses a `X11R4' server.  There are no
+problems.  For known problems with `X11R4', see *Note X11::.
+
+
+File: pcb.info,  Node: DEC Alpha,  Next: SCO,  Prev: SGI,  Up: problems
+
+DEC Alpha
+---------
+
+   `Pcb' compiled and runs without problems on `DEC UNIX V3.2c'.
+
+
+File: pcb.info,  Node: SCO,  Next: Linux,  Prev: DEC Alpha,  Up: problems
+
+SCO Unix
+--------
+
+   John DuBois <spcecdt@deeptht.armory.com> wrote:
+     `SCO-ODT-3.0' requires the latest version of tls003, the Athena
+     widget library (available from sosco.sco.com). The main problems
+     I have encountered are it core dumps fairly often, especially
+     while loading/dropping elements...
+   I'll see what I am able to do as soon as I have access to an `SCO'
+system.
+
+
+File: pcb.info,  Node: Linux,  Next: BSD,  Prev: SCO,  Up: problems
+
+Linux
+-----
+
+   Since the `X11' version of `Pcb' has been developed on a Linux
+system here are no known problems.
+
+
+File: pcb.info,  Node: BSD,  Next: X11,  Prev: Linux,  Up: problems
+
+FreeBSD and NetBSD
+------------------
+
+   `Pcb' has been tested on NetBSD and works without any problems.  You
+may also be able to find a NetBSD package at
+<ftp://ftp.netbsd.org/pub/NetBSD/packages/cad/pcb/README.html> or a
+FreeBSD port at
+<http://www.freebsd.org/cgi/url.cgi?ports/cad/pcb/pkg-descr>.
+
+
+File: pcb.info,  Node: X11,  Next: TeX and Manuals,  Prev: BSD,  Up: problems
+
+Problems related to X11
+-----------------------
+
+   There are a some problems related to `X11R4' or systems derived from
+`X11' such as `OpenWindows'. *Note Sun::. You at least have to change
+all occurances of _baseTranslations_ in the resource files to
+_translations_ if you are using a `X11R4' server. Look at the `X11R5'
+_Intrinsics_ manual for details.
+
+   The panner widget (print dialog box) appears only in release `X11R5'
+and later. It really simplifies adjusting the offsets.  With earlier
+releases the printout will always appear in the center of the page.
+
+   You may have some problems in a mixed `X11-OpenWindows' environment.
+
+   `Pcb' has been tested successfully with `X11R6' under Linux 1.1.59
+and later.
+
+
+File: pcb.info,  Node: TeX and Manuals,  Prev: X11,  Up: problems
+
+Problems related to TeX
+-----------------------
+
+   If your `TeX' installation complains about a missing `texinfo.tex'
+file copy the one included in this release (directory `doc' to your
+`TeX' macro directory.  Note, there are probably newer versions of this
+file available from some FTP sites.  `TeX-3.0' failed, `TeX-3.14'
+worked just fine. Check our FTP server _ftp.uni-ulm.de_ for
+ready-to-print versions of the manuals.
+
+
+File: pcb.info,  Node: Custom Menus,  Next: Regular Expressions,  Prev: Installation,  Up: Top
+
+Customizing the Menus
+*********************
+
+   The menu system is driven off a data file that contains "resources".
+A resource is a hierarchical description of a data tree which, in this
+case, is mapped to the hierarchical menus used by Pcb.
+
+* Menu:
+
+* Resource Syntax::          What a resource file looks like.
+* Menu Definitions::         Using a resource to define a menu.
+* Menu Files and Defaults::  Where Pcb looks for its menu resource.
+
+
+File: pcb.info,  Node: Resource Syntax,  Next: Menu Definitions,  Up: Custom Menus
+
+Resource Syntax
+===============
+
+   A resource file is a simple text file.  It contains curly braces to
+group things, spaces between things, and double quotes when strings
+need to include spaces.  There are four fundamental ways of adding data
+to a resource.
+
+   First, a string (either a single word or a quoted string with spaces,
+we call both "strings" in this appendix) can be added all by itself, to
+add a string resource to the current resource.  This is used, for
+example, to define the string printed on a menu button.  In this
+example, four strings are added to the FILE resource:
+
+     File = {
+       Sample
+       "longer sample"
+       some text
+     }
+
+   Second, a named string may be added by giving two strings separated
+by an equals sign.  This is used to specify X resources and a few other
+optional parameters of menus, for example.  Note that a string all by
+itself is thus an "unnamed" string.
+
+     {"Layer groups" foreground=red sensitive=false}
+
+   Third, an unnamed subresource may be added.  This is used to create
+submenus and menu buttons.  To add a subresource, simply group other
+things in curly braces.  This example describes a resource containing
+one string and three subresources:
+
+     {File
+       {New do_new()}
+       {Save do_save()}
+       {Quit do_quit()}
+     }
+
+   Lastly, a named subresource may be added by prefixing an unnamed
+subresource with a string and an equals sign, just as when naming
+strings.  This syntax is used to name the resources used for the main
+menu and popup menus:
+
+     MainMenu = {
+       ...
+       }
+
+   Additionally, the menu parser allows for "hooks" whereby portions of
+the menu system can be programmatically created at runtime by the
+application.  These hooks are invoked by a single word proceeded by an
+at sign, such as this example where most of the Sizes menu is created
+automatically:
+
+     {Sizes
+         @sizes
+         {"Adjust active sizes ..." AdjustStyle(0)}
+         }
+
+   In addition to all that, any unquoted pound sign (`#') begins a
+comment.  Commented text continues until the end of the containing
+line.  Comments may begin at the beginning of a line, or after other
+text on the line:
+
+     # This is a comment
+     MainMenu = { # This is also a comment
+
+
+File: pcb.info,  Node: Menu Definitions,  Next: Menu Files and Defaults,  Prev: Resource Syntax,  Up: Custom Menus
+
+Menu Definitions
+================
+
+   To best understand this section, you should find the `pcb-menu.res'
+file that your Pcb uses and refer to it for examples (*note Menu Files
+and Defaults::).
+
+   A resource defines a menu when it meets certain semantic
+requirements.  The menu hierarchy is reflected as a hierarchy of unnamed
+subresources, with the first string of each subresource defining the
+label used for the menu button.  A subresource that itself contains
+subresources becomes a submenu, a subresource that does not becomes a
+button.
+
+   A submenu should only contain subresources for the buttons or
+submenus within that submenu.  Two exceptions are allowed: an initial
+string sets the label, and the string "-" (a single dash) will create a
+separator.
+
+   A button should not contain subresources, but will contain many
+strings, named and unnamed.  The first member shall be an unnamed
+string which is the label for the button.  Any other unnamed strings
+within the button's resource will be used as actions (much like the
+.Xdefaults action strings), which are functions that will be called
+when the button is pressed (or popped up, or created, depending on the
+action).  As a convenience, if a left parenthesis is seen, the current
+"word" will continue at least until the matching right parenthesis.
+This allows you to pass strings with spaces as arguments to actions
+without needing to quote the action.
+
+   Named resources in button resources will be used as X resources.
+Such resources can be used to set the font, color, and spacing of
+buttons.  As a convenience, "fg" can be used as an abbreviation for
+"foreground".
+
+   Within the menu's resource file, Pcb will look for a few key named
+subresources.  At the moment, the only one it looks for is one called
+`MainMenu'.  This will be used for the main menu bar.  In the future,
+other named subresources will be used for popup resources.
+
+   Given all this, a small sample `pcb-menu.res' would be:
+
+     MainMenu = {
+       {File
+         {"Load layout" Load(Layout)}
+         -
+         {"Quit Program" Quit() fg=red font=10x20}
+       }
+     }
+
+   Within the Pcb sources are specially crafted comments that mark all
+the actions, flags, menu hooks, and whatnot that Pcb offers.  Read the
+file `src/gather-actions' in the Pcb source tree for documentation for
+these comments.
+
+
+File: pcb.info,  Node: Menu Files and Defaults,  Prev: Menu Definitions,  Up: Custom Menus
+
+Menu Files and Defaults
+=======================
+
+   Pcb will look for a file which defines its menus, trying the
+following names:
+
+     ./pcb-menu.res
+     $HOME/.pcb-menu.res
+     $PCBLIBDIR/pcb-menu.res
+     <internal>
+
+   Note that PCBLIBDIR defaults to `/usr/local/share/pcb' (hence,
+`/usr/local/share/pcb/pcb-menu.res').  The `<internal>' entry refers to
+a menu definition within the Pcb application itself.  The master file
+for all this is the file `src/pcb-menu.res' in the Pcb source tree.
+This master source is used to create the internal menu definition as
+well as being installed in `$pcblibdir'.
+
+   You can view the internal menu definition (the default) by running
+`pcb' with the `-dumpmenu' option, like this:
+
+     pcb -dumpmenu
+
+
+File: pcb.info,  Node: Regular Expressions,  Next: Index,  Prev: Custom Menus,  Up: Top
+
+Element Search/Regular Expressions
+**********************************
+
+Element Search/Regular Expressions
+==================================
+
+   `Pcb''s search is based on POSIX 1003.2 Regular Expressions.  Full
+POSIX Regular Expressions are supported by `Pcb' if the regex library
+was available when `Pcb' was built.  It is easier to show by example
+how to search than explain POSIX 1003.2.  The following table shows the
+most common Regular Expression characters used to find elements in
+`Pcb':
+
+`\'
+     Indicates next character should not be interpreted literally if it
+     normally is, and should be interpreted literally if it normally
+     isn't.
+
+`*'
+     Matches 0 or more instances of preceding character.
+
+`+'
+     Matches 1 or more instances of preceding character.
+
+`?'
+     Matches 0 or 1 instances of preceding character.
+
+`.'
+     Matches any single character other than the newline character.
+
+   The following examples illustrate how regular expressions are used to
+specify element names (reference designators) to search for.
+`Search for "C1":'
+     Enter "C1".
+
+`Search for all elements that start with "C", such as capacitors:'
+     Enter "C.*", that is "C-dot-star".
+
+`Search for all elements that start with "C" and end with "1",'
+     such as "C1", or "C51": Enter "C.*1", that is "C-dot-star-1".
+
+`Search for only R1 or R10, will not match R100:'
+     Enter "R10?".
+
+`Search for all parts starting with "R12" and ending with the number eight, or eighty-eight etc:'
+     Enter "R128+".
+
+`Search for all terminal blocks having a one digit designator such as TB1 or TB2:'
+     "TB.", that is "TB-dot".
+
+`Search for all terminal blocks having a two digit designator such as TB21 or TB15:'
+     "TB..", that is "TB-dot-dot".
+

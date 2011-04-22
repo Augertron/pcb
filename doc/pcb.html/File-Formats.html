@@ -1,0 +1,72 @@
+<html lang="en">
+<head>
+<title>File Formats - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="X11-Interface.html#X11-Interface" title="X11 Interface">
+<link rel="next" href="Library-Creation.html#Library-Creation" title="Library Creation">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="File-Formats"></a>Next:&nbsp;<a rel="next" accesskey="n" href="Library-Creation.html#Library-Creation">Library Creation</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="X11-Interface.html#X11-Interface">X11 Interface</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr><br>
+</div>
+
+   <p><a name="index-file-formats-731"></a><a name="index-ASCII-files_002c-format-of-732"></a>
+
+<h2 class="chapter">7 File Formats</h2>
+
+<p>All files used by <code>Pcb</code> are read from the standard output of a command
+or written to the standard input of one as plain seven bit <code>ASCII</code>. This
+makes it possible to use any editor to change the contents of a layout file. 
+It is the only way for element or font description files to be created. 
+To do so you'll need to study the example files <span class="file">example/*</span> and
+<span class="file">default_font</span> which are shipped with <code>Pcb</code>. 
+For an overview refer to <a href="Intro.html#Intro">Intro</a>.
+
+   <p><a name="index-elementCommand-733"></a><a name="index-fileCommand-734"></a><a name="index-fontCommand-735"></a><a name="index-libraryCommand-736"></a><a name="index-libraryContentsCommand-737"></a><a name="index-saveCommand-738"></a>The following sections provide the necessary information about the syntax of
+the files. 
+Netlist files are not created by <code>Pcb</code>, but it does use them. For information
+on the format of a netlist file see the <em>:rn</em>,
+<a href="User-Commands.html#User-Commands">User Commands</a>. Rat lines are added on the current layer using the current
+The commands described allow you to add almost any additional
+functionality you may need. Examples are compressed read and write access as
+well as archives. The commands themselves are defined by the resources
+<em>elementCommand</em>, <em>fileCommand</em>, <em>fontCommand</em>,
+<em>libraryCommand</em>, <em>libraryContentsCommand</em> and <em>saveCommand</em>. 
+Note that the commands are not saved along with the data. 
+It is considered an advantage to have the layout file contain all necessary
+information, independent of any other files.
+
+   <p>One thing common to all files is they may include comments, newlines,
+and carriage returns at any place except within quoted strings.
+
+<ul class="menu">
+<li><a accesskey="1" href="Basic-Types.html#Basic-Types">Basic Types</a>:             Basic types used by all data files. 
+<li><a accesskey="2" href="Layout-File.html#Layout-File">Layout File</a>
+<li><a accesskey="3" href="Element-File.html#Element-File">Element File</a>
+<li><a accesskey="4" href="Font-File.html#Font-File">Font File</a>
+<li><a accesskey="5" href="Netlist-File.html#Netlist-File">Netlist File</a>
+<li><a accesskey="6" href="Library-Contents-File.html#Library-Contents-File">Library Contents File</a>
+<li><a accesskey="7" href="Library-File.html#Library-File">Library File</a>
+</ul>
+
+   </body></html>
+

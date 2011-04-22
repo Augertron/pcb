@@ -1,0 +1,111 @@
+<html lang="en">
+<head>
+<title>Element File - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="File-Formats.html#File-Formats" title="File Formats">
+<link rel="prev" href="Layout-File.html#Layout-File" title="Layout File">
+<link rel="next" href="Font-File.html#Font-File" title="Font File">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Element-File"></a>Next:&nbsp;<a rel="next" accesskey="n" href="Font-File.html#Font-File">Font File</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Layout-File.html#Layout-File">Layout File</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="File-Formats.html#File-Formats">File Formats</a>
+<hr><br>
+</div>
+
+   <p><a name="index-element_002c-file-format-744"></a><a name="index-format-of-element-files-745"></a><a name="index-file-format_002c-element-data-746"></a>
+
+<h3 class="section">7.3 Element File Format</h3>
+
+<p>Element files are used to describe one component which then may be used
+several times within one or more layouts. You will normally split the
+file into two parts, one for the pinout and one for the package description. 
+Using <code>m4</code> allows you to define pin names as macros in one file and
+include a package description file which evaluates the macros. See
+the resource <em>elementCommand</em> for more information. The pins (and pads)
+must appear in sequential order in the element file (new in 1.5) so that
+pin 1 must be the first PIN(...) in the file.
+
+   <p>Doing things this way makes it possible to use one package file for several
+different circuits. See the sample files <span class="file">dil*</span>.
+
+   <p>The lowest x and y coordinates of all sub-objects of an element are used
+as an attachment point for the cross hair cursor of the main window.
+
+<pre class="example">     File            = {Element}...
+     Element         = "Element(" Flags Description LayoutName Value \
+     		      TextX TextY direction scale TextFlags")"
+     		      "(" {ElementData}... [Mark] ")"
+     ElementData     = {ElementLine | Pad | Pin | ElementArc }...
+     ElementArc      = "ElementArc(" X Y Width Height
+     		      StartAngle DeltaAngle Thickness ")"
+     ElementLine     = "ElementLine(" X1 Y1 X2 Y2 Thickness ")"
+     Mark            = "Mark(" X Y ")"
+     Pad             = "Pad(" X1 Y1 X2 Y2 Thickness Name PinNumber Flags ")"
+     Pin             = "Pin(" X Y Thickness DrillingHole Name PinNumber Flags ")"
+</pre>
+     <dl>
+<dt><span class="samp">Element</span><dd>Objects of type element are determined by flags,  some names, a canonical
+and a layout name as well as a value. Additional fields are text position,
+their direction counted from zero to three (n * 90 degrees counter-clockwise)
+and element data.
+
+          <dl>
+<dt><span class="samp">Flags</span><dd>The flag field determines the state of an element. 
+The bit values are:
+          <pre class="display">                   bit 4:  the element name is hidden
+                   bit 6:  element has been selected
+                   bit 7:  element is located on the solder side
+          </pre>
+          <br><dt><span class="samp">TextFlags</span><dt><span class="samp">scale</span><dt><span class="samp">direction</span><dd>See the description of text object earlier in this chapter.
+
+          <br><dt><span class="samp">ElementLine</span><dd>A line is defined by its start and end points and by its size, or width.
+
+          <br><dt><span class="samp">ElementArc</span><dd>Defines an arc by its center, width, height, start angle, its length in
+degrees and its size. Remember the y axis on the screen grows downwards.
+
+          <br><dt><span class="samp">Mark</span><dd>is just a hint to make positioning easier. The cross hair will be positioned
+here. Its center is passed as the two arguments.
+
+          <br><dt><span class="samp">Pad</span><dd>A pad is very similar to a line except it may not be disconnected from
+its element and it has an associated name. 
+Is is defined by two end point position, size, name and by some flags.
+          <pre class="example">                   bit 2:  set if pad was found during a connection search
+                   bit 5:  display the pads name
+                   bit 6:  pad has been selected
+                   bit 7:  pad is located on the solder side
+          </pre>
+          <br><dt><span class="samp">Pin</span><dd>A pin is very similar to a via except it may not be disconnected from
+its element.
+          <pre class="example">                   bit 0:  always set
+                   bit 1:  always clear
+                   bit 2:  set if pin was found during a connection search
+                   bit 3:  set if pin is only a mounting hole (no copper annulus)
+                   bit 5:  display the pins name
+                   bit 6:  pin has been selected
+                   bit 8:  pin is drawn as a square
+                   bit 12: set if pin is drawn with an octagonal shape
+          </pre>
+          </dl>
+
+   </dl>
+
+   </body></html>
+

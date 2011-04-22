@@ -1,0 +1,8 @@
+pcb
+config.cache
+config.log
+*.o
+*.so
+*~
+UPDATE_ME
+VERSION

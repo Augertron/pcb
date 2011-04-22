@@ -1,0 +1,71 @@
+<html lang="en">
+<head>
+<title>Design Rule Checking - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Getting-Started.html#Getting-Started" title="Getting Started">
+<link rel="prev" href="Rats-Nest.html#Rats-Nest" title="Rats Nest">
+<link rel="next" href="Trace-Optimizer.html#Trace-Optimizer" title="Trace Optimizer">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Design-Rule-Checking"></a>Next:&nbsp;<a rel="next" accesskey="n" href="Trace-Optimizer.html#Trace-Optimizer">Trace Optimizer</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Rats-Nest.html#Rats-Nest">Rats Nest</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Getting-Started.html#Getting-Started">Getting Started</a>
+<hr><br>
+</div>
+
+   <p><a name="index-design-rule-checking-149"></a><a name="index-drc-150"></a><a name="index-spacing_002c-minimum-151"></a><a name="index-overlap_002c-minimum-152"></a>
+
+<h3 class="section">3.12 Design Rule Checking</h3>
+
+<p>After you've finished laying out a board, you may want to check
+to be certain that none of your interconnections are too closely
+spaced or too tenuously touching to be reliably fabricated. The design
+rule checking (DRC) function does this for you. Use the command ":DRC()" (without
+the quotes of course) to invoke the checker.  If there are no problem areas,
+you'll get a message to that effect.  If any problem is encountered, you will get
+a message about it and the affected traces will be highlighted. One part of the
+tracks of concern will be selected, while the other parts of concern will have the
+"FindConnection" highlighting. The screen will automatically be centered in the
+middle of the object having the "FindConnection" (Green) highlighting.  The middle of
+the object is also the coordinates reported to be "near" the problem.  The actual trouble
+region will be somewhere on the boundary of this object.  If the two parts are
+from different nets then there is some place where they approach each
+other closer than the minimum rule.  If the parts are from the same net, then
+there is place where they are only barely connected. Find that place and connect
+them better.
+
+   <p>After a DRC error is found and corrected you must run the DRC again because
+the search for errors is halted as soon as the first problem is found. Unless you've
+been extremely careless there should be no more than a few design rule errors
+in your layout.  The DRC checker does not check for minimum spacing rules to
+copper text, so always be very careful when adding copper text to a layout. 
+The rules for the DRC are specified in the application resource file.  The minimum
+spacing value (in mils) is given by the <em>Settings.Bloat</em> value. The default
+is 7 mils. The minimum touching overlap (in mils) is given by the
+<em>Settings.Shrink</em> value. This value defaults to 5 mils. Check with your
+fabrication process people to determine the values that are right for you.
+
+   <p>If you want to turn off the highlighting produced by the DRC, perform an
+undo (assuming no other changes have been made).  To restore the highlighting,
+use redo.  The redo will restore the highlighting quickly without re-running
+the DRC checker.
+
+   </body></html>
+

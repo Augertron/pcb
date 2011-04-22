@@ -1,0 +1,59 @@
+<html lang="en">
+<head>
+<title>Vias - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Drawing-and-Removing.html#Drawing-and-Removing" title="Drawing and Removing">
+<link rel="prev" href="Text.html#Text" title="Text">
+<link rel="next" href="Elements.html#Elements" title="Elements">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Vias"></a>Next:&nbsp;<a rel="next" accesskey="n" href="Elements.html#Elements">Elements</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Text.html#Text">Text</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Drawing-and-Removing.html#Drawing-and-Removing">Drawing and Removing</a>
+<hr><br>
+</div>
+
+   <p><a name="index-vias_002c-an-example-93"></a><a name="index-example-of-via-handling-94"></a>
+
+<h4 class="subsection">3.5.5 Vias</h4>
+
+<p>The initial size of new vias may be changed by <em>&lt;Key&gt;v</em> and
+<em>Shift&lt;Key&gt;v</em> or by selecting the appropriate entry from the
+<em>Sizes</em> menu. <em>Mod1&lt;Key&gt;v</em> and <em>Mod1 Shift&lt;Key&gt;v</em> do
+the same for the drilling hole of the via. 
+The statusline is updated with the new values. 
+Creating a via is similar to the other objects. Switch to <em>via-mode</em>
+by using either the selector button or <em>&lt;Key&gt;F1</em> then press
+<em>&lt;Key&gt;]</em> or <em>&lt;Btn1&gt;</em> to create one. 
+<em>&lt;Key&gt;n</em> changes the name of a via. If you want to create a mounting
+hole for your board, then you can place a via where you want the hole to
+be then convert the via into a hole.  The conversion is done by pressing
+<em>!Ctrl&lt;Key&gt;h</em> with the cross hair over the via.  Conceptually it is
+still a via, but it has no copper annulus.  If you create such a hole in
+the middle of two polygons on different layers, it will short the layers. 
+Theoretically you could arrange for such a hole not to be plated, but a
+metal screw inserted in the hole would still risk shorting the layers. 
+A good rule is to realize that holes in the board really are vias between
+the layers and so place them where they won't interfere with connectivity. 
+You can convert a hole back into a normal via with the same keystroke used
+to convert it in the first place.
+
+   </body></html>
+

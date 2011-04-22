@@ -1,0 +1,66 @@
+<html lang="en">
+<head>
+<title>Pastebuffer - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Drawing-and-Removing.html#Drawing-and-Removing" title="Drawing and Removing">
+<link rel="prev" href="Elements.html#Elements" title="Elements">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Pastebuffer"></a>Previous:&nbsp;<a rel="previous" accesskey="p" href="Elements.html#Elements">Elements</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Drawing-and-Removing.html#Drawing-and-Removing">Drawing and Removing</a>
+<hr><br>
+</div>
+
+   <p><a name="index-pastebuffer_002c-an-example-106"></a><a name="index-example-of-pastebuffer-handling-107"></a><a name="index-buffer_002c-an-example-108"></a><a name="index-example-of-buffer-handling-109"></a>
+
+<h4 class="subsection">3.5.7 Pastebuffer</h4>
+
+<p>The line-stack and element-buffer of former releases have been replaced
+by 5 (possibly more or less if changed at compile time
+with the <code>MAX_BUFFER</code> variable in <span class="file">globalconfig.h</span>)
+multi-purpose buffers that are selected by
+<em>Shift&lt;Key&gt;1..MAX_BUFFER</em>. The status line shows which buffer is
+the active one. 
+You may load data from a file or layout into them. 
+Cut-and-paste works too. 
+If you followed the instructions earlier in this chapter you should
+now have several objects on the screen. Move the cross hair to one of them
+and press <em>&lt;Btn3Down&gt;</em> to toggle its selection flag. (If you drag the
+mouse while the button is down, a box selection will be attempted instead
+of toggling the selection.)  The object
+is redrawn in a different color. You also may want to try
+moving the pointer while holding the third button down and
+release it on a different location. This selects all objects inside the
+rectangle and unselects everything else.  If you want to add a box selection
+to an existing selection, drag with <em>Mod1&lt;Btn3Down&gt;</em> instead. 
+Dragging <em>Shift Mod1&lt;Btn3Down&gt;</em> unselects objects in a box. 
+Now change to <em>pastebuffer-mode</em> and select some operations from the
+<em>Buffer</em> menu. Copying objects to the buffer is available as
+<em>Mod1&lt;Key&gt;c</em> while cutting them uses <em>Mod1&lt;Key&gt;x</em> as
+shortcut. Both clear the buffer before new data is added. 
+If you use the menu entries, you have to supply a cross hair position by
+pressing a mouse button. The objects are attached to the pastebuffer
+relative to that cross hair location. 
+Element data or PCB data may be merged into an existing layout by loading
+the datafiles into the pastebuffer. Both operations are available from
+the <em>File</em> menu or as user commands.
+
+   </body></html>
+

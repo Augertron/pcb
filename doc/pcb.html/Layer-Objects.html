@@ -1,0 +1,91 @@
+<html lang="en">
+<head>
+<title>Layer Objects - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Intro.html#Intro" title="Intro">
+<link rel="prev" href="Element-Objects.html#Element-Objects" title="Element Objects">
+<link rel="next" href="Line-Objects.html#Line-Objects" title="Line Objects">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Layer-Objects"></a>Next:&nbsp;<a rel="next" accesskey="n" href="Line-Objects.html#Line-Objects">Line Objects</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Element-Objects.html#Element-Objects">Element Objects</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Intro.html#Intro">Intro</a>
+<hr><br>
+</div>
+
+   <p><a name="index-layers_002c-an-overview-11"></a>
+
+<h3 class="section">2.4 Layers</h3>
+
+<p>Every layout consists of several layers that can be used independently
+or treated as a group. 
+Layer groups can be used to logically separate (and color-code)
+different traces (<em>e.g.</em> power and signal); however, all
+layers within a group reside on the same physical
+copper layer of a board, so using different layers within the same
+group won't provide electrical separation where they touch or overlap. 
+For details, see <span class="samp">layerGroups</span>, <a href="Resources.html#Resources">Resources</a>. 
+Each layer is drawn in a color defined in the resource file
+and identified by a name that you can change (for details
+see <span class="samp">layerColor</span>, <a href="Resources.html#Resources">Resources</a>.) 
+Layers are really just containers for line, arc, polygon, and text objects.  The
+component and solder layers contain SMD elements as well, but the
+file structure doesn't reflect that fact directly.
+
+   <p><a name="index-layer-groups-12"></a>Each layer group
+represents a physical layer on the printed circuit board.  If you want to make
+a four layer board, you'll need to have at least four layer groups. 
+Connections between layer groups are established only through element pins and vias. 
+The relationship between a specific layer and the board itself is configurable from
+the <span class="samp">Edit layer groups</span> option in the <b>Settings</b> menu. 
+The layer groups corresponding to the physical layers: <em>component-side</em>
+and <em>solder-side</em> are always defined and you must map at least one
+logical layer to each, even if you plan to make a single-sided board. 
+You are not obligated to put tracks on either of them. 
+Surface mount elements always reside on either the component-side or the
+solder-side layer group. When you paste an element from the buffer,
+it will go onto whichever side of the board you are viewing. 
+You can swap which side of the board you are viewing by pressing
+the <em>Tab</em> key, or by selecting <span class="samp">view solder side</span> from the
+<b>Screen</b> menu. 
+The layer groups just have a name or number associated with them - where
+they are sandwiched in the board is left for you to tell the
+manufacturer.
+
+   <p>The silkscreen layer is special because there are actually two silkscreen
+layers, one for the top (component) and one for the bottom (solder) side
+of the board. Which silk layer you draw on is determined by the side of the
+board that you are viewing. If you are viewing the component side, then
+drawing on the silk layer draws to the component-side silk layer.
+
+   <p>The netlist layer is another special layer. It shows rat's-nest lines
+(<em>i.e.</em> guides that show how the netlist expects the element to interconnect). 
+If you make this the active layer, you can use the Line tool to add
+entries into the netlist, or to delete connections from the netlist
+window. Except for these two purposes, you should not
+make the netlist layer the active layer. Usually there is no need to
+do this because a separate schematic package should be used to create the
+netlist. <code>Pcb</code> can automatically draw all of the rats from
+the netlist. In some cases you may want to make a small change without
+going to the trouble of modifying the schematic, which is why this
+facility is provided.
+
+   </body></html>
+

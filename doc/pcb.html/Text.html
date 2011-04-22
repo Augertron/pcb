@@ -1,0 +1,58 @@
+<html lang="en">
+<head>
+<title>Text - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Drawing-and-Removing.html#Drawing-and-Removing" title="Drawing and Removing">
+<link rel="prev" href="Polygons.html#Polygons" title="Polygons">
+<link rel="next" href="Vias.html#Vias" title="Vias">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Text"></a>Next:&nbsp;<a rel="next" accesskey="n" href="Vias.html#Vias">Vias</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Polygons.html#Polygons">Polygons</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Drawing-and-Removing.html#Drawing-and-Removing">Drawing and Removing</a>
+<hr><br>
+</div>
+
+<h4 class="subsection">3.5.4 Text</h4>
+
+<p><a name="index-text_002c-an-example-90"></a><a name="index-strings_002c-an-example-91"></a><a name="index-example-of-text-handling-92"></a>Pressing <em>&lt;Key&gt;F5</em> or clicking one of the text selector buttons
+changes to <em>text-mode</em>. 
+Each successive notify event (<em>&lt;Btn1&gt;</em>)
+pops up the input line at the bottom and queries for a string. 
+Enter it and press <em>&lt;Key&gt;Return</em> to confirm or
+<em>&lt;Key&gt;Escape</em> to abort. 
+The text object is created with its upper left corner at the current pointer
+location. 
+The initial scaling is changed by <em>&lt;Key&gt;t</em> and
+<em>Shift&lt;Key&gt;t</em> or from the <em>Sizes</em> menu.
+
+   <p>Now switch to <em>rotate-mode</em> and press
+<em>&lt;Btn1&gt;</em> at the text-objects location. Text objects
+on the solder side of the layout are automatically mirrored and
+flipped so that they are seen correctly when viewing the solder-side.
+
+   <p>Use <em>&lt;Key&gt;n</em> to edit the string.
+
+   <p><b>TEXT OBJECTS ON COPPER LAYERS CREATE COPPER LINES BUT THEY ARE NOT SCANNED FOR
+CONNECTIONS</b>. If they are moved to the silkscreen layer, they
+no longer create copper.
+
+   </body></html>
+

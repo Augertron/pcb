@@ -1,0 +1,83 @@
+<html lang="en">
+<head>
+<title>Basic Types - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="File-Formats.html#File-Formats" title="File Formats">
+<link rel="next" href="Layout-File.html#Layout-File" title="Layout File">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Basic-Types"></a>Next:&nbsp;<a rel="next" accesskey="n" href="Layout-File.html#Layout-File">Layout File</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="File-Formats.html#File-Formats">File Formats</a>
+<hr><br>
+</div>
+
+   <p><a name="index-basic-types-739"></a><a name="index-file-formats_002c-basic-types-740"></a>
+
+<h3 class="section">7.1 Basic Types</h3>
+
+<p>Here are the basic type definitions used in the other sections of this
+chapter.
+
+<pre class="example">     Description     = Name
+     DeltaAngle      = Number
+     DrillingHole    = Number
+     Flags           = Number
+     FontPosition    = Number
+     Grid            = Number
+     GridOffsetX     = Number
+     GridOffsetY     = Number
+     Group           = GroupMember [,GroupMember]...
+     GroupMember     = decimal | [cs]
+     GroupString     = """ Group [:Group]... """
+     StyleString	= """ Style [:Style]... """
+     Height          = Number
+     LayerNumber     = Number
+     LayoutName      = Name
+     Name            = quoted_string
+     Number          = decimal | hex
+     PinNumber	= quoted_string
+     Spacing         = Number
+     StartAngle      = Number
+     SymbolID        = Number | charconst
+     Thickness       = Number
+     TextData        = quoted_string
+     TextFlags       = Flags
+     TextScale       = scale
+     TextX           = Number
+     TextY           = Number
+     Value           = Name
+     Width           = Number
+     X               = Number
+     X1              = Number
+     X2              = Number
+     Y               = Number
+     Y1              = Number
+     Y2              = Number
+     charconst       = "'" &lt;any character&gt; "'"
+     comment         = "#" {&lt;any character up to a newline&gt;}...
+     decimal         = [0-9]+
+     direction       = [0-3]
+     hex             = 0x[0-9a-fA-F]+
+     scale           = [1-&lt;positive integer&gt;]
+     quoted_string   = """ &lt;anything except \n and \r&gt; """
+     zoom            = [0-MAX]
+</pre>
+   </body></html>
+

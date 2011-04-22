@@ -1,0 +1,331 @@
+<html lang="en">
+<head>
+<title>Resources - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="X11-Interface.html#X11-Interface" title="X11 Interface">
+<link rel="next" href="Actions.html#Actions" title="Actions">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Resources"></a>Next:&nbsp;<a rel="next" accesskey="n" href="Actions.html#Actions">Actions</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="X11-Interface.html#X11-Interface">X11 Interface</a>
+<hr><br>
+</div>
+
+   <p><a name="index-resources-321"></a><a name="index-X11-resources-322"></a>
+
+<h3 class="section">6.1 Non-Standard X11 Application Resources</h3>
+
+<p>In addition to the toolkit resources, <code>Pcb</code> defines the
+following resources:
+
+     
+<a name="index-absoluteGrid-323"></a>
+<a name="index-grid-324"></a>
+<dl><dt><span class="samp">absoluteGrid (boolean)</span><dd>Selects if either the grid is relative to the position where it has changed
+last or absolute, the default, to the origin (0,0).
+
+     <p><a name="index-alignmentDistance-325"></a><a name="index-alignment-326"></a><br><dt><span class="samp">alignmentDistance (dimension)</span><dd>Specifies the distance between the boards outline to the alignment targets.
+
+     <p><a name="index-allDirectionLines-327"></a><a name="index-lines_002c-clipping-to-45-degree-328"></a><a name="index-clipping-lines-to-45-degree-329"></a><br><dt><span class="samp">allDirectionLines (boolean)</span><dd>Enables (default) or disables clipping of new lines to 45 degree angles.
+
+     <p><a name="index-backgroundImage-330"></a><a name="index-background-331"></a><br><dt><span class="samp">backgroundImage (string)</span><dd>If specified, this image will be drawn as the background for the
+board.  The purpose of this option is to allow you to use a scan of an
+existing layout as a prototype for your new layout.  To do this, there
+are some limitations as to what this image must be.  The image must be
+a PPM binary image (magic number <span class="samp">P6</span>).  It must have a maximum
+pixel value of 255 or less (i.e. no 16-bit images).  It must represent
+the entire board, as it will be scaled to fit the board dimensions
+exactly.  Note that it may be scaled unevenly if the image doesn't
+have the same aspect ratio of your board.  You must ensure that the
+image does not use more colors than are available on your system
+(mostly this is for pseudo-color displays, like old 8-bit displays). 
+For best results, I suggest the following procedure using The Gimp:
+Load your image (any type).  Image-&gt;Scale if needed. 
+Image-&gt;Colors-&gt;Curves and for each of Red, Green, and Blue channel
+move the lower left point up to about the 3/4 line (value 192).  This
+will make your image pale so it doesn't interfere with the traces
+you'll be adding.  Image-&gt;Mode-&gt;Indexed and select, say, 32 colors
+with Normal F-S dithering.  File-&gt;Save As, file type by extension,
+use <span class="file">.ppm</span> as the extension.  Select Raw formatting.
+
+     <p><a name="index-backupInterval-332"></a><a name="index-backup-333"></a><br><dt><span class="samp">backupInterval (int)</span><dd><code>Pcb</code> has an automatic backup feature which saves the current data
+every n seconds. The default is <em>300</em> seconds. A value of zero disables
+the feature. The backup file is named <span class="file">/tmp/PCB.%i.backup</span> by
+default (this may have been changed at compilation time via the
+<code>BACKUP_NAME</code>
+variable in <span class="file">globalconfig.h</span>). 
+<em>%i</em> is replaced by the process ID. 
+See also, the command-line option <em>-backup</em>.
+
+     <p><a name="index-bloat-334"></a><a name="index-bloat-335"></a><a name="index-drc-336"></a><br><dt><span class="samp">Bloat (dimension)</span><dd>Specifies the minimum spacing design rule in mils.
+
+     <p><a name="index-charactersPerLine-337"></a><a name="index-characters-per-line-338"></a><a name="index-linelength-339"></a><a name="index-list-of-connections-340"></a><br><dt><span class="samp">charactersPerLine (int)</span><dd><code>Pcb</code> uses this value to determine the page width when creating lists. 
+N, the number of characters per line, defaults to <em>80</em>. 
+See also, the command-line option <em>-c</em>.
+
+     <p><a name="index-connectedColor-341"></a><a name="index-colors-342"></a><a name="index-connections_002c-colors-343"></a><br><dt><span class="samp">connectedColor (color)</span><dd>All pins, vias, lines and rectangles which are selected during a connection
+search are drawn with this color. The default value is determined by
+<em>XtDefaultForeground</em>.
+
+     <p><a name="index-cross-hairColor-344"></a><a name="index-colors-345"></a><a name="index-cursor-color-346"></a><br><dt><span class="samp">cross hairColor (color)</span><dd>This color is used to draw the cross hair cursor. The color is a result of
+a <em>XOR</em> operation with the contents of the Layout area. The result
+also depends on the default colormap of the <code>X11</code> server because only
+the colormap index is used in the boolean operation and <code>Pcb</code> doesn't
+create its own colormap. The default setting is <em>XtDefaultForeground</em>.
+
+     <p><a name="index-elementColor-347"></a><a name="index-elementSelectedColor-348"></a><a name="index-colors-349"></a><a name="index-element_002c-color-350"></a><br><dt><span class="samp">elementColor (color)</span><dt><span class="samp">elementSelectedColor (color)</span><dd>The elements package part is drawn in these colors, for normal and selected
+mode, respectively, which both default to <em>XtDefaultForeground</em>.
+
+     <p><a name="index-elementCommand-351"></a><a name="index-element_002c-command-352"></a><a name="index-element_002c-files-353"></a><a name="index-loading-elements-354"></a><a name="index-preprocessing-element-data-355"></a><a name="index-unix-command-356"></a><a name="index-m4-357"></a><br><dt><span class="samp">elementCommand (string)</span><dd><code>Pcb</code> uses a user defined command to read element files. This resources
+is used to set the command which is executed by the users default shell. 
+Two escape sequences are defined to pass the selected filename (%f) and the
+current search path (%p). The command must write the element data
+to its standard output. The default value is
+     <pre class="example">              M4PATH="%p";export M4PATH;echo 'include(%f)' | m4
+     </pre>
+     <p>Using the GNU version of <code>m4</code> is highly recommended. 
+See also, the command-line option <em>-lelement</em>.
+
+     <p><a name="index-elementPath-358"></a><a name="index-searchpath-for-element-files-359"></a><a name="index-path-for-element-files-360"></a><a name="index-element_002c-files-361"></a><a name="index-loading-elements-362"></a><br><dt><span class="samp">elementPath (string)</span><dd>A colon separated list of directories or commands (starts with '|'). 
+The path is passed to the program specified in <em>elementCommand</em> together
+with the selected element name. A specified command will be executed in order
+to create entries for the fileselect box. It must write its results to
+<em>stdout</em> one entry per line. 
+See also, the user-command <em>le[!]</em>.
+
+     <p><a name="index-fileCommand-363"></a><a name="index-file-load-command-364"></a><a name="index-layout-files-365"></a><a name="index-loading-layouts-366"></a><a name="index-preprocessing-layout-data-367"></a><a name="index-unix-command-368"></a><a name="index-cat-369"></a><br><dt><span class="samp">fileCommand (string)</span><dd>The command is executed by the user's default shell whenever existing layout
+files are loaded. Data is read from the command's standard output. 
+Two escape sequences may be specified to pass the selected filename (%f)
+and the current search path (%p). The default value is:
+     <pre class="example">              cat %f
+     </pre>
+     <p>See also, the command-line option <em>-lfile</em>.
+
+     <p><a name="index-filePath-370"></a><a name="index-searchpath-for-layout-files-371"></a><a name="index-path-for-layout-files-372"></a><a name="index-layout-files-373"></a><a name="index-loading-layouts-374"></a><br><dt><span class="samp">filePath (string)</span><dd>A colon separated list of directories or commands (starts with '|'). 
+The path is passed to the program specified in <em>fileCommand</em> together
+with the selected filename. A specified command will be executed in order
+to create entries for the fileselect box. It must write its results to
+<em>stdout</em> one entry per line. 
+See also, the user-command <em>l[!]</em>.
+
+     <p><a name="index-fontCommand-375"></a><a name="index-font-command-376"></a><a name="index-font-files-377"></a><a name="index-loading-fonts-378"></a><a name="index-loading-symbols-379"></a><a name="index-preprocessing-font-data-380"></a><a name="index-unix-command-381"></a><a name="index-cat-382"></a><br><dt><span class="samp">fontCommand (string)</span><dd>Loading new symbol sets also is handled by an external command. You again
+may pass the selected filename and the current search path by passing
+%f and %p in the command string. Data is read from the commands standard
+output. This command defaults to
+     <pre class="example">              cat %f
+     </pre>
+     <p>See also, the command-line option <em>-lfont</em>.
+
+     <p><a name="index-fontFile-383"></a><a name="index-default-font-384"></a><a name="index-symbols-385"></a><br><dt><span class="samp">fontFile (string)</span><dd>The default font for new layouts is read from this file which is searched
+in the directories as defined by the resource <em>fontPath</em>. 
+Searching is only performed if the filename does not contain a directory
+component. 
+The default filename is <span class="file">default_font</span>. 
+See also, the command-line option <em>-fontfile</em>.
+
+     <p><a name="index-fontPath-386"></a><a name="index-searchpath-for-font-files-387"></a><a name="index-path-for-font-files-388"></a><a name="index-font-files-389"></a><a name="index-loading-fonts-390"></a><a name="index-loading-symbols-391"></a><br><dt><span class="samp">fontPath (string)</span><dd>This resource, a colon separated list of directories, defines the searchpath
+for font files. See also, the resource <em>fontFile</em>.
+
+     <p><a name="index-grid-392"></a><a name="index-grid-393"></a><a name="index-cursor-steps-394"></a><br><dt><span class="samp">grid (int)</span><dd>This resources defines the initial value of one cursor step. It defaults
+to <em>100 mil</em> and any changes are saved together with the layout data.
+
+     <p><a name="index-gridColor-395"></a><a name="index-colors-396"></a><a name="index-grid-color-397"></a><br><dt><span class="samp">gridColor (color)</span><dd>This color is used to draw the grid. The color is a result of
+a <em>INVERT</em> operation with the contents of the Layout area. The result
+also depends on the default colormap of the <code>X11</code> server because only
+the colormap index is used in the boolean operation and <code>Pcb</code> doesn't
+create its own colormap. The default setting is <em>XtDefaultForeground</em>.
+
+     <p><a name="index-invisibleObjectsColor-398"></a><a name="index-colors-399"></a><a name="index-element_002c-color-400"></a><br><dt><span class="samp">elementColor (color)</span><dd>Elements located on the opposite side of the board are drawn in this color. 
+The default is <em>XtDefaultForeground</em>.
+
+     <p><a name="index-layerColor-401"></a><a name="index-layerSelectedColor-402"></a><a name="index-colors-403"></a><a name="index-layers_002c-colors-404"></a><br><dt><span class="samp">layerColor1..MAX_LAYER (color)</span><dt><span class="samp">layerSelectedColor1..MAX_LAYER (color)</span><dd>These resources define the drawing colors of the different layers in
+normal and selected state. All values are preset to <em>XtDefaultForeground</em>.
+
+     <p><a name="index-layerGroups-405"></a><a name="index-layers_002c-groups-406"></a><a name="index-groups-407"></a><br><dt><span class="samp">layerGroups (string)</span><dd>The argument to this resource is a colon separated list of comma separated
+layer numbers (1..MAX_LAYER). All layers within one group are switched on/off
+together. The default setting is <em>1:2:3:...:MAX_LAYER</em> which means
+all layers are handled separately. Grouping layers one to three looks like
+<em>1,2,3:4:...:MAX_LAYER</em>
+See also, the command-line option <em>-lg</em>.
+
+     <p><a name="index-layerName-408"></a><a name="index-layer_002c-name-of-409"></a><br><dt><span class="samp">layerName1..MAX_LAYER (string)</span><dd>The default name of the layers in a new layout are determined by these
+resources. The defaults are empty strings.
+
+     <p><a name="index-libraryCommand-410"></a><a name="index-library-command-411"></a><a name="index-loading-elements-412"></a><a name="index-unix-command-413"></a><br><dt><span class="samp">libraryCommand (string)</span><dd><code>Pcb</code> uses a command to read element data from libraries. 
+The resources is used to set the command which is executed by the users
+default shell.  Three escape sequences are defined to pass the selected
+filename (%f), the current search path (%p) as well (%a) as the three
+parameters <em>template</em>, <em>value</em> and <em>package</em> to the command. 
+It must write the element data to its standard output. The default value is
+     <pre class="example">              NONE/share/pcb/oldlib/QueryLibrary.sh %p %f %a
+     </pre>
+     <p><a name="index-elementContentsCommand-414"></a><a name="index-library-contents-command-415"></a><a name="index-listing-library-contents-416"></a><a name="index-unix-command-417"></a><br><dt><span class="samp">libraryContentsCommand (string)</span><dd>Similar to <em>libraryCommand</em>, <code>Pcb</code> uses the command specified
+by this resource to list the contents of a library.
+     <pre class="example">          	NONE/share/pcb/oldlib/ListLibraryContents.sh %p %f
+     </pre>
+     <p>is the default.
+
+     <p><a name="index-libraryFilename-418"></a><a name="index-default-library-419"></a><a name="index-library-name-420"></a><br><dt><span class="samp">libraryFilename (string)</span><dd>The resource specifies the name of the library. The default value is
+<em>pcblib</em> unless changed at compile time
+with the <code>LIBRARYFILENAME</code> variable in <span class="file">globalconfig.h</span>.
+
+     <p><a name="index-libraryPath-421"></a><a name="index-searchpath-for-libraries-422"></a><a name="index-path-for-libraries-423"></a><a name="index-library-searchpath-424"></a><br><dt><span class="samp">libraryPath (string)</span><dd>A colon separated list of directories that will be passed to the commands
+specified by <em>elementCommand</em> and <em>elementContentsCommand</em>.
+
+     <p><a name="index-lineThickness-425"></a><a name="index-lines_002c-size-426"></a><a name="index-size-of-lines-427"></a><a name="index-thickness-of-lines-428"></a><br><dt><span class="samp">lineThickness (dimension)</span><dd>The value, in the range [1..250] (the range may be changed at compile
+time with the <code>MIN_LINESIZE</code> and <code>MAX_LINESIZE</code> variables in
+<span class="file">globalconfig.h</span>), defines the
+initial thickness of new lines. The value is preset to <em>ten mil</em>.
+
+     <p><a name="index-media-429"></a><a name="index-media-430"></a><a name="index-media-margin-431"></a><a name="index-print-media-432"></a><br><dt><span class="samp">media (&lt;predefined&gt; | &lt;width&gt;x&lt;height&gt;+-&lt;left_margin&gt;+-&lt;top_margin&gt;)</span><dd>The default (user defined) media of the <code>PostScript</code> device. Predefined
+values are <em>a3</em>, <em>a4</em>, <em>a5</em>, <em>letter</em>, <em>tabloit</em>,
+<em>ledger</em>, <em>legal</em>, and <em>executive</em>. 
+The second way is to specify the medias width, height and margins in mil. 
+The resource defaults to <em>a4</em> size unless changed at compile time
+with the <code>DEFAULT_MEDIASIZE</code> variable in <span class="file">globalconfig.h</span>.
+
+     <p><a name="index-offLimitColor-433"></a><a name="index-colors-434"></a><a name="index-off-limit-color-435"></a><br><dt><span class="samp">offLimitColor (color)</span><dd>The area outside the current maximum settings for width and height is drawn
+with this color. The default value is determined by <em>XtDefaultBackground</em>.
+
+     <p><a name="index-pinColor-436"></a><a name="index-pinSelectedColor-437"></a><a name="index-colors-438"></a><a name="index-pin-color-439"></a><br><dt><span class="samp">pinColor (color)</span><dt><span class="samp">pinSelectedColor(color)</span><dd>This resource defines the drawing color of pins and pads in both states. 
+The values are preset to <em>XtDefaultForeground</em>.
+
+     <p><a name="index-pinoutFont0_002e_002e6-440"></a><a name="index-font_002c-used-for-pin-names-441"></a><a name="index-pinout_002c-font-to-display-pin-names-442"></a><br><dt><span class="samp">pinoutFont (string)</span><dd>This fonts are used to display pin names. There is one font for each zoom
+value. The values are preset to <em>XtdefaultFont</em>.
+
+     <p><a name="index-pinoutNameLength-443"></a><a name="index-namelength-of-pins-444"></a><a name="index-pin_002c-name-of-445"></a><a name="index-length-of-a-pin-name-446"></a><br><dt><span class="samp">pinoutNameLength (int)</span><dd>This resource limits the number of characters which are displayed for
+pin names in the pinout window. By default the string length is limited
+to <em>eight</em> characters per name. 
+See also, the command-line option <em>-pnl</em>.
+
+     <p><a name="index-pinoutOffsetX-447"></a><a name="index-pinoutOffsetY-448"></a><a name="index-offset-of-pinout-449"></a><br><dt><span class="samp">pinoutOffsetX (int)</span><dt><span class="samp">pinoutOffsetY (int)</span><dd>These resources determine the offset in <em>mil</em> of the circuit from the
+upper left corner of the window when displaying pinout information. 
+Both default to <em>100 mil</em>.
+
+     <p><a name="index-pinoutTextOffsetX-450"></a><a name="index-pinoutTextOffsetY-451"></a><a name="index-offset-of-pinnames-452"></a><br><dt><span class="samp">pinoutTextOffsetX (int)</span><dt><span class="samp">pinoutTextOffsetY (int)</span><dd>The resources determine the distance in mil between the drilling hole of a pin
+to the location where its name is displayed in the pinout window. 
+They default to <em>X:50</em> and <em>Y:0</em>.
+
+     <p><a name="index-pinoutZoom-453"></a><a name="index-pinout_002c-zoomfactor-of-display-454"></a><a name="index-zoom-of-pinout-window-455"></a><br><dt><span class="samp">pinoutZoom (int)</span><dd>Sets the zoom factor for the pinout window according to the formula:
+scale = 1:(2 power value). Its default value is <em>two</em> which results in
+a <em>1:4</em> scale. 
+See also, the command-line option <em>-pz</em>.
+
+     <p><a name="index-printCommand-456"></a><a name="index-printing-457"></a><br><dt><span class="samp">printCommand (string)</span><dd>Default file for printouts. If the name starts with a '|' the output
+is piped through the command. A %f is replaced by the current filename. 
+There is no default file or command.
+
+     <p><a name="index-raiseLogWindow-458"></a><a name="index-log-window-459"></a><a name="index-messages-460"></a><br><dt><span class="samp">raiseLogWindow (boolean)</span><dd>The log window will be raised when new messages arrive if this resource
+is set <em>true</em>, the default.
+
+     <p><a name="index-ratCommand-461"></a><a name="index-rats-nest-462"></a><a name="index-netlist-463"></a><br><dt><span class="samp">ratCommand (string)</span><dd>Default command for reading a netlist. A %f is replaced by the netlist
+filename. Its default value is "<em>cat %f</em>".
+
+     <p><a name="index-ratPath-464"></a><a name="index-rats-nest-465"></a><a name="index-netlist-466"></a><br><dt><span class="samp">ratPath (string)</span><dd>Default path to look for netlist files. It's default value is "."
+
+     <p><a name="index-resetAfterElement-467"></a><a name="index-connections_002c-reseting-after-element-468"></a><a name="index-reseting-found-connections-469"></a><br><dt><span class="samp">resetAfterElement (boolean)</span><dd>If set to <em>true</em>, all found connections will be reset before a new
+element is scanned. This will produce long lists when scanning the whole
+layout for connections. The resource is set to <em>false</em> by default. 
+The feature is only used while looking up connections of all elements. 
+See also, the command-line option <em>-reset, +reset</em>.
+
+     <p><a name="index-ringBellWhenFinished-470"></a><a name="index-keyboard-bell-471"></a><br><dt><span class="samp">ringBellWhenFinished (boolean)</span><dd>Whether to ring the bell (the default) when a possibly lengthy operation
+has finished or not. 
+See also, the command-line option <em>-ring, +ring</em>.
+
+     <p><a name="index-routeStyle-472"></a><a name="index-routing-style-473"></a><br><dt><span class="samp">routeStyle (string)</span><dd>Default values for the menu of routing styles (seen in the sizes menu). 
+The string is a comma separated list of name, line thickness,
+via diameter, and via drill size. 
+e.g. "Fat,50,100,40:Skinny,8,35,20:75Ohm,110,110,20"
+See also, the command-line option <em>-rs</em> and <em>Sizes Menu</em>
+
+     <p><a name="index-rubberBandMode-474"></a><a name="index-move-475"></a><a name="index-rubberband-476"></a><a name="index-rotate-477"></a><br><dt><span class="samp">rubberBandMode (boolean)</span><dd>Whether rubberband move and rotate (attached lines stretch like
+rubberbands) is enabled (the default).
+
+     <p><a name="index-saveCommand-478"></a><a name="index-file-save-command-479"></a><a name="index-layout-files-480"></a><a name="index-saving-layouts-481"></a><a name="index-postprocessing-layout-data-482"></a><a name="index-unix-command-483"></a><a name="index-cat-484"></a><br><dt><span class="samp">saveCommand (string)</span><dd>This command is used to save data to a layout file. The filename may be
+indicated by placing <code>%f</code> in the string. It must read the data from
+its standard input.  The default command is:
+     <pre class="example">              cat - &gt; %f
+     </pre>
+     <p>See also, the command-line option <em>-sfile</em>.
+
+     <p><a name="index-saveInTMP-485"></a><a name="index-backup-486"></a><a name="index-saving-layouts-487"></a><a name="index-preventing-loss-of-data-488"></a><a name="index-temporary-files-489"></a><a name="index-_002ftmp-490"></a><a name="index-directory-_002ftmp-491"></a><br><dt><span class="samp">saveInTMP (boolean)</span><dd>Enabling this resource will save all data which would otherwise be lost
+in a temporary file <span class="file">/tmp/PCB.%i.save</span>.  The file name may
+be changed at compile time
+with the <code>EMERGENCY_NAME</code> variable in <span class="file">globalconfig.h</span>. 
+. 
+<em>%i</em> is replaced by the process ID. 
+As an example, loading a new layout when the old one hasn't been saved would
+use this resource. 
+See also, the command-line option <em>-save, +save</em>.
+
+     <p><a name="index-saveLastCommand-492"></a><a name="index-saving-last-entered-user-command-493"></a><a name="index-inputfield_002c-saving-entered-command_002dline-494"></a><br><dt><span class="samp">saveLastCommand (boolean)</span><dd>Enables the saving of the last entered user command. The option is
+<em>disabled</em> by default. 
+See also, the command-line option <em>-s, +s</em>.
+
+     <p><a name="index-shrink-495"></a><a name="index-shrink-496"></a><a name="index-drc-497"></a><br><dt><span class="samp">Shrink (dimension)</span><dd>Specifies the minimum overlap (touching) design rule in mils.
+
+     <p><a name="index-size-498"></a><a name="index-default-layout-size-499"></a><a name="index-layout_002c-default-size-of-500"></a><br><dt><span class="samp">size (&lt;width&gt;x&lt;height&gt;)</span><dd>Defines the width and height of a new layout. The default is
+<em>7000x5000</em> unless changed at compile time
+with the <code>DEFAULT_SIZE</code> variable in <span class="file">globalconfig.h</span>.
+
+     <p><a name="index-stipplePolygons-501"></a><a name="index-polygon-502"></a><a name="index-display-503"></a><br><dt><span class="samp">stipllePolygons (boolean)</span><dd>Determines whether to display polygons on the screen with a stippled
+pattern.  Stippling can create some amount of transparency so that
+you can still (to some extent) see layers beneath polygons. 
+It defaults to False.
+
+     <p><a name="index-textScale-504"></a><a name="index-text_002c-default-scaling-505"></a><a name="index-default-text-scaling-506"></a><br><dt><span class="samp">textScale (dimension)</span><dd>The font scaling in percent is defined by this resource. The default is
+<em>100</em> percent.
+
+     <p><a name="index-useLogWindow-507"></a><a name="index-log-window-508"></a><a name="index-messages-509"></a><br><dt><span class="samp">useLogWindow (boolean)</span><dd>Several subroutines send messages to the user if an error occurs. 
+This resource determines if they appear inside the log window or as a separate
+dialog box. See also, the resource <em>raiseLogWindow</em> and the command line
+option <em>-loggeometry</em>. 
+The default value is <em>true</em>.
+
+     <p><a name="index-viaColor-510"></a><a name="index-viaSelectedColor-511"></a><a name="index-colors-512"></a><a name="index-vias_002c-color-513"></a><br><dt><span class="samp">viaColor (color)</span><br><dt><span class="samp">viaSelectedColor (color)</span><dd>This resource defines the drawing color of vias in both states. 
+The values are preset to <em>XtDefaultForeground</em>.
+
+     <p><a name="index-viaThickness-514"></a><a name="index-viaDrillingHole-515"></a><a name="index-vias_002c-size-516"></a><a name="index-size-of-vias-517"></a><a name="index-thickness-of-vias-518"></a><br><dt><span class="samp">viaThickness (dimension)</span><dt><span class="samp">viaDrillingHole (dimension)</span><dd>The initial thickness and drilling hole of new vias. The values must be in the
+range [30..400] (the range may be changed at compile
+time with the <code>MIN_PINORVIASIZE</code> and <code>MAX_PINEORVIASIZE</code> variables in
+<span class="file">globalconfig.h</span>), with at least 20
+mil of copper. 
+The default thickness is <em>40 mil</em> and the default drilling hole is
+<em>20 mil</em>.
+
+     <p><a name="index-volume-519"></a><a name="index-speaker-volume-520"></a><a name="index-volume-of-speaker-521"></a><br><dt><span class="samp">volume (int)</span><dd>The value is passed to <code>XBell()</code> which sets the volume of the <code>X</code>
+speaker. 
+The value lies in the range -100..100 and it defaults to the maximum volume of
+<em>100</em>.
+
+     <p><a name="index-warnColor-522"></a><a name="index-colors-523"></a><a name="index-color_002c-warning-524"></a><br><dt><span class="samp">warnColor (color)</span><dd>This resources defines the color to be used for drawing pins and pads when
+a warning has been issued about them.
+
+     <p><a name="index-zoom-525"></a><a name="index-zoom-of-Layout-area-526"></a><br><dt><span class="samp">zoom (int)</span><dd>The initial value for output scaling is set according to the following
+formula: scale = 1:(2 power value). It defaults to <em>three</em> which results
+in an output scale of <em>1:8</em>.
+
+   </dl>
+
+   <p>Refer also to <a href="Command_002dLine-Options.html#Command_002dLine-Options">Command-Line Options</a>.
+
+   </body></html>
+

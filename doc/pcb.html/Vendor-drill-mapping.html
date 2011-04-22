@@ -1,0 +1,120 @@
+<html lang="en">
+<head>
+<title>Vendor drill mapping - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Getting-Started.html#Getting-Started" title="Getting Started">
+<link rel="prev" href="Measuring-distances.html#Measuring-distances" title="Measuring distances">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Vendor-drill-mapping"></a>Previous:&nbsp;<a rel="previous" accesskey="p" href="Measuring-distances.html#Measuring-distances">Measuring distances</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Getting-Started.html#Getting-Started">Getting Started</a>
+<hr><br>
+</div>
+
+   <p><a name="index-Vendor-rules-159"></a><a name="index-Vendor-mapping-160"></a><a name="index-Drill-table-161"></a><a name="index-Vendor-drill-table-162"></a>
+
+<h3 class="section">3.16 Vendor Drill Mapping</h3>
+
+<p><code>Pcb</code> includes support for mapping drill holes to a specified set
+of sizes used by a particular vendor.  Many PCB manufacturers have a
+prefered set of drill sizes and charge extra when others are used. 
+The mapping can be performed on an existing design and can also be
+enabled to automatically map drill holes as vias and elements are
+instantiated.
+
+   <p>The first step in using the vendor drill mapping feature is to create
+a resource file describing the capabilities of your vendor.  The file
+format is the resource file format described in <a href="Resource-Syntax.html#Resource-Syntax">Resource Syntax</a>. 
+A complete example is given below.
+
+<pre class="example">     # Optional name of the vendor
+     vendor = "Vendor Name"
+     
+     # units for dimensions in this file.
+     # Allowed values:  mil/inch/mm
+     units = mil
+     
+     # drill table
+     drillmap = {
+        # When mapping drill sizes, select the nearest size
+        # or always round up.  Allowed values:  up/nearest
+        round = up
+     
+        # The list of vendor drill sizes.  Units are as specified
+        # above.
+        20
+        28
+        35
+        38
+        42
+        52
+        59.5
+        86
+       125
+       152
+     
+        # optional section for skipping mapping of certain elements
+        # based on reference designator, value, or description
+        # this is useful for critical parts where you may not
+        # want to change the drill size.  Note that the strings
+        # are regular expressions.
+        skips = {
+           {refdes "^J3$"}  # Skip J3.
+           {refdes "J3"}  # Skip anything with J3 as part of the refdes.
+           {refdes "^U[1-3]$" "^X.*"} # Skip U1, U2, U3, and anything starting with X.
+           {value "^JOHNSTECH_.*"} # Skip all Johnstech footprints based on the value of a part.
+           {descr "^AMP_MICTOR_767054_1$"} # Skip based on the description.
+        }
+     }
+     
+     # If specified, this section will change the current DRC
+     # settings for the design.  Units are as specified above.
+     drc = {
+        copper_space = 7
+        copper_width = 7
+        silk_width = 10
+        copper_overlap = 4
+     }
+</pre>
+   <p>The vendor resource is loaded using the <code>LoadVendor</code> action. 
+This is invoked by entering:
+<pre class="example">     :LoadVendor(vendorfile)
+</pre>
+   <p>from within <code>Pcb</code>.  Substitute the file name of your vendor
+resource file for <span class="samp">vendorfile</span>.  This action will load the vendor
+resource and modify all the drill holes in the design as well as the
+default via hole size for the various routing styles.
+
+   <p>Once a vendor drill map has been loaded, new vias and elements will
+automatically have their drill hole sizes mapped to the vendor drill
+table.  Automatic drill mapping may be disabled under the &ldquo;Settings&rdquo;
+menu.  To re-apply an already loaded vendor drill table to a design,
+choose &ldquo;Apply vendor drill mapping&rdquo; from the &ldquo;Connects&rdquo; menu.
+
+   <p>See <a href="Actions.html#Actions">Actions</a> for a complete description of the actions associated
+with vendor drill mapping.
+
+   <p>Note that the expressions used in the <code>skips</code> section are regular
+expressions.  See <a href="Regular-Expressions.html#Regular-Expressions">Regular Expressions</a> for an introduction to
+regular expressions.
+
+<!--  chapter 3 - -->
+</body></html>
+

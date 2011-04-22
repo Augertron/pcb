@@ -1,0 +1,106 @@
+<html lang="en">
+<head>
+<title>User Commands - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="Getting-Started.html#Getting-Started" title="Getting Started">
+<link rel="next" href="Command_002dLine-Options.html#Command_002dLine-Options" title="Command-Line Options">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="User-Commands"></a>Next:&nbsp;<a rel="next" accesskey="n" href="Command_002dLine-Options.html#Command_002dLine-Options">Command-Line Options</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Getting-Started.html#Getting-Started">Getting Started</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr><br>
+</div>
+
+   <p><a name="index-user-commands-163"></a><a name="index-entering-user-commands-164"></a>
+
+<h2 class="chapter">4 User Commands</h2>
+
+<p>The entering of user-commands is initiated by the action routine
+<em>Command()</em> (the <code>(":")</code> character) and finished by either
+<em>&lt;Key&gt;Return</em>
+or <em>&lt;Key&gt;Escape</em> to confirm or to abort. These two key-bindings
+cannot be changed from the resource file. 
+The triggering event, normally a key press, is ignored. 
+The input area will replace the bottom statusline. It pops
+up when <em>Command()</em> is called. The arguments of the user-commands
+are passed to the external commands without modification. 
+See also, the resource <em>saveInTMP</em>.
+
+   <p>There are simple <em>usage</em> dialogs for each command and one for the
+complete set of commands.
+
+     
+<a name="index-_003al-165"></a>
+<a name="index-loading-layouts-166"></a>
+<a name="index-layout_002c-loading-a-167"></a>
+<dl><dt><span class="samp">l [filename]</span><dd>Loads a new datafile (layout) and, if confirmed, overwrites any existing unsaved data. 
+The filename and the searchpath (<em>filePath</em>) are passed to the
+command defined by <em>fileCommand</em>. 
+If no filename is specified a file select box will popup.
+
+     <p><a name="index-_003ale-168"></a><a name="index-loading-elements-to-buffer-169"></a><a name="index-element_002c-loading-to-buffer-170"></a><br><dt><span class="samp">le [filename]</span><dd>Loads an element description into the paste buffer. 
+The filename and the searchpath (<em>elementPath</em>) are passed to the
+command defined by <em>elementCommand</em>. 
+If no filename is specified a file select box will popup.
+
+     <p><a name="index-_003am-171"></a><a name="index-loading-a-layout-to-buffer-172"></a><a name="index-merging-layouts-173"></a><a name="index-layout_002c-loading-to-buffer-174"></a><a name="index-layout_002c-merging-a-175"></a><br><dt><span class="samp">m [filename]</span><dd>Loads an layout file into the paste buffer. 
+The filename and the searchpath (<em>filePath</em>) are passed to the
+command defined by <em>fileCommand</em>. 
+If no filename is specified a file select box will popup.
+
+     <p><a name="index-_003aq-176"></a><a name="index-exit-177"></a><a name="index-quit-178"></a><br><dt><span class="samp">q[!]</span><dd>Quits the program without saving any data (after confirmation). 
+q! doesn't ask for confirmation, it just quits.
+
+     <p><a name="index-_003as-179"></a><a name="index-saving-layouts-180"></a><a name="index-layout-files_002c-saving-of-181"></a><br><dt><span class="samp">s [filename]</span><dd>Data and the filename are passed to the command defined by the resource
+<em>saveCommand</em>. It must read the layout data from <em>stdin</em>. 
+If no filename is entered, either the last one is used
+again or, if it is not available, a file select box will pop up.
+
+     <p><a name="index-_003arn-182"></a><a name="index-rat_0027s-nest-183"></a><a name="index-layout_002dname-184"></a><br><dt><span class="samp">rn [filename]</span><dd>Reads in a netlist file.  If no filename is given
+a file select box will pop up. 
+The file is read via the command defined by the
+<em>RatCommand</em> resource. The command must send its output to <em>stdout</em>.
+
+     <p>Netlists are used for generating rat's nests (see <a href="Rats-Nest.html#Rats-Nest">Rats Nest</a>) and for
+verifying the board layout (which is also accomplished by the <em>Ratsnest</em>
+command).
+
+     <p><a name="index-_003aw_005bq_005d-185"></a><a name="index-saving-layouts-186"></a><a name="index-layout-files_002c-saving-of-187"></a><br><dt><span class="samp">w[q] [filename]</span><dd>These commands have been added for the convenience of <code>vi</code> users and
+have the same functionality as <em>s</em> combined with <em>q</em>.
+
+     <p><a name="index-_003aactionCommand_0028_0029-188"></a><a name="index-action-command-189"></a><a name="index-Actions_002c-initiating-190"></a><br><dt><span class="samp">actionCommand</span><dd>Causes the actionCommand to be executed.  This allows you to initiate actions
+for which no bindings exist in the resource file.  It can be used to initiate any
+action with whatever arguments you enter.  This makes it possible to do things
+that otherwise would be extremely tedious.  For example, to change the drilling
+hole diameter of all vias in the layout to 32 mils, you could select everything using the
+selection menu, then type "<em>:ChangeDrillSize(SelectedVias, 32)</em>".  (This will
+only work provided the via's diameter is sufficiently large to accommodate a 32 mil hole). 
+Another example might be to set the grid to 1 mil by typing "<em>:SetValue(Grid, 1)</em>". 
+Note that some actions use the current cursor location, so be sure to place the cursor
+where you want before entering the command.  This is one of my favorite new
+features in 1.5 and can be a powerful tool. Study the <a href="Actions.html#Actions">Actions</a> section to
+see what actions are available.
+
+   </dl>
+
+<!--  chapter 4 - -->
+</body></html>
+

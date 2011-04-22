@@ -1,0 +1,59 @@
+<html lang="en">
+<head>
+<title>Library Contents File - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="File-Formats.html#File-Formats" title="File Formats">
+<link rel="prev" href="Netlist-File.html#Netlist-File" title="Netlist File">
+<link rel="next" href="Library-File.html#Library-File" title="Library File">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Library-Contents-File"></a>Next:&nbsp;<a rel="next" accesskey="n" href="Library-File.html#Library-File">Library File</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Netlist-File.html#Netlist-File">Netlist File</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="File-Formats.html#File-Formats">File Formats</a>
+<hr><br>
+</div>
+
+   <p><a name="index-library-contents-file_002c-format-of-752"></a><a name="index-format-of-library-contents-753"></a><a name="index-file-format_002c-library-contents-754"></a>
+
+<h3 class="section">7.6 Library Contents File Format</h3>
+
+<p>There is nothing like a special library format. The ones that have been
+introduced in 1.4.1 just use some nice (and time consuming) features of GNU
+<code>m4</code>. The only predefined format is the one of the contents file
+which is read during startup. It is made up of two basic line types:
+
+<pre class="example">     menu entry      = "TYPE="name
+     contents line   = template":"package":"value":"description
+     name            = String
+     template        = String
+     package         = String
+     value           = String
+     description     = String
+     String          = &lt;anything except ":", "\n" and "\r"&gt;
+</pre>
+   <p>No leading white spaces or comments are allowed in this file. If you need
+either one, define a command that removes them before loading. Have a look
+to the <em>libraryContentsCommand</em> resource.
+
+   <p>The menu entry will appear in the selection menu at the top and of the
+library window.
+
+   </body></html>
+

@@ -1,0 +1,67 @@
+<html lang="en">
+<head>
+<title>Polygons - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Drawing-and-Removing.html#Drawing-and-Removing" title="Drawing and Removing">
+<link rel="prev" href="Arcs.html#Arcs" title="Arcs">
+<link rel="next" href="Text.html#Text" title="Text">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Polygons"></a>Next:&nbsp;<a rel="next" accesskey="n" href="Text.html#Text">Text</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Arcs.html#Arcs">Arcs</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Drawing-and-Removing.html#Drawing-and-Removing">Drawing and Removing</a>
+<hr><br>
+</div>
+
+   <p><a name="index-polygon_002c-an-example-86"></a><a name="index-example-of-polygon-handling-87"></a><a name="index-rectangle_002c-an-example-88"></a><a name="index-example-of-rectangle-handling-89"></a>
+
+<h4 class="subsection">3.5.3 Polygons and Rectangles</h4>
+
+<p>A polygon is drawn by defining all of its segments as a series of
+consecutive line segments. If the first point matches a new one and if
+the number of points is greater than two, then the polygon is closed. 
+Since matching up with the first point may be difficult, you may use
+<em>Shift&lt;Key&gt;p</em> to close the polygon. The <em>Shift&lt;Key&gt;p</em> won't
+work if clipping to 45 degree lines is selected
+and the final segment cannot match this condition. 
+I suggest you create simple convex polygons in order to avoid a strong
+negative impact on the performance of the connection scanning routines. 
+The <em>rectangle-mode</em> is just an easy way to generate rectangular polygons. 
+<em>Polygon-mode</em> also is selected by <em>&lt;Key&gt;F6</em> whereas
+<em>rectangle-mode</em> uses <em>&lt;Key&gt;F4</em>. 
+Pressing a <em>&lt;Btn1&gt;</em> at two locations creates a rectangle by
+defining two of its corners. 
+<em>&lt;Key&gt;Insert</em> brings you to <em>insert-point-mode</em> which lets you
+add additional points to an already existing polygon. 
+Single points may be removed by moving the cross hair to them and selecting
+one of the delete actions <em>(remove-mode, BackSpace, or Delete</em>. This only works
+if the remaining polygon will still have three or more corners. 
+Pressing <em>&lt;Key&gt;u</em>  or <em>&lt;Key&gt;p</em> while entering a new polygon
+brings you back to the previous corner. Removing a point does not
+force clipping to 45 degree angles (because it's not generally possible). 
+Newly created polygons will not connect to pins or vias
+that pierce it unless you create a thermal (using the thermal mode) to make
+the connection. If the edge of a polygon gets too close to a pin or via that
+lies outside of it, a warning will be issued and the pin will be given a
+special color. Increasing the distance between them will remove the warning
+color.
+
+   </body></html>
+

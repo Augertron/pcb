@@ -1,0 +1,72 @@
+<html lang="en">
+<head>
+<title>Connection Lists - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Getting-Started.html#Getting-Started" title="Getting Started">
+<link rel="prev" href="Printing.html#Printing" title="Printing">
+<link rel="next" href="Arrow-Tool.html#Arrow-Tool" title="Arrow Tool">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Connection-Lists"></a>Next:&nbsp;<a rel="next" accesskey="n" href="Arrow-Tool.html#Arrow-Tool">Arrow Tool</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Printing.html#Printing">Printing</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Getting-Started.html#Getting-Started">Getting Started</a>
+<hr><br>
+</div>
+
+   <p><a name="index-example-of-connection-lists-140"></a><a name="index-connections_002c-creating-list-of-141"></a>
+
+<h3 class="section">3.9 Connection Lists</h3>
+
+<p>After completing parts of your layout you may want to check if all drawn
+connections match the ones you have in mind. This is probably best done
+in conjunction with a net-list file: see <a href="Rats-Nest.html#Rats-Nest">Rats Nest</a>. 
+The following examples give more rudimentary ways to examine
+the connections.
+<pre class="example">         1) create at least two elements and name them
+         2) create some connections between their pins
+         3) optionally add some vias and connections to them
+</pre>
+   <p>Now select <em>lookup connection</em> from the <em>Connections</em> menu,
+move the cursor to a pin or via and press any mouse button. <code>Pcb</code>
+will look for all other pins and/or vias connected to the one you have
+selected and display the objects in a different color. 
+Now try some of the reset options available from the same menu.
+
+   <p>There also is a way to scan all connections of one element. Select
+<em>a single element</em> from the menu and press any button at the
+element's location. All connections of this element will be saved
+to the specified file. 
+Either the layout name of the element or its canonical name is used to
+identify pins depending on the one which is displayed on the screen
+(may be changed by <em>Display</em> menu).
+
+   <p>An automatic scan of all elements is initiated by choosing
+<em>all elements</em>. It behaves in a similar fashion to scanning a single
+element except the resource <em>resetAfterElement</em>
+is used to determine if connections should be reset before a new element is
+scanned. Doing so will produce very long lists because the power lines are
+rescanned for every element. By default the resource is set to <em>false</em>
+for this reason.
+
+   <p>To scan for unconnected pins select <em>unused pins</em> from the same
+menu.
+
+   </body></html>
+

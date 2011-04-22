@@ -1,0 +1,69 @@
+<html lang="en">
+<head>
+<title>Common - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Drawing-and-Removing.html#Drawing-and-Removing" title="Drawing and Removing">
+<link rel="next" href="Lines.html#Lines" title="Lines">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Common"></a>Next:&nbsp;<a rel="next" accesskey="n" href="Lines.html#Lines">Lines</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Drawing-and-Removing.html#Drawing-and-Removing">Drawing and Removing</a>
+<hr><br>
+</div>
+
+   <p><a name="index-creating-objects-77"></a><a name="index-object_002c-creating-an-78"></a><a name="index-removing-objects-79"></a><a name="index-object_002c-removing-an-80"></a><a name="index-thickness-of-objects-81"></a><a name="index-object_002c-changing-the-size-of-an-82"></a>There are several keystrokes and button events referring to an <em>object</em>
+without identifying its type. Here's a list of them:
+
+   <p><em>&lt;Btn1&gt;</em> creates (or deletes)  an object depending on the
+current mode.
+
+   <p><em>&lt;Key&gt;BackSpace</em> or <em>&lt;Key&gt;Delete</em> removes the visible
+object at the cursor location. When more than one object exists at the
+location, the order of removal is: via, line, text, polygon and
+element. The drawn layer order also affects the search - whatever is
+top - most (except elements) is affected before lower items.  Basically
+all this means that what is removed is probably just what you expect. 
+If for some reason it isn't, undo and try again. 
+Only one object is removed for each keystroke. If two or more
+of the same type match, the newest one is removed.
+
+   <p>Use <em>&lt;Key&gt;s</em> and <em>Shift&lt;Key&gt;s</em> to change the size (width)
+of lines, arcs, text objects, pins, pads and vias, or to toggle the style
+of polygons (whether pins and vias automatically have clearances).
+
+   <p><em>&lt;Key&gt;n</em> changes the name of pins, pads, vias, the
+string of a text object, or the currently displayed label of an element.
+
+   <p><em>&lt;Key&gt;m</em> moves the line, arc, or polygon under the cross hair to the
+active layer if it wasn't on that layer already.
+
+   <p><em>&lt;Key&gt;u</em> (undo) recovers from an unlimited number of operations
+such as creating, removing, moving, copying, selecting etc. It works like
+you'd expect even if you're in the midst of creating something.
+
+   <p><em>Shift&lt;Key&gt;r</em> restores the last undone operation provided no other
+changes have been made since the undo was performed.
+
+   <p><em>&lt;Key&gt;tab</em> changes the board side you are viewing.
+
+   <p>For a complete list of keystrokes and button events see <a href="Translations.html#Translations">Translations</a>.
+
+   </body></html>
+

@@ -1,0 +1,116 @@
+<html lang="en">
+<head>
+<title>Rats Nest - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Getting-Started.html#Getting-Started" title="Getting Started">
+<link rel="prev" href="Arrow-Tool.html#Arrow-Tool" title="Arrow Tool">
+<link rel="next" href="Design-Rule-Checking.html#Design-Rule-Checking" title="Design Rule Checking">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Rats-Nest"></a>Next:&nbsp;<a rel="next" accesskey="n" href="Design-Rule-Checking.html#Design-Rule-Checking">Design Rule Checking</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Arrow-Tool.html#Arrow-Tool">Arrow Tool</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Getting-Started.html#Getting-Started">Getting Started</a>
+<hr><br>
+</div>
+
+   <p><a name="index-rats-nest-146"></a><a name="index-netlist-147"></a><a name="index-rat_002dline-148"></a>
+
+<h3 class="section">3.11 Rats Nest</h3>
+
+<p>If you have a netlist that corresponds to the layout you are working on, you
+can use the rats-nest feature to add rat-lines to the layout. 
+First you will need to load a netlist file (see <em>:rn</em>,
+<a href="User-Commands.html#User-Commands">User Commands</a>). 
+<em>&lt;Key&gt;w</em> adds rat-lines on the active layer using the current
+line thickness shown in the status line (usually you'll want them to be thin lines). 
+Only those rat-lines that fill in missing connectivity (since you have
+probably routed some connections already) are added. 
+If the layout is already completely wired, nothing will be added, and you will
+get a message that the wiring is complete.
+
+   <p>Rat-lines are lines having the special property that they only connect to pins and
+pads at their end points.  Rat-lines are drawn on the screen with a stippled pattern
+to make them easier to identify since they have special behavior and cannot
+remain in a completed layout. 
+Rat-lines are added in the minimum length straight-line tree pattern
+(always ending on pins or pads) that satisfies the missing connectivity in the circuit. 
+Used in connection with moves and rotates of the elements, they are extremely useful for
+deciding where to place elements on the board. The rat-lines will always automatically
+rubberband to the elements whether or not the rubberband mode is on. The only way for
+you to move them is by moving the parts they connect to. 
+This is because it is never desirable to have the rat-lines disconnected from
+their element pins.  Rat-lines will normally criss-cross
+all over which gives rise to the name "rats nest" describing a layout connected with
+them.  If a SMD pad is unreachable on the active layer, a warning will be issued
+about it and the rat-line to that pad will not be generated.
+
+   <p>A common way to use rats nests is to place some
+elements on the board, add the rat-lines, and then use a series of moves/rotates of the
+elements until the rats nest appears to have minimum tangling.  You may want to iterate this step
+several times. Don't worry if the layout looks messy - as long as you can get a sense for whether
+the criss-crossing is better or worse as you move things, you're fine. 
+After moving some elements around, you may want to optimize the rats nest <em>&lt;Key&gt;o</em>
+so that the lines are drawn between the closest points (this can change once you've moved components). 
+Adding rat-lines only to selected pads/pins (<em>Shift&lt;Key&gt;w</em>)
+is often useful to layout a circuit a little bit at a time. 
+Sometimes you'll want to delete all the rat-lines (<em>&lt;Key&gt;e</em>) or
+selected rat-lines (<em>Shift&lt;Key&gt;e</em>) in order to reduce confusion. 
+With a little practice you'll be able to achieve a near optimal component placement with
+the use of a rats nest.
+
+   <p>Rat-lines are not only used for assisting your element placement, they can also help
+you to route traces on the board. 
+Use the <em>&lt;Key&gt;m</em> to convert a rat-line under the cursor into
+a normal line on the active layer. 
+Inserting a point into a rat-line will also cause the two new lines to be normal lines
+on the board. 
+Another way that you can use rat-lines is to
+use the <em>&lt;Key&gt;f</em> with the cursor over a pad or pin.  All of the pins and
+pads and rat-lines belonging to that net will be highlighted. This is a helpful way to
+distinguish one net from the rest of the rats nest.  You can then route those tracks,
+turn off the highlighting (<em>Shift&lt;Key&gt;f</em>) and repeat the process. This will work even
+if the layer that the rat-lines reside on is made invisible - so only the pins and pads
+are highlighted. 
+Be sure to erase the rat-lines (<em>&lt;Key&gt;e</em> erases them all) once you've
+duplicated their connectivity by adding your own lines. 
+When in doubt, the <em>&lt;Key&gt;o</em> will delete only those
+rat-lines that are no longer needed.
+
+   <p>If connections exist on the board that are not listed in the netlist when
+<em>&lt;Key&gt;w</em> is pressed, warning messages are issued and the affected pins and
+pads are drawn in a special <em>warnColor</em> until the next <em>Notify()</em> event. 
+If the entire layout agrees completely with the netlist, a message informs you that
+the layout is complete and no rat-lines will be added (since none are needed). 
+If the layout is complete, but still has rat-lines then you will be warned
+that rat-lines remain. If you get no message at all it's probably because some
+elements listed in the net list can't be found and where reported in an earlier
+message. 
+There shouldn't be any rat-lines left in a completed layout, only normal lines.
+
+   <p>The <em>Shift&lt;Key&gt;w</em> is used to add rat-lines to only those missing connections among
+the selected pins and pads.  This can be used to add rat-lines in an incremental
+manner, or to force a rat-line to route between two points that are not the
+closest points within the net. Often it is best to add the rats nest in an incremental fashion, laying
+out a sub-section of the board before going further. This is easy to accomplish since
+new rat-lines are never added where routed connectivity already makes the necessary
+connections.
+
+   </body></html>
+

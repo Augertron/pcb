@@ -1,0 +1,64 @@
+<html lang="en">
+<head>
+<title>Font File - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="File-Formats.html#File-Formats" title="File Formats">
+<link rel="prev" href="Element-File.html#Element-File" title="Element File">
+<link rel="next" href="Netlist-File.html#Netlist-File" title="Netlist File">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Font-File"></a>Next:&nbsp;<a rel="next" accesskey="n" href="Netlist-File.html#Netlist-File">Netlist File</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Element-File.html#Element-File">Element File</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="File-Formats.html#File-Formats">File Formats</a>
+<hr><br>
+</div>
+
+   <p><a name="index-font-file_002c-format-of-747"></a><a name="index-format-of-font-files-748"></a><a name="index-file-format_002c-font-data-749"></a>
+
+<h3 class="section">7.4 Font File Format</h3>
+
+<p>A number of user defined symbols are called a font. There is only one per
+layout. All symbols are made of lines. See the file <span class="file">default_font</span>
+as an example.
+
+   <p>The lowest x and y coordinates of all lines of a font are transformed to (0,0).
+
+<pre class="example">     File            = Font
+     Font            = {FontData}...
+     FontData        = {Symbol}...
+     Symbol          = "Symbol(" SymbolID FontPosition ")"
+     		      "(" {SymbolData}... ")"
+     SymbolData      = {SymbolLine}...
+</pre>
+     <dl>
+<dt><span class="samp">Symbol</span><dd>The two arguments are the <code>ASCII</code> code of the symbol and its distance to
+the next symbol. Undefined symbols are drawn as filled rectangles. 
+The <code>ASCII</code> code may be passed as a character constant or as a hexadecimal
+value.
+
+          <dl>
+<dt><span class="samp">SymbolLine</span><dd>The symbol data itself is made up of several entries
+of type <em>SymbolLine</em>. 
+</dl>
+
+   </dl>
+
+   </body></html>
+

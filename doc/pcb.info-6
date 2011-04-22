@@ -1,0 +1,797 @@
+This is pcb.info, produced by makeinfo version 4.1 from pcb.texi.
+
+INFO-DIR-SECTION Miscellaneous
+START-INFO-DIR-ENTRY
+* pcb: (pcb).                   An interactive printed circuit board editor.
+END-INFO-DIR-ENTRY
+
+   This file documents how to use Pcb, the interactive printed circuit
+board layout system for `X11'.
+
+   Copyright (C) 1994,1995,1996, 2004 Thomas Nau
+
+   Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002 harry eaton
+
+   Copyright (C) 2003, 2004 Dan McMahill
+
+   Copyright (C) 2004 DJ Delorie
+
+   This program is free software; you may redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or (at
+your option) any later version.
+
+   This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANT-ABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+
+
+File: pcb.info,  Node: Index,  Prev: Regular Expressions,  Up: Top
+
+Index of Resources
+******************
+
+* Menu:
+
+* absoluteGrid:                          Resources.
+* alignmentDistance:                     Resources.
+* allDirectionLines <1>:                 Resources.
+* allDirectionLines:                     Options.
+* backgroundImage <1>:                   Resources.
+* backgroundImage:                       Options.
+* backupInterval <1>:                    Resources.
+* backupInterval:                        Options.
+* bloat:                                 Resources.
+* BTNMOD:                                running configure.
+* charactersPerLine <1>:                 Resources.
+* charactersPerLine:                     Options.
+* connectedColor:                        Resources.
+* cross hairColor:                       Resources.
+* default font:                          Options.
+* DEFAULTFONT:                           running configure.
+* DEFAULTLIBRARY:                        running configure.
+* Element Search:                        Regular Expressions.
+* elementColor:                          Resources.
+* elementCommand <1>:                    File Formats.
+* elementCommand <2>:                    Resources.
+* elementCommand:                        Options.
+* elementContentsCommand:                Resources.
+* elementPath:                           Resources.
+* elementSelectedColor:                  Resources.
+* fileCommand <1>:                       File Formats.
+* fileCommand <2>:                       Resources.
+* fileCommand:                           Options.
+* filePath:                              Resources.
+* fontCommand <1>:                       File Formats.
+* fontCommand <2>:                       Resources.
+* fontCommand:                           Options.
+* fontFile <1>:                          Resources.
+* fontFile:                              Options.
+* fontPath:                              Resources.
+* GNUM4:                                 running configure.
+* grid:                                  Resources.
+* gridColor:                             Resources.
+* INFOLIBDIR:                            running configure.
+* invisibleObjectsColor:                 Resources.
+* layerColor:                            Resources.
+* layerGroups <1>:                       Resources.
+* layerGroups:                           Options.
+* layerName:                             Resources.
+* layerSelectedColor:                    Resources.
+* libraryCommand <1>:                    File Formats.
+* libraryCommand <2>:                    Resources.
+* libraryCommand:                        Options.
+* libraryContentsCommand <1>:            File Formats.
+* libraryContentsCommand:                Options.
+* libraryFilename <1>:                   Resources.
+* libraryFilename:                       Options.
+* libraryPath <1>:                       Resources.
+* libraryPath:                           Options.
+* lineThickness:                         Resources.
+* Measuring distances:                   Measuring distances.
+* media:                                 Resources.
+* offLimitColor:                         Resources.
+* PCBLIBDIR:                             running configure.
+* pinColor:                              Resources.
+* pinoutFont0..6:                        Resources.
+* pinoutNameLength <1>:                  Resources.
+* pinoutNameLength:                      Options.
+* pinoutOffsetX:                         Resources.
+* pinoutOffsetY:                         Resources.
+* pinoutTextOffsetX:                     Resources.
+* pinoutTextOffsetY:                     Resources.
+* pinoutZoom <1>:                        Resources.
+* pinoutZoom:                            Options.
+* pinSelectedColor:                      Resources.
+* printCommand:                          Resources.
+* raiseLogWindow:                        Resources.
+* ratCommand:                            Resources.
+* ratPath:                               Resources.
+* Regular Expressions:                   Regular Expressions.
+* resetAfterElement <1>:                 Resources.
+* resetAfterElement:                     Options.
+* ringBellWhenFinished <1>:              Resources.
+* ringBellWhenFinished:                  Options.
+* routeStyle <1>:                        Resources.
+* routeStyle:                            Options.
+* rubberBandMode:                        Resources.
+* saveCommand <1>:                       File Formats.
+* saveCommand <2>:                       Resources.
+* saveCommand:                           Options.
+* saveInTMP <1>:                         Resources.
+* saveInTMP:                             Options.
+* saveLastCommand <1>:                   Resources.
+* saveLastCommand:                       Options.
+* scriptFilename:                        Options.
+* Searching for elements:                Searching for elements.
+* shrink:                                Resources.
+* size <1>:                              Resources.
+* size:                                  Options.
+* stipplePolygons:                       Resources.
+* textScale:                             Resources.
+* useLogWindow:                          Resources.
+* viaColor:                              Resources.
+* viaDrillingHole:                       Resources.
+* viaSelectedColor:                      Resources.
+* viaThickness:                          Resources.
+* volume <1>:                            Resources.
+* volume:                                Options.
+* warnColor:                             Resources.
+* zoom:                                  Resources.
+
+Index of Actions, Commands and Options
+**************************************
+
+* Menu:
+
+* +alldirections:                        Options.
+* +reset:                                Options.
+* +ring:                                 Options.
+* +s:                                    Options.
+* +save:                                 Options.
+* --copyright:                           Special Options.
+* -alldirections:                        Options.
+* -background:                           Options.
+* -backup:                               Options.
+* -c:                                    Options.
+* -copyright:                            Special Options.
+* -fontfile:                             Options.
+* -help:                                 Special Options.
+* -lelement:                             Options.
+* -lfile:                                Options.
+* -lfont:                                Options.
+* -lg:                                   Options.
+* -libname:                              Options.
+* -libpath:                              Options.
+* -llib:                                 Options.
+* -llibcont:                             Options.
+* -loggeometry:                          Options.
+* -pnl:                                  Options.
+* -pz:                                   Options.
+* -reset:                                Options.
+* -ring:                                 Options.
+* -rs:                                   Options.
+* -s:                                    Options.
+* -save:                                 Options.
+* -script:                               Options.
+* -sfile:                                Options.
+* -size:                                 Options.
+* -v:                                    Options.
+* -version:                              Special Options.
+* :actionCommand():                      User Commands.
+* :l:                                    User Commands.
+* :le:                                   User Commands.
+* :m:                                    User Commands.
+* :q:                                    User Commands.
+* :rn:                                   User Commands.
+* :s:                                    User Commands.
+* :w[q]:                                 User Commands.
+* AddRats():                             Actions.
+* ApplyVendor():                         Actions.
+* Atomic():                              Actions.
+* Bell():                                Actions.
+* ChangeDrillSize():                     Actions.
+* ChangeFlag():                          Actions.
+* ChangeHole():                          Actions.
+* ChangeName():                          Actions.
+* ChangeOctagon():                       Actions.
+* ChangeSize():                          Actions.
+* ChangeSquare():                        Actions.
+* ClrFlag():                             Actions.
+* Command():                             Actions.
+* Connection():                          Actions.
+* DeleteRats():                          Actions.
+* DisableVendor():                       Actions.
+* Display():                             Actions.
+* DRC():                                 Actions.
+* EditLayerGroups():                     Actions.
+* EnableVendor():                        Actions.
+* ExecuteFile():                         Actions.
+* Load():                                Actions.
+* LoadVendor():                          Actions.
+* MarkCrosshair():                       Actions.
+* Mode():                                Actions.
+* MovePointer():                         Actions.
+* MoveToCurrentLayer():                  Actions.
+* New():                                 Actions.
+* PasteBuffer():                         Actions.
+* Polygon():                             Actions.
+* Print():                               Actions.
+* Quit():                                Actions.
+* Redo():                                Actions.
+* RemoveSelected():                      Actions.
+* Report():                              Actions.
+* RouteStyle():                          Actions.
+* Save():                                Actions.
+* Select():                              Actions.
+* SetFlag():                             Actions.
+* SetValue():                            Actions.
+* SwapSides():                           Actions.
+* SwitchDrawingLayer():                  Actions.
+* ToggleHideName():                      Actions.
+* ToggleVendor():                        Actions.
+* ToggleVisibility():                    Actions.
+* Undo():                                Actions.
+* UnloadVendor():                        Actions.
+* Unselect():                            Actions.
+
+Index of Concepts
+*****************
+
+* Menu:
+
+* /tmp <1>:                              Resources.
+* /tmp <2>:                              Options.
+* /tmp:                                  Loading and Saving.
+* action command:                        User Commands.
+* actions:                               Actions.
+* actions file, executing:               Actions.
+* Actions, initiating:                   User Commands.
+* alignment:                             Resources.
+* alignment targets:                     Printing.
+* Alpha:                                 DEC Alpha.
+* arc:                                   Arc Objects.
+* arc, an example:                       Arcs.
+* architecture <1>:                      Linux.
+* architecture <2>:                      SCO.
+* architecture <3>:                      DEC Alpha.
+* architecture <4>:                      SGI.
+* architecture <5>:                      Sun.
+* architecture:                          HP.
+* arrow tool:                            Arrow Tool.
+* ASCII files, format of:                File Formats.
+* Atari version:                         History.
+* atomic:                                Actions.
+* auto-router:                           Menu.
+* background <1>:                        Resources.
+* background:                            Options.
+* backup <1>:                            Resources.
+* backup <2>:                            Options.
+* backup:                                Loading and Saving.
+* basic types:                           Basic Types.
+* bell:                                  Actions.
+* bloat:                                 Resources.
+* buffer, an example:                    Pastebuffer.
+* buffer, convert contents to element:   Elements.
+* Buffer, popup menu:                    Menu.
+* buffer, selecting a:                   Actions.
+* button translations:                   Actions.
+* cat:                                   Resources.
+* centering:                             Actions.
+* change active layer:                   Layer Controls.
+* change drawing layer:                  Actions.
+* change object name:                    Actions.
+* change settings:                       Actions.
+* change sizes:                          Actions.
+* change square flag:                    Actions.
+* change viewing side:                   Actions.
+* characters per line <1>:               Resources.
+* characters per line:                   Options.
+* clearance:                             Line Objects.
+* clearance, for new lines:              Menu.
+* clipping lines to 45 degree <1>:       Actions.
+* clipping lines to 45 degree:           Resources.
+* clipping of lines:                     Options.
+* closing a polygon:                     Actions.
+* color printout:                        Printing.
+* color, warning:                        Resources.
+* colors:                                Resources.
+* command-line options:                  Command-Line Options.
+* compile, how to:                       compiling.
+* configure:                             running configure.
+* connection, removing an:               Translations.
+* connections, colors:                   Resources.
+* connections, creating list of:         Connection Lists.
+* connections, reseting:                 Actions.
+* connections, reseting after element <1>: Resources.
+* connections, reseting after element:   Options.
+* connections, searching for:            Actions.
+* Connects, popup menu:                  Menu.
+* copy an object:                        Translations.
+* copying objects:                       Actions.
+* copying, an example:                   Moving and Copying.
+* copyright:                             Special Options.
+* creating objects:                      Common.
+* cursor color:                          Resources.
+* cursor movements:                      Actions.
+* cursor position:                       Actions.
+* cursor steps:                          Resources.
+* cutting objects:                       Actions.
+* DEC:                                   DEC Alpha.
+* default font <1>:                      Resources.
+* default font:                          Options.
+* default layout size:                   Resources.
+* default library:                       Resources.
+* default text scaling:                  Resources.
+* default translations:                  Translations.
+* design rule checker, invoking:         Menu.
+* design rule checking <1>:              Actions.
+* design rule checking:                  Design Rule Checking.
+* device, selecting an output:           Printing.
+* directory /tmp <1>:                    Resources.
+* directory /tmp <2>:                    Options.
+* directory /tmp:                        Loading and Saving.
+* display:                               Resources.
+* displaying element names <1>:          Actions.
+* displaying element names:              Menu.
+* displaying pinout:                     Actions.
+* displaying status information:         Status-line and Input-field.
+* DOS filenames:                         Printing.
+* drawing objects:                       Drawing and Removing.
+* drc <1>:                               Actions.
+* drc <2>:                               Resources.
+* drc:                                   Design Rule Checking.
+* drill:                                 Actions.
+* drill report:                          Menu.
+* Drill table:                           Vendor drill mapping.
+* drilling hole, changing of objects:    Actions.
+* drilling hole, setting of initial size: Actions.
+* Edit, popup menu:                      Menu.
+* element name, hiding:                  Actions.
+* element name, removing from silk-screen: Actions.
+* Element Search:                        Regular Expressions.
+* element, an example:                   Elements.
+* element, an overview:                  Element Objects.
+* element, color:                        Resources.
+* element, command <1>:                  Resources.
+* element, command:                      Options.
+* element, creating a new package:       Elements.
+* element, display names of <1>:         Actions.
+* element, display names of:             Menu.
+* element, editing:                      Menu.
+* element, file format:                  Element File.
+* element, files <1>:                    Resources.
+* element, files:                        Options.
+* element, loading to buffer:            User Commands.
+* element, move name of:                 Translations.
+* entering user commands:                User Commands.
+* erasing objects:                       Drawing and Removing.
+* example files:                         Elements.
+* example of buffer handling:            Pastebuffer.
+* example of connection lists:           Connection Lists.
+* example of copying:                    Moving and Copying.
+* example of creating an element:        Elements.
+* example of element handling:           Elements.
+* example of line handling:              Lines.
+* example of loading:                    Loading and Saving.
+* example of loading an element file:    Elements.
+* example of moving:                     Moving and Copying.
+* example of pastebuffer handling:       Pastebuffer.
+* example of pin handling:               Elements.
+* example of polygon handling:           Polygons.
+* example of printing:                   Printing.
+* example of rectangle handling:         Polygons.
+* example of saving:                     Loading and Saving.
+* example of text handling:              Text.
+* example of via handling:               Vias.
+* exit <1>:                              Actions.
+* exit:                                  User Commands.
+* file format, element data:             Element File.
+* file format, font data:                Font File.
+* file format, layout data:              Layout File.
+* file format, libraries:                Library File.
+* file format, library contents:         Library Contents File.
+* file formats:                          File Formats.
+* file formats, basic types:             Basic Types.
+* file load command <1>:                 Resources.
+* file load command:                     Options.
+* file save command <1>:                 Resources.
+* file save command:                     Options.
+* File, popup menu:                      Menu.
+* flags, changing:                       Actions.
+* flags, clearing:                       Actions.
+* flags, setting:                        Actions.
+* font command <1>:                      Resources.
+* font command:                          Options.
+* font file, format of:                  Font File.
+* font files <1>:                        Resources.
+* font files:                            Options.
+* font, an overview:                     Symbol Objects.
+* font, used for pin names:              Resources.
+* format of element files:               Element File.
+* format of font files:                  Font File.
+* format of layout files:                Layout File.
+* format of libraries:                   Library File.
+* format of library contents:            Library Contents File.
+* FreeBSD:                               BSD.
+* gEDA, how to interface with:           gEDA.
+* GNU build system:                      quickstart.
+* GNU configure script:                  running configure.
+* grid <1>:                              Resources.
+* grid:                                  Layout Area.
+* grid color:                            Resources.
+* grid, absolute and relative:           Actions.
+* grid, alignment:                       Menu.
+* grid, display <1>:                     Actions.
+* grid, display:                         Menu.
+* grid, setting of:                      Actions.
+* groups <1>:                            Resources.
+* groups:                                Options.
+* groups, editing of:                    Actions.
+* gschem, how to interface with:         gEDA.
+* Hewlett Packard:                       HP.
+* hide element name:                     Actions.
+* how to start:                          Getting Started.
+* HP:                                    HP.
+* Info, popup menu:                      Menu.
+* information about objects:             Actions.
+* input-field, position of:              Status-line and Input-field.
+* inputfield, saving entered command-line <1>: Resources.
+* inputfield, saving entered command-line: Options.
+* inputfield, start user input:          Actions.
+* install, how to:                       compiling.
+* key translations:                      Actions.
+* keyboard bell <1>:                     Resources.
+* keyboard bell:                         Options.
+* layer controls:                        Layer Controls.
+* layer groups:                          Layer Objects.
+* layer visibility, toggling:            Actions.
+* layer, change active:                  Actions.
+* layer, name of:                        Resources.
+* layers, an overview:                   Layer Objects.
+* layers, changing which is active:      Layer Controls.
+* layers, colors:                        Resources.
+* layers, editing of groups:             Actions.
+* layers, groups <1>:                    Resources.
+* layers, groups:                        Options.
+* layers, switching on/off:              Layer Controls.
+* layout files <1>:                      Resources.
+* layout files:                          Options.
+* layout files, format of:               Layout File.
+* layout files, saving of:               User Commands.
+* layout objects, an overview:           Intro.
+* layout size:                           Options.
+* layout, default size of:               Resources.
+* layout, loading a:                     User Commands.
+* layout, loading to buffer:             User Commands.
+* layout, merging a:                     User Commands.
+* layout, printing a:                    Actions.
+* layout, start a new:                   Actions.
+* layout-name <1>:                       User Commands.
+* layout-name:                           Element Objects.
+* length of a pin name <1>:              Resources.
+* length of a pin name:                  Options.
+* length of outputline:                  Options.
+* library accuracy:                      Element Objects.
+* library command <1>:                   Resources.
+* library command:                       Options.
+* library contents command <1>:          Resources.
+* library contents command:              Options.
+* library contents file, format of:      Library Contents File.
+* library creation:                      Library Creation.
+* library file, format of:               Library File.
+* library name <1>:                      Resources.
+* library name:                          Options.
+* library search path:                   Options.
+* library searchpath:                    Resources.
+* library window:                        Library Window.
+* line clipping:                         Options.
+* linelength:                            Resources.
+* lines, an example:                     Lines.
+* lines, an overview:                    Line Objects.
+* lines, clipping to 45 degree <1>:      Actions.
+* lines, clipping to 45 degree:          Resources.
+* lines, setting of initial size:        Actions.
+* lines, size:                           Resources.
+* Linux:                                 Linux.
+* list of connections:                   Resources.
+* listing libraries:                     Options.
+* listing library contents:              Resources.
+* loading a layout to buffer:            User Commands.
+* loading elements <1>:                  Resources.
+* loading elements:                      Options.
+* loading elements to buffer:            User Commands.
+* loading files:                         Actions.
+* loading fonts <1>:                     Resources.
+* loading fonts:                         Options.
+* loading layouts <1>:                   Resources.
+* loading layouts <2>:                   Options.
+* loading layouts:                       User Commands.
+* loading symbols <1>:                   Resources.
+* loading symbols:                       Options.
+* loading, an example:                   Loading and Saving.
+* log window <1>:                        Resources.
+* log window <2>:                        Options.
+* log window:                            Log Window.
+* m4:                                    Resources.
+* m4, preprocessing example files:       Elements.
+* mark:                                  Actions.
+* Measuring distances:                   Measuring distances.
+* media:                                 Resources.
+* media margin:                          Resources.
+* media, size of:                        Printing.
+* menus:                                 Menu.
+* merging layouts:                       User Commands.
+* messages <1>:                          Resources.
+* messages <2>:                          Options.
+* messages:                              Log Window.
+* mirroring printout:                    Printing.
+* mode selection:                        Tool Selectors.
+* mode, selecting of:                    Actions.
+* mounting holes:                        Actions.
+* move:                                  Resources.
+* move an object:                        Translations.
+* moving objects:                        Arrow Tool.
+* moving objects to current layer:       Actions.
+* moving, an example:                    Moving and Copying.
+* name of an element:                    Actions.
+* name, change an objects:               Actions.
+* namelength of pins <1>:                Resources.
+* namelength of pins:                    Options.
+* NetBSD:                                BSD.
+* netlist <1>:                           Actions.
+* netlist <2>:                           Resources.
+* netlist <3>:                           Rats Nest.
+* netlist:                               Net Objects.
+* Netlist Window:                        Netlist Window.
+* netlist, file format:                  Netlist File.
+* netlist, reading:                      Netlist File.
+* object report:                         Menu.
+* object, change name of:                Actions.
+* object, changing the size of an:       Common.
+* object, copy an:                       Translations.
+* object, creating an:                   Common.
+* object, drawing and removing:          Drawing and Removing.
+* object, move an:                       Translations.
+* object, removing an <1>:               Translations.
+* object, removing an:                   Common.
+* objects, moving to current layer:      Actions.
+* octagonal flag, changing:              Actions.
+* octagonal flag, clearing:              Actions.
+* octagonal flag, setting:               Actions.
+* octagonal pins and vias:               Actions.
+* off limit color:                       Resources.
+* offset of pinnames:                    Resources.
+* offset of pinout:                      Resources.
+* offset of printout:                    Printing.
+* old library:                           Element Objects.
+* OpenWindows:                           Sun.
+* operation modes, selecting of:         Actions.
+* optimizer:                             Trace Optimizer.
+* outline printout:                      Printing.
+* output device:                         Printing.
+* outputline, length of:                 Options.
+* overlap, minimum:                      Design Rule Checking.
+* Panner control:                        Panner Control.
+* pastebuffer, an example:               Pastebuffer.
+* pastebuffer, convert contents to element: Elements.
+* pastebuffer, popup menu:               Menu.
+* pastebuffer, selecting a:              Actions.
+* path for element files:                Resources.
+* path for font files:                   Resources.
+* path for layout files:                 Resources.
+* path for libraries:                    Resources.
+* PC UNIX <1>:                           BSD.
+* PC UNIX <2>:                           Linux.
+* PC UNIX:                               SCO.
+* PCB, an overview:                      Overview.
+* pin color:                             Resources.
+* pin, name of <1>:                      Resources.
+* pin, name of:                          Options.
+* pinout, display of:                    Actions.
+* pinout, font to display pin names:     Resources.
+* pinout, zoomfactor of display <1>:     Resources.
+* pinout, zoomfactor of display:         Options.
+* pins, an example:                      Elements.
+* pins, changing shape of:               Actions.
+* pointer, moving of:                    Actions.
+* polygon:                               Resources.
+* polygon point, go back to previous:    Actions.
+* polygon, an example:                   Polygons.
+* polygon, an overview:                  Polygon Objects.
+* polygon, closing a:                    Actions.
+* popping up menus:                      Menu.
+* postprocessing layout data <1>:        Resources.
+* postprocessing layout data:            Options.
+* preprocessing element data <1>:        Resources.
+* preprocessing element data:            Options.
+* preprocessing font data <1>:           Resources.
+* preprocessing font data:               Options.
+* preprocessing layout data <1>:         Resources.
+* preprocessing layout data:             Options.
+* preventing loss of data <1>:           Resources.
+* preventing loss of data <2>:           Options.
+* preventing loss of data:               Loading and Saving.
+* print command:                         Printing.
+* print media <1>:                       Resources.
+* print media:                           Printing.
+* print offset:                          Printing.
+* printing:                              Resources.
+* printing a layout:                     Actions.
+* printing, an example:                  Printing.
+* problems:                              problems.
+* quit <1>:                              Actions.
+* quit:                                  User Commands.
+* rat's nest:                            User Commands.
+* rat-line <1>:                          Actions.
+* rat-line:                              Rats Nest.
+* rats nest <1>:                         Actions.
+* rats nest <2>:                         Resources.
+* rats nest:                             Rats Nest.
+* rats-nest:                             Net Objects.
+* recover:                               Actions.
+* rectangle, an example:                 Polygons.
+* redo <1>:                              Actions.
+* redo:                                  Menu.
+* redrawing layout:                      Actions.
+* refreshing layout:                     Actions.
+* Regular Expressions:                   Regular Expressions.
+* release, current:                      Special Options.
+* removing connections:                  Translations.
+* removing objects <1>:                  Translations.
+* removing objects <2>:                  Common.
+* removing objects:                      Drawing and Removing.
+* removing selected objects:             Actions.
+* report <1>:                            Actions.
+* report:                                Menu.
+* reseting found connections <1>:        Actions.
+* reseting found connections <2>:        Resources.
+* reseting found connections:            Options.
+* resources:                             Resources.
+* rotate:                                Resources.
+* rotating a buffer:                     Actions.
+* rotating printout:                     Printing.
+* routing style <1>:                     Actions.
+* routing style <2>:                     Resources.
+* routing style:                         Options.
+* rubber band:                           Menu.
+* rubberband <1>:                        Actions.
+* rubberband:                            Resources.
+* saving connections:                    Actions.
+* saving files:                          Actions.
+* saving found connections:              Actions.
+* saving last entered user command <1>:  Resources.
+* saving last entered user command:      Options.
+* saving layouts <1>:                    Resources.
+* saving layouts <2>:                    Options.
+* saving layouts <3>:                    User Commands.
+* saving layouts:                        Loading and Saving.
+* saving, an example:                    Loading and Saving.
+* scaling a printout:                    Printing.
+* scanning connections:                  Actions.
+* schematic capture:                     Schematic Frontends.
+* schematic frontend:                    Schematic Frontends.
+* SCO:                                   SCO.
+* Screen, popup menu:                    Menu.
+* script file, executing:                Actions.
+* scrolling:                             Translations.
+* searching connections:                 Actions.
+* Searching for elements:                Searching for elements.
+* searchpath for element files:          Resources.
+* searchpath for font files:             Resources.
+* searchpath for layout files:           Resources.
+* searchpath for libraries:              Resources.
+* Select, popup menu:                    Menu.
+* selected object, removing an:          Actions.
+* selected objects, changing sizes:      Menu.
+* selected objects, removing:            Menu.
+* selecting a buffer:                    Actions.
+* selecting a new tool:                  Tool Selectors.
+* selecting objects:                     Actions.
+* selecting, using the arrow tool:       Arrow Tool.
+* selection:                             Actions.
+* Settings, popup menu:                  Menu.
+* SGI:                                   SGI.
+* shrink:                                Resources.
+* signal:                                Actions.
+* Silicon Graphics:                      SGI.
+* size of a layout:                      Options.
+* size of lines:                         Resources.
+* size of lines and vias:                Actions.
+* size of vias:                          Resources.
+* sizes, changing of objects:            Actions.
+* Sizes, popup menu:                     Menu.
+* snap to pins:                          Menu.
+* Solaris:                               Sun.
+* solder mask, viewing and editing:      Menu.
+* spacing, minimum:                      Design Rule Checking.
+* speaker volume <1>:                    Resources.
+* speaker volume:                        Options.
+* square flag, changing:                 Actions.
+* square flag, changing of objects:      Actions.
+* square flag, clearing:                 Actions.
+* square flag, setting:                  Actions.
+* start user input:                      Actions.
+* starting a new layout:                 Actions.
+* starting Pcb:                          Command-Line Options.
+* startup actions script:                Options.
+* status information:                    Status-line and Input-field.
+* strings, an example:                   Text.
+* strings, an overview:                  Text Objects.
+* Sun:                                   Sun.
+* symbols <1>:                           Resources.
+* symbols:                               Options.
+* symbols, an overview:                  Symbol Objects.
+* temporary files <1>:                   Resources.
+* temporary files <2>:                   Options.
+* temporary files:                       Loading and Saving.
+* TeX, problems:                         TeX and Manuals.
+* text, an example:                      Text.
+* text, an overview:                     Text Objects.
+* text, default scaling:                 Resources.
+* thermal flag, changing:                Actions.
+* thermal flag, clearing:                Actions.
+* thermal flag, setting:                 Actions.
+* thickness of lines:                    Resources.
+* thickness of objects:                  Common.
+* thickness of vias:                     Resources.
+* thickness, changing of objects:        Actions.
+* toggle layer visibility:               Actions.
+* tool selection:                        Tool Selectors.
+* tool, arrow:                           Arrow Tool.
+* trace optimizer:                       Trace Optimizer.
+* translations <1>:                      Translations.
+* translations:                          Actions.
+* troubleshooting:                       problems.
+* two line mode:                         Line Objects.
+* undo <1>:                              Actions.
+* undo:                                  Menu.
+* undo, multi-action resources:          Actions.
+* unique names:                          Menu.
+* unix command <1>:                      Resources.
+* unix command:                          Options.
+* unselect objects:                      Actions.
+* user commands:                         User Commands.
+* user input:                            Translations.
+* vendor drill table:                    Actions.
+* Vendor drill table:                    Vendor drill mapping.
+* vendor drill table, disabling:         Actions.
+* vendor drill table, enabling:          Actions.
+* vendor drill table, loading:           Actions.
+* vendor drill table, toggling:          Actions.
+* vendor drill table, unloading:         Actions.
+* vendor map:                            Actions.
+* vendor map, disabling:                 Actions.
+* vendor map, enabling:                  Actions.
+* vendor map, loading:                   Actions.
+* vendor map, toggling:                  Actions.
+* vendor map, unloading:                 Actions.
+* Vendor mapping:                        Vendor drill mapping.
+* Vendor rules:                          Vendor drill mapping.
+* version, current:                      Special Options.
+* vias, an example:                      Vias.
+* vias, an overview:                     Via Objects.
+* vias, changing shape of:               Actions.
+* vias, color:                           Resources.
+* vias, converting to mounting hole:     Actions.
+* vias, setting of initial size:         Actions.
+* vias, size:                            Resources.
+* View, adjusting:                       Panner Control.
+* viewing side, changing of:             Actions.
+* volume of speaker <1>:                 Resources.
+* volume of speaker:                     Options.
+* Window, popup menu:                    Menu.
+* X11:                                   X11 Interface.
+* X11 default translations:              Translations.
+* X11 resources:                         Resources.
+* X11 translations:                      Actions.
+* X11, problems:                         X11.
+* xcircuit, how to interface with:       xcircuit.
+* zoom of Layout area:                   Resources.
+* zoom of pinout window <1>:             Resources.
+* zoom of pinout window:                 Options.
+* zoom, setting:                         Menu.
+* zoom, setting of:                      Actions.
+
+

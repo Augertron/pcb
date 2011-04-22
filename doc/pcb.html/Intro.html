@@ -1,0 +1,66 @@
+<html lang="en">
+<head>
+<title>Intro - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="Overview.html#Overview" title="Overview">
+<link rel="next" href="Getting-Started.html#Getting-Started" title="Getting Started">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Intro"></a>Next:&nbsp;<a rel="next" accesskey="n" href="Getting-Started.html#Getting-Started">Getting Started</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Overview.html#Overview">Overview</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr><br>
+</div>
+
+   <p><a name="index-layout-objects_002c-an-overview-3"></a>
+
+<h2 class="chapter">2 Introduction</h2>
+
+<p>Each layout consists of several, mostly independent, objects. This chapter
+gives an overview of the object types and their relationship to each other. 
+For a complete description of how to use <code>Pcb</code>, refer to
+<a href="Getting-Started.html#Getting-Started">Getting Started</a>. 
+The layout is generated on-screen on a grid that can have its origin
+at any desired location. 
+The X coordinate increases to the right, Y increases down to the bottom. 
+All distances and sizes in <code>Pcb</code> are measured in mils
+(0.001 inch).  One unit on the coordinate display is one mil in
+distance on the board. 
+The grid may be set on a metric pitch, but is only correct to within
+the nearest +/- 0.01 mil because <code>Pcb</code> stores all dimensions as
+integer multiples of 1/100 of a mil or 0.00001 inch.
+
+   <p>The sections in this chapter are sorted by the
+order of appearance of the objects within a layout file.
+
+<ul class="menu">
+<li><a accesskey="1" href="Symbol-Objects.html#Symbol-Objects">Symbol Objects</a>:          Information about fonts and symbols. 
+<li><a accesskey="2" href="Via-Objects.html#Via-Objects">Via Objects</a>:             Vias and pins connect layers. 
+<li><a accesskey="3" href="Element-Objects.html#Element-Objects">Element Objects</a>:         Element, the basic type of circuits. 
+<li><a accesskey="4" href="Layer-Objects.html#Layer-Objects">Layer Objects</a>:           A <span class="samp">container</span> for lines, text... 
+<li><a accesskey="5" href="Line-Objects.html#Line-Objects">Line Objects</a>:            Tracks on the board
+<li><a accesskey="6" href="Arc-Objects.html#Arc-Objects">Arc Objects</a>:             Curved tracks
+<li><a accesskey="7" href="Polygon-Objects.html#Polygon-Objects">Polygon Objects</a>:         Planes and such
+<li><a accesskey="8" href="Text-Objects.html#Text-Objects">Text Objects</a>:            Objects to add symbols to your board. 
+<li><a accesskey="9" href="Net-Objects.html#Net-Objects">Net Objects</a>:             Describes the desired connections on the board. 
+</ul>
+
+   </body></html>
+

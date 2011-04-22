@@ -1,0 +1,510 @@
+<html lang="en">
+<head>
+<title>Actions - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="X11-Interface.html#X11-Interface" title="X11 Interface">
+<link rel="prev" href="Resources.html#Resources" title="Resources">
+<link rel="next" href="Translations.html#Translations" title="Translations">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Actions"></a>Next:&nbsp;<a rel="next" accesskey="n" href="Translations.html#Translations">Translations</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Resources.html#Resources">Resources</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="X11-Interface.html#X11-Interface">X11 Interface</a>
+<hr><br>
+</div>
+
+   <p><a name="index-actions-527"></a><a name="index-translations-528"></a><a name="index-key-translations-529"></a><a name="index-button-translations-530"></a><a name="index-X11-translations-531"></a>
+
+<h3 class="section">6.2 Actions</h3>
+
+<p>All user accessible commands may be bound to almost any <code>X</code> event. Almost
+no default binding for commands is done in the binaries, so it is vital for the
+application that at least a system-wide application resource file exists. 
+This file normally resides in the <span class="file">share/pcb</span> directory and
+is called <span class="file">Pcb</span>. The bindings to which the manual refers to are the
+ones as defined by the shipped resource file. Besides binding an action to
+an X11 event, you can also execute any action command using a ":" command
+(see <a href="User-Commands.html#User-Commands">User Commands</a>).
+
+   <p>Take special care about translations related to the functions keys and the
+pointer buttons because most of the window managers use them too. 
+Change the file according to your hardware/software environment. 
+You may have to replace all occurances of <em>baseTranslations</em> to
+<em>translations</em> if you use a <code>X11R4</code> server.
+
+   <p>Passing <em>Object</em> as an argument to an action routine causes the object
+at the cursor location to be changed, removed or whatever. If more than
+one object is located at the cross hair position the smallest type is used. 
+If there are two of the same type the newer one is taken. 
+<em>SelectedObjects</em> will handle all selected and visible objects.
+
+     
+<a name="index-AddRats_0028_0029-532"></a>
+<a name="index-rats-nest-533"></a>
+<a name="index-netlist-534"></a>
+<a name="index-rat_002dline-535"></a>
+<dl><dt><span class="samp">AddRats(AllRats|SelectedRats)</span><dd>Adds rat-lines to the layout using the loaded netlist file (see the <em>:rn</em>,
+<a href="User-Commands.html#User-Commands">User Commands</a>.). Rat lines are added on the active layer using the current
+line thickness shown in the status line. 
+Only missing connectivity is added by the
+AddRats command so if, for example, the layout is complete nothing will be added. 
+Rat lines are drawn on the screen with a stippled pattern
+to make them easier to identify since they cannot appear in a completed layout. 
+The rat-lines are added in the minimum length straight-line tree pattern
+(always ending on pins or pads) that satisfies the missing connectivity in the circuit. 
+If a SMD pad is unreachable on the active layer, a warning will be issued
+about it and the rat-line to that pad will not be generated. 
+If connections exist on the board which are not listed in the netlist while
+AllRats are being added, warning messages will be issued and the affected pins and
+pads will be drawn in a special <em>warnColor</em> until the next <em>Notify()</em> event. 
+If the entire layout agrees completely with the net-list a message informs you that
+the layout is complete and no rat-lines are added (since none are needed). 
+If <em>SelectedRats</em>
+is passed as the argument, only those missing connections that might connect among
+the selected pins and pads are drawn. 
+Default:
+     <pre class="example">          None&lt;Key&gt;w:	AddRats(AllRats)
+          !Shift&lt;Key&gt;w:	AddRats(SelectedRats)
+          None&lt;Key&gt;o:	DeleteRats(AllRats) AddRats(AllRats)
+          !Shift&lt;Key&gt;o:	DeleteRats(SelectedRats) AddRats(SelectedRats)
+     </pre>
+     <p><a name="index-ApplyVendor_0028_0029-536"></a><a name="index-vendor-map-537"></a><a name="index-vendor-drill-table-538"></a><br><dt><span class="samp">ApplyVendor()</span><dd>Applies an already loaded vendor drill map to the design.
+     <pre class="example">          ApplyVendor()
+     </pre>
+     <p><a name="index-Atomic_0028_0029-539"></a><a name="index-undo_002c-multi_002daction-resources-540"></a><a name="index-atomic-541"></a><br><dt><span class="samp">Atomic(Save|Restore|Block|Close)</span><dd>Controls the undo grouping of sequences of actions. Before the first action
+in a group, Atomic(Save) should be issued.  After each action that might
+be undoable, Atomic(Restore) should be issued.  Atomic(Block) concludes
+and save the undo grouping if there was anything in the group to undo. 
+Atomic(Close) concludes and save the undo grouping even if nothing was
+actually done.  Thus it might produce an "empty" undo.  This can be useful
+when you want to use undo in a group of actions.
+
+     <p><a name="index-Bell_0028_0029-542"></a><a name="index-signal-543"></a><a name="index-bell-544"></a><br><dt><span class="samp">Bell([-100..100])</span><dd>Rings the bell of your display. If no value is passed the setting
+of the resource <em>volume</em> will be used.
+
+     <p><a name="index-ChangeDrillSize_0028_0029-545"></a><a name="index-change-sizes-546"></a><a name="index-sizes_002c-changing-of-objects-547"></a><a name="index-drilling-hole_002c-changing-of-objects-548"></a><br><dt><span class="samp">ChangeDrillSize(Object, value)</span><dt><span class="samp">ChangeDrillSize(SelectedPins|SelectedVias, value)</span><dd>This action routine changes the drilling hole of pins and vias. 
+If <em>value</em> starts with + or -, then it adds (or subtracts)
+<em>value</em> from the current hole diameter, otherwise it sets the
+diameter to the value. 
+Default:
+     <pre class="example">          !Mod1&lt;Key&gt;s:       Change2ndSize(Object, +5)
+          !Mod1 Shift&lt;Key&gt;s: Change2ndSize(Object, -5)
+     </pre>
+     <p><a name="index-ChangeFlag_0028_0029-549"></a><a name="index-flags_002c-changing-550"></a><a name="index-octagonal-flag_002c-changing-551"></a><a name="index-square-flag_002c-changing-552"></a><a name="index-thermal-flag_002c-changing-553"></a><dt><span class="samp">ChangeFlag(Object|SelectElements|SelectedPins|SelectedVias|Selected,thermal|octagon|square,0|1)</span><dd>Sets/clears the indicated flag.  This adds/removes thermals, adds/removes the flag
+which indicates a pin/pad should be square, or adds/removes the flag which
+indicates a pin/pad should be octagonal.
+     <pre class="example">          :ChangeFlag(SelectedVias,thermal,1)
+          :ChangeFlag(SelectedPads,square,0)
+     </pre>
+     <p><a name="index-ChangeHole_0028_0029-554"></a><a name="index-vias_002c-converting-to-mounting-hole-555"></a><a name="index-mounting-holes-556"></a><br><dt><span class="samp">ChangeHole(Object|SelectedVias)</span><dd>This action routine converts a via to and from a hole.  A hole is
+a via that has no copper annulus. The drill size for the via
+determines the hole diameter.
+     <pre class="example">          !Ctrl&lt;Key&gt;h:	ChangeHole(Object)
+     </pre>
+     <p><a name="index-ChangeName_0028_0029-557"></a><a name="index-name_002c-change-an-objects-558"></a><a name="index-change-object-name-559"></a><a name="index-object_002c-change-name-of-560"></a><br><dt><span class="samp">ChangeName(Object)</span><dt><span class="samp">ChangeName(Layer|Layout)</span><dd>Changes the name of the visible object at the cursor location. A text object
+doesn't have a name therefore the text string itself is changed. 
+The element name currently used for display is always the one changed with this
+command. 
+See <em>Display(Description|NameOnPCB|Value)</em> for details. 
+Passing <em>Layer</em> changes the current layers name. 
+Default:
+     <pre class="example">          None&lt;Key&gt;n: ChangeName(Object)
+     </pre>
+     <p><a name="index-ChangeOctagon_0028_0029-561"></a><a name="index-pins_002c-changing-shape-of-562"></a><a name="index-vias_002c-changing-shape-of-563"></a><a name="index-octagonal-pins-and-vias-564"></a><dt><span class="samp">ChangeOctagon(Object|SelectElements|SelectedPins|SelectedVias|Selected)</span><dd>Toggles what shape the affected pin(s) or via(s) will be drawn when they
+are not square. The shape will either be round or octagonal. 
+Default:
+     <pre class="example">          !Ctrl&lt;Key&gt;o: ChangeOctagon(Object)
+     </pre>
+     <p><a name="index-ChangeSize_0028_0029-565"></a><a name="index-change-sizes-566"></a><a name="index-sizes_002c-changing-of-objects-567"></a><a name="index-thickness_002c-changing-of-objects-568"></a><br><dt><span class="samp">ChangeSize(Object, value)</span><dt><span class="samp">ChangeSize(SelectedLines|SelectedPins|SelectedVias, value)</span><dt><span class="samp">ChangeSize(SelectedPads|SelectedTexts|SelectedNames, value)</span><dt><span class="samp">ChangeSize(SelectedElements, value)</span><dd>To change the size of an object you have to bind these action to some
+<code>X</code> event (or use :ChangeSize(...)).  If <em>value</em> begins with
+a + or - then the value will be added (or subtracted) from the current
+size, otherwise the size is set equal to <em>value</em>. Range checking is
+done to insure that none of the maximum/minimums of any size are violated. 
+If <em>Object</em> is passed then a single object at the cursor location is
+changed. If any of the <em>Selected</em> arguments are passed then all selected
+and visible objects of that type are changed. If the type being modified is
+an element, then the thickness of the silkscreen lines defining the element
+is changed. 
+Default:
+     <pre class="example">          None&lt;Key&gt;s:   ChangeSize(Object, +5)
+          !Shift&lt;Key&gt;s: ChangeSize(Object, -5)
+     </pre>
+     <p><a name="index-ChangeSquare_0028_0029-569"></a><a name="index-change-square-flag-570"></a><a name="index-square-flag_002c-changing-of-objects-571"></a><a name="index-thickness_002c-changing-of-objects-572"></a><br><dt><span class="samp">ChangeSquare(Object|SelectedElements|SelectedPins)</span><dd>Toggles the setting of the square flag. The flag is used to identify a
+certain pin, normally the first one, of circuits. It is also used to
+make SMD pads have square ends.
+     <pre class="example">          None&lt;Key&gt;q:   ChangeSquare(Object)
+     </pre>
+     <p><a name="index-ClrFlag_0028_0029-573"></a><a name="index-flags_002c-clearing-574"></a><a name="index-flags_002c-clearing-575"></a><a name="index-octagonal-flag_002c-clearing-576"></a><a name="index-square-flag_002c-clearing-577"></a><a name="index-thermal-flag_002c-clearing-578"></a><dt><span class="samp">ClrFlag(Object|SelectElements|SelectedPins|SelectedVias|Selected,thermal|octagon|square)</span><dd>Clears the indicated flag.  This removes thermals, removes the flag
+which indicates a pin/pad should be square, or removes the flag which
+indicates a pin/pad should be octagonal.
+     <pre class="example">          :ClrFlag(SelectedVias,thermal)
+     </pre>
+     <p><a name="index-Command_0028_0029-579"></a><a name="index-start-user-input-580"></a><a name="index-inputfield_002c-start-user-input-581"></a><br><dt><span class="samp">Command()</span><dd>Calling <em>Command()</em> pops up an input line at the bottom of the window
+which allows you to enter commands. Including all action commands! 
+The dialog ends when <em>None&lt;Key&gt;Return</em>
+to confirm or <em>None&lt;Key&gt;Escape</em> to abort is entered. 
+Default:
+     <pre class="example">          &lt;Key&gt;colon: Command()
+     </pre>
+     <p><a name="index-Connection_0028_0029-582"></a><a name="index-scanning-connections-583"></a><a name="index-searching-connections-584"></a><a name="index-connections_002c-reseting-585"></a><a name="index-reseting-found-connections-586"></a><a name="index-connections_002c-searching-for-587"></a><a name="index-saving-found-connections-588"></a><br><dt><span class="samp">Connection(Find)</span><dt><span class="samp">Connection(ResetFoundLinesAndRectangles|ResetPinsViasAndPads|Reset)</span><dd>The <em>Connection()</em> action is used to mark all connections from one pin,
+line or via to others. 
+The <em>ResetFoundLinesAndRectangles, ResetFoundPinsAndVias</em> and
+<em>Reset</em> arguments may be used to reset all marked lines and rectangles,
+vias and pins or all of them. The search starts with the pin or via
+at the cursor position. All found objects are drawn with the color
+defined by the resource <em>connectedColor</em>. 
+See also, <em>Display(Description|NameOnPCB|Value)</em>. 
+Default:
+     <pre class="example">          !Shift&lt;Key&gt;c: Connection(Reset)
+          None&lt;Key&gt;f:   Connection(Find)
+          !Shift&lt;Key&gt;f: Connection(Reset)
+     </pre>
+     <p><a name="index-DeleteRats_0028_0029-589"></a><a name="index-rats-nest-590"></a><a name="index-rat_002dline-591"></a><a name="index-netlist-592"></a><br><dt><span class="samp">DeleteRats(AllRats|SelectedRats)</span><dd>This routine deletes either all rat-lines in the layout, or only
+the selected and visible ones. Non-rat-lines and other layout
+objects are unaffected. 
+Default:
+     <pre class="example">          None&lt;Key&gt;e:   DeleteRats(AllRats)
+          !Shift&lt;Key&gt;e: DeleteRats(SelectedRats)
+     </pre>
+     <p><a name="index-DisableVendor_0028_0029-593"></a><a name="index-vendor-map_002c-disabling-594"></a><a name="index-vendor-drill-table_002c-disabling-595"></a><br><dt><span class="samp">DisableVendor()</span><dd>Disables automatic drill size mapping to the loaded vendor drill table.
+     <pre class="example">          DisableVendor()
+     </pre>
+     <p><a name="index-Display_0028_0029-596"></a><a name="index-centering-597"></a><a name="index-redrawing-layout-598"></a><a name="index-refreshing-layout-599"></a><a name="index-name-of-an-element-600"></a><a name="index-displaying-element-names-601"></a><a name="index-element_002c-display-names-of-602"></a><a name="index-grid_002c-absolute-and-relative-603"></a><a name="index-grid_002c-display-604"></a><a name="index-rubberband-605"></a><a name="index-pinout_002c-display-of-606"></a><a name="index-displaying-pinout-607"></a><a name="index-lines_002c-clipping-to-45-degree-608"></a><a name="index-clipping-lines-to-45-degree-609"></a><br><dt><span class="samp">Display(Description|NameOnPCB|Value)</span><dt><span class="samp">Display(Toggle45Degree|CycleClip)</span><dt><span class="samp">Display(Grid|ToggleGrid)</span><dt><span class="samp">Display(ToggleRubberBandMode)</span><dt><span class="samp">Display(Center|ClearAndRedraw|Redraw)</span><dt><span class="samp">Display(Pinout|PinOrPadName)</span><dd>This action routines handles some output related settings. It is
+used to center the display around the cursor location and to redraw the
+output area optionally after clearing the window. 
+Centering is done with respect to the <em>grid</em> setting. Displaying the
+grid itself may be switched on and off by <em>Grid</em> but only if
+the distance between two pixels exceeds 4 pixels. 
+<code>Pcb</code> is able to handle several labels of an element. One of them
+is a description of the functionality (eg resistor), the second should be
+a unique identifier (R1) whereas the last one is a value (100k). 
+The <em>Display()</em> action selects which of the names is displayed. 
+It also controls which name will be affected by the <em>ChangeName</em> command. 
+If <em>ToggleGrid</em> is passed, <code>Pcb</code> changes between relative
+('rel' in the statusline) and absolute grid (an 'abs' in the statusline). 
+Relative grid means the pointer position when the command is issued is
+used as the grid origin; while (0,0) is used in the absolute grid case. 
+Passing <em>Pinout</em> displays the pinout of the element at the current
+cursor location whereas <em>PinOrPadName</em> toggles displaying of the
+pins or pads name under the cursor. If none of them matches but the cursor
+is inside of an element, the flags is toggled for all of its pins and pads. 
+For details about rubberbands see also the details about <em>Mode</em>. 
+Default:
+     <pre class="example">          None&lt;Key&gt;c:  Display(Center)
+          None&lt;Key&gt;d:  Display(PinOrPadName)
+          !Shift&lt;Key&gt;d: Display(Pinout)
+          None&lt;Key&gt;r:  Display(ClearAndRedraw)
+          None&lt;Key&gt;.:  Display(Toggle45Degree)
+          None&lt;Key&gt;/:  Display(CycleClip)
+     </pre>
+     <p><a name="index-DRC_0028_0029-610"></a><a name="index-design-rule-checking-611"></a><a name="index-drc-612"></a><br><dt><span class="samp">DRC()</span><dd>Initiates design rule checking of the entire layout. Must be repeated
+until no errors are found.
+
+     <p><a name="index-ExecuteFile_0028_0029-613"></a><a name="index-actions-file_002c-executing-614"></a><a name="index-script-file_002c-executing-615"></a><dt><span class="samp">ExecuteFile(filename)</span><dd>Executes the PCB actions contained in the specified file. 
+This can be used to automate a complex sequence of operations.
+     <pre class="example">          :ExecuteFile(custom.cmd)
+     </pre>
+     <p>The command file contains a list of PCB actions.  Blank lines
+are ignored and lines starting with a # are treated as comment
+lines.  For example
+     <pre class="example">          # This is a comment line
+          Display(Grid)
+          SetValue(Zoom,2)
+          DRC()
+     </pre>
+     <p><a name="index-EditLayerGroups_0028_0029-616"></a><a name="index-layers_002c-editing-of-groups-617"></a><a name="index-groups_002c-editing-of-618"></a><br><dt><span class="samp">EditLayerGroups()</span><dd>Pops up a dialog box to edit the layergroup setting. The function is also
+available from the <em>Objects</em> menu. 
+There are no defaults.
+
+     <p><a name="index-EnableVendor_0028_0029-619"></a><a name="index-vendor-map_002c-enabling-620"></a><a name="index-vendor-drill-table_002c-enabling-621"></a><br><dt><span class="samp">EnableVendor()</span><dd>Enables automatic drill size mapping to the loaded vendor drill table.
+     <pre class="example">          EnableVendor()
+     </pre>
+     <p><a name="index-Load_0028_0029-622"></a><a name="index-loading-files-623"></a><br><dt><span class="samp">Load(ElementToBuffer|Layout|LayoutToBuffer|Nelist)</span><dd>This routine pops up a fileselect box to load layout, element data,
+or netlist. 
+The passed filename for layout data is saved and may be reused. 
+<em>ElementToBuffer</em> and <em>LayoutToBuffer</em> load the data into the
+current buffer. 
+There are no defaults.
+
+     <p><a name="index-LoadVendor_0028_0029-624"></a><a name="index-vendor-map_002c-loading-625"></a><a name="index-vendor-drill-table_002c-loading-626"></a><br><dt><span class="samp">LoadVendor(vendorfile)</span><dd>Loads the specified vendor resource file.
+     <pre class="example">          LoadVendor(myvendor.res)
+     </pre>
+     <p><a name="index-MarkCrosshair_0028_0029-627"></a><a name="index-mark-628"></a><a name="index-cursor-position-629"></a><br><dt><span class="samp">MarkCrosshair()</span><dd>This routine marks the current cursor location with an X, and then
+the cursor display shows both absolute position and position relative to
+the mark.  If a mark is already present, this routine removes it and
+stops displaying relative cursor coordinates. 
+Defaults:
+     <pre class="example">          !Ctrl&lt;key&gt;m:	MarkCrosshair()
+     </pre>
+     <p><a name="index-Mode_0028_0029-630"></a><a name="index-mode_002c-selecting-of-631"></a><a name="index-operation-modes_002c-selecting-of-632"></a><br><dt><span class="samp">Mode(Copy|InsertPoint|Line|Move|None|PasteBuffer|Polygon|Thermal)</span><dt><span class="samp">Mode(Remove|Rectangle|RubberbandMove|Text|Via)</span><dt><span class="samp">Mode(Cycle)</span><dt><span class="samp">Mode(Notify)</span><dt><span class="samp">Mode(Save|Restore)</span><dd>Switches to a new mode of operation. The active mode is displayed by a thick
+line around the matching mode selector button. 
+Most of the functionality of <code>Pcb</code> is implemented by selecting a mode
+and calling <em>Mode(Notify)</em>. The arguments <em>Line</em>, <em>Polygon</em>,
+<em>Rectangle</em>, <em>Text</em> and <em>Via</em> are used to create the
+appropriate object whenever <em>Mode(Notify)</em> is called. Some of them,
+such as <em>Polygon</em>, need more than one call for one object to be created. 
+<em>InsertPoint</em> adds points to existing polygons or lines. 
+<em>Save</em> and <em>Restore</em> are used to temporarily save the mode, switch
+to another one, call <em>Mode(Notify)</em> and restore the saved one. Have
+a look at the application resource file for examples. 
+<em>Copy</em> and <em>Move</em> modes are used to change an object's location and,
+optionally, to create a new one. The first call of <em>Mode(Notify)</em> attaches
+the object at the pointer location to the cross hair whereas the second
+one drops it to the layout. The <em>rubberband</em> version of move performs the
+move while overriding the current rubberband mode. 
+Passing <em>PasteBuffer</em> attaches the contents of the currently selected
+buffer to the cross hair. Each call to <em>Mode(Notify)</em> pastes this contents
+to the layout. <em>Mode(Cycle)</em> cycles through the modes available in the
+mode-button pallet. 
+<em>Mode(None)</em> switches all modes off. 
+Default:
+     <pre class="example">          &lt;Key&gt;Escape:             Mode(None)
+          &lt;Key&gt;space:              Mode(Cycle)
+          None&lt;Key&gt;BackSpace:      Mode(Save) Mode(Remove) Mode(Notify) Mode(Restore)
+          None&lt;Key&gt;Delete:         Mode(Save) Mode(Remove) Mode(Notify) Mode(Restore)
+          None&lt;Key&gt;F1:             Mode(Via)
+          None&lt;Key&gt;F2:             Mode(Line)
+          None&lt;Key&gt;F3:             Mode(PasteBuffer)
+          None&lt;Key&gt;F4:             Mode(Rectangle)
+          None&lt;Key&gt;F5:             Mode(Text)
+          None&lt;Key&gt;F6:             Mode(Polygon)
+          None&lt;Key&gt;F7:             Mode(Thermal)
+          None&lt;Key&gt;F8:		 Mode(Arc)
+          None&lt;Key&gt;Insert:         Mode(InsertPoint)
+          None&lt;Key&gt;[:              Mode(Save) Mode(Move) Mode(Notify)
+          None&lt;Key&gt;]:              Mode(Notify) Mode(Restore)
+          None&lt;Btn1&gt;:          Mode(Notify)
+          !Shift Ctrl&lt;Btn1&gt;:   Mode(Save) Mode(Remove) Mode(Notify) Mode(Restore)
+          None&lt;Btn2Down&gt;:          Mode(Save) Mode(Move) Mode(Notify)
+          None&lt;Btn2Up&gt;:            Mode(Notify) Mode(Restore)
+          !Mod1&lt;Btn2Down&gt;:       Mode(Save) Mode(Copy) Mode(Notify)
+          !Mod1&lt;Btn2Up&gt;:         Mode(Notify) Mode(Restore)
+          Shift BTNMOD&lt;Btn2Down&gt;: Mode(Save) Mode(RubberbandMove) Mode(Notify)
+     </pre>
+     <p><a name="index-MovePointer_0028_0029-633"></a><a name="index-pointer_002c-moving-of-634"></a><a name="index-cursor-movements-635"></a><br><dt><span class="samp">MovePointer(delta_x, delta_y)</span><dd>With this function it is possible to move the cross hair cursor by using the
+cursor keys. The <code>X</code> server's pointer follows because the necessary
+events are generated by <code>Pcb</code>. All movements are performed with respect
+to the currently set grid value. 
+Default:
+     <pre class="example">          None&lt;Key&gt;Up:      MovePointer(0, -1)
+          !Shift&lt;Key&gt;Up:    MovePointer(0, -10)
+          None&lt;Key&gt;Down:    MovePointer(0, 1)
+          !Shift&lt;Key&gt;Down:  MovePointer(0, 10)
+          None&lt;Key&gt;Right:   MovePointer(1, 0)
+          !Shift&lt;Key&gt;Right: MovePointer(10, 0)
+          None&lt;Key&gt;Left:    MovePointer(-1, 0)
+          !Shift&lt;Key&gt;Left:  MovePointer(-10, 0)
+     </pre>
+     <p><a name="index-MoveToCurrentLayer_0028_0029-636"></a><a name="index-objects_002c-moving-to-current-layer-637"></a><a name="index-moving-objects-to-current-layer-638"></a><br><dt><span class="samp">MoveToCurrentLayer(Object|SelectedObjects)</span><dd>The function moves a single object at the cross hair location or all selected
+objects to the current layer. Elements are not movable by this function. 
+They have to be deleted and replaced on the other side. 
+If a line segment is moved and the movement would result in a loss of
+connectivity to another segment then via(s) are automatically added to
+maintain the connectivity.
+     <pre class="example">          None&lt;Key&gt;m:       MoveToCurrentLayer(Object)
+          !Shift&lt;Key&gt;m:     MoveToCurrentLayer(SelectedObjects)
+     </pre>
+     <p><a name="index-New_0028_0029-639"></a><a name="index-layout_002c-start-a-new-640"></a><a name="index-starting-a-new-layout-641"></a><br><dt><span class="samp">New()</span><dd>Clear the current layout and starts a new one after entering its name. 
+Refer to the resource <em>backup</em> for more information. 
+No defaults.
+
+     <p><a name="index-PasteBuffer_0028_0029-642"></a><a name="index-buffer_002c-selecting-a-643"></a><a name="index-pastebuffer_002c-selecting-a-644"></a><a name="index-selecting-a-buffer-645"></a><a name="index-rotating-a-buffer-646"></a><a name="index-cutting-objects-647"></a><a name="index-copying-objects-648"></a><br><dt><span class="samp">PasteBuffer(AddSelected|Clear|1..5)</span><dt><span class="samp">PasteBuffer(Rotate, 1..3)</span><dt><span class="samp">PasteBuffer(Convert)</span><dd>This action routine controls and selects the pastebuffer as well as all
+cut-and-paste operations. Passing a buffer number selects one in of the
+range 1..5. The statusline is updated with the new number. 
+<em>Rotate</em> performs a number of 90 degree counter clockwise rotations
+of the buffer contents. <em>AddSelected</em> as first argument copies all
+selected and visible objects into the buffer. Passing <em>Clear</em> removes
+all objects from the currently selected buffer. <em>Convert</em> causes
+the contents of the buffer (lines, arc, vias) to be converted into an
+element definition. Refer to <a href="Pastebuffer.html#Pastebuffer">Pastebuffer</a>
+for examples. 
+Default:
+     <pre class="example">          !Ctrl&lt;Key&gt;x:       PasteBuffer(Clear) PasteBuffer(AddSelected)
+          		   Mode(PasteBuffer)
+          !Shift Ctrl&lt;Key&gt;x: PasteBuffer(Clear) PasteBuffer(AddSelected)
+          		   RemoveSelected() Mode(PasteBuffer)
+          !Mod1&lt;Key&gt;c:       PasteBuffer(Clear) PasteBuffer(AddSelected)
+          !Mod1&lt;key&gt;x:       PasteBuffer(Clear) PasteBuffer(AddSelected)
+          		   RemoveSelected()
+          !Shift&lt;Key&gt;1:      PasteBuffer(1)
+          !Shift&lt;Key&gt;2:      PasteBuffer(2)
+          !Shift&lt;Key&gt;3:      PasteBuffer(3)
+          !Shift&lt;Key&gt;4:      PasteBuffer(4)
+          !Shift&lt;Key&gt;5:      PasteBuffer(5)
+          None&lt;Key&gt;F3:       Mode(PasteBuffer)
+     </pre>
+     <p><a name="index-Polygon_0028_0029-649"></a><a name="index-polygon_002c-closing-a-650"></a><a name="index-polygon-point_002c-go-back-to-previous-651"></a><a name="index-closing-a-polygon-652"></a><br><dt><span class="samp">Polygon((Close|PreviousPoint)</span><dd>Polygons need a special action routine to make life easier. Calling
+<em>Polygon(PreviousPoint)</em> resets the newly entered corner to the
+previous one. The Undo action will call Polygon(PreviousPoint)
+when appropriate to do so.  <em>Close</em> creates the final
+segment of the polygon.  This may fail if clipping to 45 degree
+lines is switched on, in which case a warning is issued. 
+Default:
+     <pre class="example">          None&lt;Key&gt;p:             Polygon(Close)
+          !Shift&lt;Key&gt;p:           Polygon(Close)
+     </pre>
+     <p><a name="index-Print_0028_0029-653"></a><a name="index-layout_002c-printing-a-654"></a><a name="index-printing-a-layout-655"></a><br><dt><span class="samp">Print()</span><dd>Pops up a print control box that lets you select the output
+device, scaling and many more options. Each run creates all
+files that are supported by the selected device. These are
+mask files as well as drilling files, silk screens and so on. The table
+shows the filenames for all possible files:
+     <pre class="example">          	POSIX (extension)             8.3 filename
+          		---------------------------------------------
+          		*_componentmask.*             cmsk.*
+          		*_componentsilk.*             cslk.*
+          		*_soldermask.*                smsk.*
+          		*_soldersilk.*                sslk.*
+          		*_drill.*                     dril.*
+          		*_groundplane.*               gpl.*
+          		*_group[1..8].*     [..8].*
+     </pre>
+     <p>The output may be sent to a post-processor by starting the filename with the
+<em>pipe</em> <code>("|")</code> character. Any <code>"%f"</code> in a command is replaced
+with the current filename. The function is available from the <em>file</em> menu. 
+There are no defaults.
+
+     <p><a name="index-Quit_0028_0029-656"></a><a name="index-quit-657"></a><a name="index-exit-658"></a><br><dt><span class="samp">Quit()</span><dd>Quits the application after confirming the operation. 
+Default:
+     <pre class="example">          &lt;Message&gt;WM_PROTOCOLS: Quit()
+     </pre>
+     <p><a name="index-Redo_0028_0029-659"></a><a name="index-redo-660"></a><a name="index-recover-661"></a><br><dt><span class="samp">Redo()</span><dd>This routine allows you to recover from the last undo command. 
+You might want to do this if you thought that undo was going to
+revert something other than what it actually did (in case you
+are confused about which operations are un-doable), or if you
+have been backing up through a long undo list and over-shoot
+your stopping point.  Any change that is made since the undo
+in question will trim the redo list.  For example if you add
+ten lines, then undo three of them you could use redo to put
+them back, but if you move a line on the board before performing
+the redo, you will lose the ability to "redo" the three "undone" lines. 
+Default:
+     <pre class="example">          !Shift&lt;Key&gt;r:	Redo()
+     </pre>
+     <p><a name="index-RemoveSelected_0028_0029-662"></a><a name="index-removing-selected-objects-663"></a><a name="index-selected-object_002c-removing-an-664"></a><br><dt><span class="samp">RemoveSelected()</span><dd>This routine removes all visible and selected objects. 
+There are no defaults.
+
+     <p><a name="index-Report_0028_0029-665"></a><a name="index-report-666"></a><a name="index-information-about-objects-667"></a><a name="index-drill-668"></a><br><dt><span class="samp">Report(Object|DrillReport)</span><dd>This routine pops up a dialog box describing the various
+characteristics of an object (or piece of an object such as a pad or pin)
+in the layout at the cursor position, or a report about all of the
+drill holes in the layout. 
+There are no defaults.
+
+     <p><a name="index-RouteStyle_0028_0029-669"></a><a name="index-routing-style-670"></a><a name="index-size-of-lines-and-vias-671"></a><br><dt><span class="samp">RouteStyle(1|2|3|4)</span><dd>This routine copies the sizes corresponding to the numbered route style
+into the active line thickens, via diameter, and via drill size. 
+Defaults:
+     <pre class="example">          !Ctrl&lt;Key&gt;1: RouteStyle(1)
+          ...
+          !Ctrl&lt;Key&gt;NUM_STYLES: RouteStyle(NUM_STYLES)
+     </pre>
+     <p>The variable <code>NUM_STYLES</code> is set at compile time in
+<span class="file">globalconfig.h</span>.
+
+     <p><a name="index-Save_0028_0029-672"></a><a name="index-saving-files-673"></a><a name="index-saving-connections-674"></a><br><dt><span class="samp">Save(Layout|LayoutAs)</span><dt><span class="samp">Save(AllConnections|AllUnusedPins|ElementConnections)</span><dd>Passing <em>Layout</em> saves the layout using the file from which it was
+loaded or, if it is a new layout, calls <em>Save(LayoutAs)</em> which queries
+the user for a filename. 
+The values: <em>AllConnections</em>, <em>AllUnusedPins</em> and
+<em>ElementConnections</em> start a connection scan and save all connections,
+all unused pins or the connections of a single element to a file. 
+There are no defaults.
+
+     <p><a name="index-Select_0028_0029-675"></a><a name="index-selection-676"></a><a name="index-selecting-objects-677"></a><br><dt><span class="samp">Select(All|Block|Connection|ToggleObject)</span><dt><span class="samp">Select(ElementByName|ObjectByName|PadByName|PinByName)</span><dt><span class="samp">Select(TextByName|ViaByName)</span><dd>Toggles either the selection flag of the object at the cross hair position
+(<em>ToggleObject</em>) or selects all visible objects, all inside a
+rectangle or all objects which have been found during the last connection
+scan. The <em>ByName</em> functions use a <a href="Regular-Expressions.html#Regular-Expressions">Regular Expressions</a> search,
+always case insensitive, to select the objects. 
+Default:
+     <pre class="example">          None&lt;Btn3Down&gt;:  Select(ToggleObject)
+          None&lt;Btn3Down&gt;,None&lt;Btn3Motion&gt;: See resource file - this is complex
+     </pre>
+     <p><a name="index-SetFlag_0028_0029-678"></a><a name="index-flags_002c-setting-679"></a><a name="index-octagonal-flag_002c-setting-680"></a><a name="index-square-flag_002c-setting-681"></a><a name="index-thermal-flag_002c-setting-682"></a><dt><span class="samp">SetFlag(Object|SelectElements|SelectedPins|SelectedVias|Selected,thermal|octagon|square)</span><dd>Sets the indicated flag.  This adds thermals, sets the flag
+which indicates a pin/pad should be square, or sets the flag which
+indicates a pin/pad should be octagonal.
+     <pre class="example">          :SetFlag(Selected,thermal)
+     </pre>
+     <p><a name="index-SetValue_0028_0029-683"></a><a name="index-change-settings-684"></a><a name="index-zoom_002c-setting-of-685"></a><a name="index-grid_002c-setting-of-686"></a><a name="index-drilling-hole_002c-setting-of-initial-size-687"></a><a name="index-vias_002c-setting-of-initial-size-688"></a><a name="index-lines_002c-setting-of-initial-size-689"></a><br><dt><span class="samp">SetValue(Grid|LineSize|TextScale|ViaDrillingHole|ViaSize|Zoom, value)</span><dd>Some internal values may be changed online by this function. 
+The first parameter specifies which data has to be changed. The other one
+determines if the resource is set to the passed value, if <em>value</em> is
+specified without sign, or increments/decrements if it is specified with
+a plus or minus sign. 
+The function doesn't change any existing object only the initial values of
+new objects.  Use the <em>ChangeSize()</em> and <em>ChangeDrillSize()</em>
+to change existing objects. 
+Default:
+     <pre class="example">          None&lt;Key&gt;g:        SetValue(Grid, +5)
+          !Shift&lt;Key&gt;g:      SetValue(Grid, -5)
+          None&lt;Key&gt;l:        SetValue(LineSize, +5)
+          !Shift&lt;Key&gt;l:      SetValue(LineSize, -5)
+          None&lt;Key&gt;t:        SetValue(TextScale, +10)
+          !Shift&lt;Key&gt;t:      SetValue(TextScale, -10)
+          None&lt;Key&gt;v:        SetValue(ViaSize, +5)
+          !Shift&lt;Key&gt;v:      SetValue(ViaSize, -5)
+          !Mod1&lt;Key&gt;v:       SetValue(ViaDrillingHole, +5)
+          !Mod1 Shift&lt;Key&gt;v: SetValue(ViaDrillingHole, -5)
+          None&lt;Key&gt;z:        SetValue(Zoom, -1)
+          !Shift&lt;Key&gt;z:      SetValue(Zoom, +1)
+     </pre>
+     <p><a name="index-SwapSides_0028_0029-690"></a><a name="index-change-viewing-side-691"></a><a name="index-viewing-side_002c-changing-of-692"></a><br><dt><span class="samp">SwapSides()</span><dd>This routine changes the board side you are viewing. 
+Default:
+     <pre class="example">          None&lt;Key&gt;Tab:      SwapSides()
+     </pre>
+     <p><a name="index-SwitchDrawingLayer_0028_0029-693"></a><a name="index-change-drawing-layer-694"></a><a name="index-layer_002c-change-active-695"></a><br><dt><span class="samp">SwitchDrawingLayer(value)</span><dd>Makes layer number 1..MAX_LAYER the current one. 
+Default:
+     <pre class="example">          None&lt;Key&gt;1:        SwitchDrawingLayer(1)
+          ...
+          None&lt;Key&gt;MAX_LAYER:        SwitchDrawingLayer(MAX_LAYER)
+     </pre>
+     <p><a name="index-ToggleHideName_0028_0029-696"></a><a name="index-hide-element-name-697"></a><a name="index-element-name_002c-hiding-698"></a><a name="index-element-name_002c-removing-from-silk_002dscreen-699"></a><br><dt><span class="samp">ToggleHideName(Object|SelectedElements)</span><dd>Toggles whether the element's name is displayed or hidden. If it
+is hidden you won't see it on the screen and it will not appear
+on the silk layer when you print the layout.
+     <pre class="example">          None&lt;Key&gt;h:	ToggleHideName(Object)
+          !Shift&lt;Key&gt;h:	ToggleHideName(SelectedElements)
+     </pre>
+     <p><a name="index-ToggleVendor_0028_0029-700"></a><a name="index-vendor-map_002c-toggling-701"></a><a name="index-vendor-drill-table_002c-toggling-702"></a><br><dt><span class="samp">ToggleVendor()</span><dd>Toggles automatic drill size mapping to the loaded vendor drill table.
+     <pre class="example">          ToggleVendor()
+     </pre>
+     <p><a name="index-ToggleVisibility_0028_0029-703"></a><a name="index-toggle-layer-visibility-704"></a><a name="index-layer-visibility_002c-toggling-705"></a><br><dt><span class="samp">ToggleVisibility(Layer)</span><dd>Toggles the visibility of the layer.
+     <pre class="example">          Mod1&lt;Key&gt;1:	ToggleVisibility(1)
+          Mod1&lt;Key&gt;2:	ToggleVisibility(2)
+          Mod1&lt;Key&gt;3:	ToggleVisibility(3)
+          Mod1&lt;Key&gt;4:	ToggleVisibility(4)
+     </pre>
+     <p><a name="index-Undo_0028_0029-706"></a><a name="index-undo-707"></a><a name="index-recover-708"></a><br><dt><span class="samp">Undo()</span><dt><span class="samp">Undo(ClearList)</span><dd>The unlimited undo feature of <code>Pcb</code> allows you to recover
+from most operations that materially affect you work. 
+Calling <em>Undo()</em> without any parameter recovers
+from the last (non-undo) operation. <em>ClearList</em> is used to release the
+allocated memory. <em>ClearList</em> is called whenever a new layout is started
+or loaded. See also <em>Redo</em>. 
+Default:
+     <pre class="example">          None&lt;Key&gt;u:        Undo()
+          !Shift Ctrl&lt;Key&gt;u: Undo(ClearList)
+     </pre>
+     <p><a name="index-UnloadVendor_0028_0029-709"></a><a name="index-vendor-map_002c-unloading-710"></a><a name="index-vendor-drill-table_002c-unloading-711"></a><br><dt><span class="samp">UnloadVendor()</span><dd>Unloads the loaded vendor drill table.
+     <pre class="example">          UnloadVendor()
+     </pre>
+     <p><a name="index-Unselect_0028_0029-712"></a><a name="index-selection-713"></a><a name="index-unselect-objects-714"></a><br><dt><span class="samp">Unselect(All|Block|Connection)</span><dd>Unselects all visible objects, all inside a rectangle or all objects which
+have been found during the last connection scan. 
+Default:
+     <pre class="example">          !Shift &lt;Btn3Down&gt;: Mode(Save) Mode(None) Unselect(Block)
+          !Shift &lt;Btn3Up&gt;:   Unselect(Block) Mode(Restore)
+     </pre>
+     </dl>
+
+   </body></html>
+

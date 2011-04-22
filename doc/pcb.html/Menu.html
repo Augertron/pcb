@@ -1,0 +1,195 @@
+<html lang="en">
+<head>
+<title>Menu - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Application-Window.html#Application-Window" title="Application Window">
+<link rel="prev" href="Layout-Area.html#Layout-Area" title="Layout Area">
+<link rel="next" href="Status_002dline-and-Input_002dfield.html#Status_002dline-and-Input_002dfield" title="Status-line and Input-field">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Menu"></a>Next:&nbsp;<a rel="next" accesskey="n" href="Status_002dline-and-Input_002dfield.html#Status_002dline-and-Input_002dfield">Status-line and Input-field</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Layout-Area.html#Layout-Area">Layout Area</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Application-Window.html#Application-Window">Application Window</a>
+<hr><br>
+</div>
+
+   <p><a name="index-menus-23"></a><a name="index-popping-up-menus-24"></a>
+
+<h4 class="subsection">3.1.1 Menus</h4>
+
+<p>The menus are located at the top of the Layout area. Most, but not all,
+of their functions are also available from the keyboard. Similarly, some
+functions are only achievable through the keyboard or command entry. 
+Some menu entries such as <span class="samp">center layout</span> in the <b>Screen</b> menu require a certain cross hair position. 
+In this case a prompt message will popup at the bottom of the screen
+with wording similar to the following:
+<pre class="example">     move pointer to the appropriate screen position and press a button
+</pre>
+   <p>Any mouse button will do the job, whereas any key except the arrow (cursor) keys
+will cancel the operation. If it seems like the menu hasn't done what you
+expected, check to see if it is waiting for the position click. For details see <a href="Actions.html#Actions">Actions</a>.
+
+   <p>Pressing <em>Btn3</em> in the Layout area also pops up a menu with many of the most common operations (except
+when you're in the midst of drawing a line or arc). When
+a choice in the <em>Btn3</em> popup menu needs a cross hair position, it uses the position
+where the cross hair was when <em>Btn3</em> was pressed. For example, to get detailed
+information on an object, place the cross hair over the object, press <em>Btn3</em>, then
+choose <span class="samp">object report</span>.  If you pop up the <em>Btn3</em> menu but don't want to
+take any of the actions, click on one of the headers in the menu.
+
+     
+<a name="index-File_002c-popup-menu-25"></a>
+<dl><dt><b>File</b><dd>This menu offers a choice of loading, saving and printing data, saving
+connection information to a file or quitting the application. Most
+of the entries in the <b>File</b> menu are self explanatory. 
+Selecting
+<span class="samp">print layout</span> pops up a printer control dialog. 
+A selection of several device drivers is available from the printer control
+dialog. Presently <em>PostScript</em>, <em>encapsulated PostScript</em>,
+and <em>GerberX</em> are supported. The <em>GerberX</em> driver produces
+all of the files necessary to have the board professionally manufactured. 
+The connection saving features in the <b>File</b> menu produce outputs in an
+arcane format that is not too useful. They do <em>not</em> produce netlist
+files.
+
+     <p><a name="index-Edit_002c-popup-menu-26"></a><a name="index-undo-27"></a><a name="index-redo-28"></a><br><dt><b>Edit</b><dd>The <b>Edit</b> menu provides the usual cut, copy, paste
+which work on selections. To learn how to
+create complex selections, see <a href="Arrow-Tool.html#Arrow-Tool">Arrow Tool</a>. 
+The <b>Edit</b> menu also
+provides access to Undo and Redo of the last operation. These
+can also be accomplished with the <em>U</em> key and <em>Shift-R</em>
+key.  Finally, the <b>Edit</b> menu allows you to change the names
+of: the layout, the active layer, or text objects on the layout.
+
+     <p><a name="index-Screen_002c-popup-menu-29"></a><a name="index-displaying-element-names-30"></a><a name="index-element_002c-display-names-of-31"></a><a name="index-grid_002c-display-32"></a><a name="index-grid_002c-alignment-33"></a><a name="index-zoom_002c-setting-34"></a><br><dt><b>Screen</b><dd>The <b>Screen</b> menu supports most functions related to
+the whole Layout area. There are various entries to change the grid to some popular
+values, the zoom factor, and which kind of element name is displayed. 
+You can also re-align the grid origin and turn on and off the display
+of the grid. 
+Before changing the grid alignment, I recommend that you zoom in as close as
+possible so that you're sure the grid
+points appear exactly where you want them.
+
+     <p><a name="index-solder-mask_002c-viewing-and-editing-35"></a>The <b>Screen</b> menu also allows you to turn on and off the
+visibility of the solder-mask layer. When the solder-mask layer
+is made visible it obscures most of the layout, so only turn
+this on when you really want to know what the solder-mask will
+look like. The solder-mask that you see belongs to the
+side of the board you are viewing, which can be changed with
+the <span class="samp">view solder side</span> option, also found in the <b>Screen</b> menu. 
+When the solder-mask is displayed, the pin and pad clearance adjustments
+(see <a href="Line-Objects.html#Line-Objects">Line Objects</a>) alter the size of mask cut-outs.
+
+     <p><a name="index-Sizes_002c-popup-menu-36"></a><br><dt><b>Sizes</b><dd>The <b>Sizes</b> menu allows you to select a group of line thickness, via diameter, via drill
+size, and clearance (keepaway) (collectively called a "routing style") to be copied to the "active" sizes. 
+You can also change the names given to the routing styles and adjust their values from
+this menu.  The "active" sizes are also adjustable from this menu. 
+The "active" sizes are shown in the status-line and control the initial size of new vias,
+drilling holes, lines, clearances, text-objects and also the maximum dimensions of the
+board layout.
+
+     <p><a name="index-Settings_002c-popup-menu-37"></a><a name="index-unique-names-38"></a><a name="index-rubber-band-39"></a><a name="index-snap-to-pins-40"></a><a name="index-clearance_002c-for-new-lines-41"></a><br><dt><b>Settings</b><dd>The <b>Settings</b> menu controls several operating configuration
+parameters. The <span class="samp">edit layer groups</span> entry brings up a dialog
+that allows you to change the way layers are grouped. Layer grouping
+is described in <a href="Layer-Objects.html#Layer-Objects">Layer Objects</a>. The <span class="samp">all-direction lines</span>
+entry controls
+the clipping of lines to 45-degree angles. You can also control
+whether moving individual objects causes the attached lines to
+"rubber band" with the move or not from the <b>Settings</b> menu. Another
+entry controls whether the starting clip angle for the two-line
+mode (see <a href="Line-Objects.html#Line-Objects">Line Objects</a>) alternates every other line. You can
+also control whether element names must be unique from the <b>Settings</b>
+menu.  When unique element names are enforced, copying a new element
+will automatically create a unique <span class="samp">layout-name</span> name for it
+provided that the name originally ended with a digit (<em>e.g.</em>
+U7 or R6). The <b>Settings</b> menu allows you to control
+whether the cross hair will snap to pins and pads even when they
+are off-grid. Finally you can control whether new lines and
+arcs touch or clear intersecting polygons from this menu.
+
+     <p><a name="index-Select_002c-popup-menu-42"></a><a name="index-selected-objects_002c-removing-43"></a><a name="index-selected-objects_002c-changing-sizes-44"></a><br><dt><b>Select</b><dd>This menu covers most of the operations that work with selected objects. 
+You may either (un)select all visible objects on a layout or only the ones
+which have been found by the last connection scan see
+<!-- DRM: not sure where this was suppose to xfef to. -->
+<!-- @ref{find connections} -->
+. 
+You can delete all selected objects from this menu. 
+Other entries in the <b>Select</b> menu change the sizes of selected objects. 
+Note that a select action only affects those objects that are
+selected <em>and</em> have their visibility turned on in the Layer Control
+panel. The <b>Select</b> menu also provides a means for selecting objects
+by name using unix <a href="Regular-Expressions.html#Regular-Expressions">Regular Expressions</a>.
+
+     <p><a name="index-Buffer_002c-popup-menu-45"></a><a name="index-pastebuffer_002c-popup-menu-46"></a><a name="index-element_002c-editing-47"></a><br><dt><b>Buffer</b><dd>From the <b>Buffer</b> menu you may select one out of five
+buffers to use, rotate or clear its contents or save the buffer contents
+to a file. You can also use the <span class="samp">break buffer element to pieces</span> entry
+to de-compose an element into pieces for editing. 
+Note: only objects with visibility turned on are pasted to the layout. If
+you have something in a buffer, then change which side of the board you
+are viewing, the contents of the buffer will automatically be mirrored
+for pasting on the side you are viewing. It is not necessary to clear
+a buffer before cutting or copying something into it - it will automatically
+be cleared first.
+
+     <p><a name="index-Connects_002c-popup-menu-48"></a><a name="index-auto_002drouter-49"></a><a name="index-design-rule-checker_002c-invoking-50"></a><br><dt><b>Connects</b><dd>The entries available through the <b>Connects</b> menu allow you to find
+connections from objects and to manipulate these. 
+You can also optimize or erase rat's nests from this menu. Finally,
+the <span class="samp">auto-route all rats</span> entry allows you to auto-route
+all connections show by the rat's nest. The auto-router will use
+any visible copper layer for routing, so turn off the visibility of any
+layers you don't want it to use. The auto-router will automatically
+understand and avoid any traces that are already on the board, but
+it is not restricted to the grid. Finally,
+the auto-router routes using the active sizes (except for nets that
+have a route-style defined). <code>Pcb</code> always knows which tracks
+were routed by the auto-router, and you can selectively remove them
+without fear of changing tracks that you have manually routed
+with the <span class="samp">rip-up all auto-routed tracks</span> entry in the <b>Connects</b>
+menu.  The <span class="samp">design rule checker</span> entry runs a check for copper
+areas that are too close together, or connections that touch too
+tenuously for reliable production. The DRC stops when the first
+problem is encountered so after fixing a problem be sure to
+run it again until no problems are found.
+     <pre class="display">          <em>Warning:</em> <b>COPPER TEXT IS IGNORED BY THE DRC CHECKER</b>.
+     </pre>
+     <p><a name="index-Info_002c-popup-menu-51"></a><a name="index-report-52"></a><a name="index-object-report-53"></a><a name="index-drill-report-54"></a><br><dt><b>Info</b><dd>The <span class="samp">generate object report</span> entry from the <b>Info</b> menu
+provides a way to get detailed information
+about an object, such as its coordinates, dimensions, etc. 
+You can also get a report summarizing all of the drills
+used on the board with <span class="samp">generate drill summary</span>. Lastly,
+you can get a list of all pins, pads and vias that were
+found during a connection search.
+
+     <p><a name="index-Window_002c-popup-menu-55"></a><br><dt><b>Window</b><dd>The <b>Window</b> menu provides a way to bring each of <code>Pcb's</code>
+windows to the front. The <em>Library</em> window is used to
+bring elements from the library into the paste-buffer. The
+<em>Message Log</em> window holds the various messages that
+<code>Pcb</code> sends to the user. The <em>Netlist</em> window shows
+the list of connections desired.
+
+   </dl>
+
+   <p>Now that you're familiar with the various menus, it's time
+to try some things out. From the <b>File</b> menu choose
+<span class="samp">load layout</span>, navigate to the tutorial folder, then
+load the file <span class="samp">tut1.pcb</span>.
+
+   </body></html>
+

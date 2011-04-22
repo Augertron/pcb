@@ -1,0 +1,219 @@
+<html lang="en">
+<head>
+<title>gEDA - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Schematic-Frontends.html#Schematic-Frontends" title="Schematic Frontends">
+<link rel="next" href="xcircuit.html#xcircuit" title="xcircuit">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="gEDA"></a>Next:&nbsp;<a rel="next" accesskey="n" href="xcircuit.html#xcircuit">xcircuit</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Schematic-Frontends.html#Schematic-Frontends">Schematic Frontends</a>
+<hr><br>
+</div>
+
+   <p><a name="index-gschem_002c-how-to-interface-with-761"></a><a name="index-gEDA_002c-how-to-interface-with-762"></a>
+
+<h3 class="section">9.1 gEDA</h3>
+
+<p>This section shows how to use gEDA as the schematic capture front-end for
+a PCB design.  This section is not intended to be complete documentation
+on gEDA and it is assumed that the user has at least some familiarity
+with the gEDA suite of programs.
+
+   <p>The basic steps in a gEDA + PCB design flow are:
+     <ol type=1 start=1>
+<li>Set up project directories
+<li>Set up gEDA (gschem/gnetlist) config files
+<li>Set up gsch2pcb config files
+<li>Capture schematics using <code>gschem</code> (part of gEDA)
+<li>Create any unique PCB footprints needed for the design
+<li>Generate initial PCB design using <code>gsch2pcb</code> (part of gEDA)
+<li>Layout circuit board using <code>pcb</code>
+<li>Make any additional schematic changes with <code>gschem</code> and
+forward annotate to PCB with <code>gsch2pcb</code>
+<li>Generate photoplot files (RS-274-X, also known as "Gerber") for
+board vendor
+        </ol>
+
+<h4 class="subsection">9.1.1 Set Up Project Directories</h4>
+
+<p>Although not required, a typical project directory will contain the
+schematics and board layout at the top level. 
+Schematic symbols and circuit board footprints which are unique to this
+project are stored in subdirectories.  For this example, <span class="file">sym</span>
+contains the project specific schematic symbols and <span class="file">pkg</span> contains
+the project specific footprints.  Set up the project subdirectory and
+subdirectories by executing:
+<pre class="example">     mkdir ~/myproj
+     cd ~/myproj
+     mkdir sym
+     mkdir pkg
+     mkdir pkg/newlib
+     mkdir pkg/m4
+</pre>
+   <h4 class="subsection">9.1.2 Set Up gEDA Config Files</h4>
+
+<p>The gEDA tools, specifically <code>gschem</code> and <code>gnetlist</code>, use
+configuration files to set the search path for symbol libraries in
+addition to other user preferences.  Create a file in the top level
+project directory called <span class="file">gschemrc</span>.  Add the following lines to
+that file:
+<pre class="example">     
+     ;; list libraries here.  Order matters as it sets the
+     ;; search order
+     (component-library "./sym")
+     
+</pre>
+   <p>This sets the local search path for the schematic capture program
+<code>gschem</code>.  Now the netlister, <code>gnetlist</code>, must also be
+configured.  This can be done by copying the file <span class="file">gschemrc</span> to
+<span class="file">gnetlistrc</span> by running <span class="samp">cp gschemrc gnetlistrc</span>. 
+Alternatively, you can create a soft link so only a single file needs to
+be updated if additional symbol paths are added.  The link is created by
+running <span class="samp">ln -s gschemrc gnetlistrc</span>.
+
+<h4 class="subsection">9.1.3 Set Up <code>gsch2pcb</code> Config Files</h4>
+
+<p>The program <code>gsch2pcb</code>, not to be confused with the older
+<code>gschem2pcb</code> script, is used to link the schematic to layout. 
+<code>gsch2pcb</code> is responsible for creating the netlist used to provide
+connectivity information to PCB as well creating an initial layout with
+all components instantiated in the design.  Forward annotation of
+schematic changes to the layout is also done using <code>gsch2pcb</code>. 
+<code>gsch2pcb</code> uses a project file to set up the schematic file names,
+PCB library locations, and output file names.  Create a project file
+called <span class="file">project</span> using the following as an example:
+<pre class="example">     
+     # List all the schematics to be netlisted
+     # and laid out on the pc board.
+     schematics      first.sch second.sch third.sch
+     
+     # For an output-name of foo, gsch2pcb generates files
+     # foo.net, foo.pcb, and foo.new.pcb.  If there is no
+     # output-name specified, the file names are derived from
+     # the first listed schematic, i.e. first.net, etc.
+     output-name  preamp
+     
+</pre>
+   <h4 class="subsection">9.1.4 Capture Schematics Using <code>gschem</code></h4>
+
+<p>This section is fairly brief and assumes familiarity with using the
+<code>gschem</code> schematic capture program.  As you are creating your
+schematics, be sure to observe the following rules:
+     <ul>
+<li>Make sure that each component in the schematic has a
+<code>footprint</code> attribute that corresponds to a footprint in the PCB
+library or a footprint you plan on creating. 
+<li>Make sure all reference designators are unique.  One way to ensure
+this is to run the <code>refdes_renum</code> script (part of gEDA) after the
+schematics are created. 
+</ul>
+
+<h4 class="subsection">9.1.5 Create Any Unique PCB Footprints</h4>
+
+<p>Create the new footprints you design needs using either the m4 style or
+newlib style of PCB libraries.  Refer to <a href="Library-Creation.html#Library-Creation">Library Creation</a> for details on this
+process.  For m4 style footprints, store them in the <span class="file">pkg/m4</span>
+subdirectory and for newlib footprints, store them in the
+<span class="file">pkg/newlib</span> subdirectory.
+
+<h4 class="subsection">9.1.6 Generate Initial PCB Design Using <code>gsch2pcb</code></h4>
+
+<p>The <code>gsch2pcb</code> program connects the schematic and layout.  It basic
+operation is to call <code>gnetlist</code> to generate the connectivity
+netlist that PCB used to verify connectivity and to instantiate all
+elements found in the schematic to a new layout. 
+The default, as of <code>gsch2pcb</code> version 0.9,  is to use any found  m4
+style parts first and then search for newlib style if no old style part
+was found.  By using the <code>--use-files</code> or <code>-f</code> flag to <code>gsch2pcb</code>
+priority is given to newlib style parts even if m4 style are found.  You
+may wish to verify this in the <code>gsch2pcb</code> documentation in case
+this changes in the future. 
+To start your layout,
+run <span class="samp">gsch2pcb project</span> where <span class="file">project</span> is the project file
+created previously.  This will create a new netlist file,
+<span class="file">preamp.net</span>, and a new layout file, <span class="file">preamp.pcb</span>.
+
+<h4 class="subsection">9.1.7 Layout Circuit Board</h4>
+
+<p>Run PCB on the new layout by running <span class="samp">pcb preamp.pcb</span>. 
+Load the netlist file by selecting "load netlist file" from the "file"
+menu.  In the file selection dialog box, choose <span class="file">preamp.net</span>.  This
+loads connectivity information into PCB.
+
+   <p>Using the selection tool, grab and move apart the various footprints
+with the middle mouse button.  Once the parts are moved apart from each
+other, choose "optimize rats-nest" from the "Connects" menu.  This menu
+choice will display and optimize the rats nest.  Use the rats nest to
+help guide placement of the parts.  You may wish to re-run the "optimize
+rats-nest" command after moving parts around.
+
+   <p>After the placement is complete, use the line tool to add traces to the
+board.  As traces are added, the corresponding rats line will disappear.
+
+<h3 class="section">9.2 Forward Annotation of Schematic Changes</h3>
+
+<p>If schematic changes are made after the layout has started,
+<code>gsch2pcb</code> can be used to forward annotate these changes to the
+layout.  To forward annotate schematic changes, run <span class="samp">gsch2pcb
+project</span>.  This command will create the files <span class="file">preamp.new.pcb</span>,
+<span class="file">preamp.net</span>, and modify the file <span class="file">preamp.pcb</span>.  The
+modifications to <span class="file">preamp.pcb</span> include forward annotation of
+schematic component value changes, adds any new components, and removes
+any deleted components.
+
+<h4 class="subsection">9.2.1 Generate Photoplot Files (RS-274-X)</h4>
+
+<p>After the layout is complete, choose "edit layer-groupings" from the
+"Settings" menu.  The LayerGroups form lets you specify which layers
+will appear in each output layer group.  For example, in the default
+form, layer group 1 has "front" and "front side" in it.  The
+output file <span class="file">1.gbr</span> if DOS file names are used, or
+<span class="file">somename_front.gbr</span> if long file names are used will contain the
+"front" and "front side" layers in it.  Usually the defaults are
+sufficient, but this form is still a useful reference.
+
+   <p>Choose "print layout..." from the "File" menu.  In the print dialog box,
+select "Gerber/RS-274X" for the device
+driver.  Select the "outline", "alignment", and "drillhelper" options. 
+To get DOS compatible file names, select the "DOS (8.3) names" option,
+otherwise enter "preamp" for the filename.  Press "OK".
+
+   <p>The following output files should have been created in the project directory. 
+The names in parentheses correspond to the DOS compatible output file names.
+     <dl>
+<dt><span class="file">preamp_frontsilk.gbr (csilk.gbr)</span><dd>Top side silk screen. 
+<br><dt><span class="file">preamp_frontmask.gbr (cmask.gbr)</span><dd>Top side soldermask relief. 
+<br><dt><span class="file">preamp_front.gbr (1.gbr)</span><dd>Top copper. 
+<br><dt><span class="file">preamp_backmask.gbr (smask.gbr)</span><dd>Bottom side soldermask relief. 
+<br><dt><span class="file">preamp_back.gbr (2.gbr)</span><dd>Bottom Copper. 
+<br><dt><span class="file">preamp_fab.gbr (fab.gbr)</span><dd>Fabrication drawing.  Also known as the drill drawing.  This drawing is
+used for reference by the board vendor but is not directly used in the
+fabrication process. 
+<br><dt><span class="file">preamp_plated-drill.cnc (pdrill.cnc)</span><dd>NC Drill format file for the plated through holes. 
+<br><dt><span class="file">preamp_unplated-drill.cnc (udrill.cnc)</span><dd>NC Drill format file for the unplated through holes. 
+<br><dt><span class="file">preamp_bom.txt (bom.txt)</span><dd>A bill of materials for the layout. 
+<br><dt><span class="file">preamp_xy.txt (xy.txt)</span><dd>Centroid (X-Y) data for driving automated assembly equipment. 
+</dl>
+
+<!-- to include an image: -->
+<!-- @image{geda1, 6in, 4in, geda schematic, png} -->
+</body></html>
+

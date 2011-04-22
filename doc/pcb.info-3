@@ -1,0 +1,854 @@
+This is pcb.info, produced by makeinfo version 4.1 from pcb.texi.
+
+INFO-DIR-SECTION Miscellaneous
+START-INFO-DIR-ENTRY
+* pcb: (pcb).                   An interactive printed circuit board editor.
+END-INFO-DIR-ENTRY
+
+   This file documents how to use Pcb, the interactive printed circuit
+board layout system for `X11'.
+
+   Copyright (C) 1994,1995,1996, 2004 Thomas Nau
+
+   Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002 harry eaton
+
+   Copyright (C) 2003, 2004 Dan McMahill
+
+   Copyright (C) 2004 DJ Delorie
+
+   This program is free software; you may redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or (at
+your option) any later version.
+
+   This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANT-ABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+
+
+File: pcb.info,  Node: Design Rule Checking,  Next: Trace Optimizer,  Prev: Rats Nest,  Up: Getting Started
+
+Design Rule Checking
+====================
+
+   After you've finished laying out a board, you may want to check to
+be certain that none of your interconnections are too closely spaced or
+too tenuously touching to be reliably fabricated. The design rule
+checking (DRC) function does this for you. Use the command ":DRC()"
+(without the quotes of course) to invoke the checker.  If there are no
+problem areas, you'll get a message to that effect.  If any problem is
+encountered, you will get a message about it and the affected traces
+will be highlighted. One part of the tracks of concern will be
+selected, while the other parts of concern will have the
+"FindConnection" highlighting. The screen will automatically be
+centered in the middle of the object having the "FindConnection"
+(Green) highlighting.  The middle of the object is also the coordinates
+reported to be "near" the problem.  The actual trouble region will be
+somewhere on the boundary of this object.  If the two parts are from
+different nets then there is some place where they approach each other
+closer than the minimum rule.  If the parts are from the same net, then
+there is place where they are only barely connected. Find that place
+and connect them better.
+
+   After a DRC error is found and corrected you must run the DRC again
+because the search for errors is halted as soon as the first problem is
+found. Unless you've been extremely careless there should be no more
+than a few design rule errors in your layout.  The DRC checker does not
+check for minimum spacing rules to copper text, so always be very
+careful when adding copper text to a layout.  The rules for the DRC are
+specified in the application resource file.  The minimum spacing value
+(in mils) is given by the _Settings.Bloat_ value. The default is 7
+mils. The minimum touching overlap (in mils) is given by the
+_Settings.Shrink_ value. This value defaults to 5 mils. Check with your
+fabrication process people to determine the values that are right for
+you.
+
+   If you want to turn off the highlighting produced by the DRC,
+perform an undo (assuming no other changes have been made).  To restore
+the highlighting, use redo.  The redo will restore the highlighting
+quickly without re-running the DRC checker.
+
+
+File: pcb.info,  Node: Trace Optimizer,  Next: Searching for elements,  Prev: Design Rule Checking,  Up: Getting Started
+
+Trace Optimizer
+===============
+
+   PCB includes a flexible trace optimizer.  The trace optimizer can be
+run after auto routing or hand routing to clean up the traces.
+
+Auto-Optimize
+     Performs debumpify, unjaggy, orthopull, vianudge, and viatrim, in
+     that order, repeating until no further optimizations are performed.
+
+Debumpify
+     Looks for U shaped traces that can be shortened or eliminated.
+
+Unjaggy
+     Looks for corners which could be flipped to eliminate one or more
+     corners (i.e. jaggy lines become simpler).
+
+Vianudge
+     Looks for vias where all traces leave in the same direction. Tries
+     to move via in that direction to eliminate one of the traces (and
+     thus a corner).
+
+Viatrim
+     Looks for traces that go from via to via, where moving that trace
+     to a different layer eliminates one or both vias.
+
+Orthopull
+     Looks for chains of traces all going in one direction, with more
+     traces orthogonal on one side than on the other. Moves the chain
+     in that direction, causing a net reduction in trace length,
+     possibly eliminating traces and/or corners.
+
+SimpleOpts
+     Removing unneeded vias, replacing two or more trace segments in a
+     row with a single segment. This is usually performed automatically
+     after other optimizations.
+
+Miter
+     Replaces 90 degree corners with a pair of 45 degree corners, to
+     reduce RF losses and trace length.
+
+
+File: pcb.info,  Node: Searching for elements,  Next: Measuring distances,  Prev: Trace Optimizer,  Up: Getting Started
+
+Searching for elements
+======================
+
+   To locate text or a specific element or grouping of similar elements
+choose `Select by name' from the Select menu, then choose the
+appropriate subsection.  At the bottom of the screen the prompt
+_pattern:_ appears.  Enter the text or *Note Regular Expressions:: of
+the text to be found.  Found text will be highlighted.
+
+
+File: pcb.info,  Node: Measuring distances,  Next: Vendor drill mapping,  Prev: Searching for elements,  Up: Getting Started
+
+Measuring distances
+===================
+
+   To measure distances, for example the pin-to-pin pitch of a part to
+validate a footprint, place the cursor at the starting measurement
+point, then press _!Ctrl<Key>m_.  This marks the current  location with
+a _X_. The _X_ mark is now the zero point origin for the relative
+cursor position display.  The cursor display shows both absolute
+position and position relative to the mark as the mouse is moved away
+from the mark.  If a mark is already present, the mark is removed and
+the cursor display stops displaying relative cursor coordinates.
+
+
+File: pcb.info,  Node: Vendor drill mapping,  Prev: Measuring distances,  Up: Getting Started
+
+Vendor Drill Mapping
+====================
+
+   `Pcb' includes support for mapping drill holes to a specified set of
+sizes used by a particular vendor.  Many PCB manufacturers have a
+prefered set of drill sizes and charge extra when others are used.  The
+mapping can be performed on an existing design and can also be enabled
+to automatically map drill holes as vias and elements are instantiated.
+
+   The first step in using the vendor drill mapping feature is to create
+a resource file describing the capabilities of your vendor.  The file
+format is the resource file format described in *Note Resource Syntax::.
+A complete example is given below.
+
+     # Optional name of the vendor
+     vendor = "Vendor Name"
+     
+     # units for dimensions in this file.
+     # Allowed values:  mil/inch/mm
+     units = mil
+     
+     # drill table
+     drillmap = {
+        # When mapping drill sizes, select the nearest size
+        # or always round up.  Allowed values:  up/nearest
+        round = up
+     
+        # The list of vendor drill sizes.  Units are as specified
+        # above.
+        20
+        28
+        35
+        38
+        42
+        52
+        59.5
+        86
+       125
+       152
+     
+        # optional section for skipping mapping of certain elements
+        # based on reference designator, value, or description
+        # this is useful for critical parts where you may not
+        # want to change the drill size.  Note that the strings
+        # are regular expressions.
+        skips = {
+           {refdes "^J3$"}  # Skip J3.
+           {refdes "J3"}  # Skip anything with J3 as part of the refdes.
+           {refdes "^U[1-3]$" "^X.*"} # Skip U1, U2, U3, and anything starting with X.
+           {value "^JOHNSTECH_.*"} # Skip all Johnstech footprints based on the value of a part.
+           {descr "^AMP_MICTOR_767054_1$"} # Skip based on the description.
+        }
+     }
+     
+     # If specified, this section will change the current DRC
+     # settings for the design.  Units are as specified above.
+     drc = {
+        copper_space = 7
+        copper_width = 7
+        silk_width = 10
+        copper_overlap = 4
+     }
+
+   The vendor resource is loaded using the `LoadVendor' action.  This
+is invoked by entering:
+     :LoadVendor(vendorfile)
+   from within `Pcb'.  Substitute the file name of your vendor resource
+file for `vendorfile'.  This action will load the vendor resource and
+modify all the drill holes in the design as well as the default via
+hole size for the various routing styles.
+
+   Once a vendor drill map has been loaded, new vias and elements will
+automatically have their drill hole sizes mapped to the vendor drill
+table.  Automatic drill mapping may be disabled under the "Settings"
+menu.  To re-apply an already loaded vendor drill table to a design,
+choose "Apply vendor drill mapping" from the "Connects" menu.
+
+   See *Note Actions:: for a complete description of the actions
+associated with vendor drill mapping.
+
+   Note that the expressions used in the `skips' section are regular
+expressions.  See *Note Regular Expressions:: for an introduction to
+regular expressions.
+
+
+File: pcb.info,  Node: User Commands,  Next: Command-Line Options,  Prev: Getting Started,  Up: Top
+
+User Commands
+*************
+
+   The entering of user-commands is initiated by the action routine
+_Command()_ (the `(":")' character) and finished by either _<Key>Return_
+or _<Key>Escape_ to confirm or to abort. These two key-bindings cannot
+be changed from the resource file.  The triggering event, normally a
+key press, is ignored.  The input area will replace the bottom
+statusline. It pops up when _Command()_ is called. The arguments of the
+user-commands are passed to the external commands without modification.
+See also, the resource _saveInTMP_.
+
+   There are simple _usage_ dialogs for each command and one for the
+complete set of commands.
+
+`l [filename]'
+     Loads a new datafile (layout) and, if confirmed, overwrites any
+     existing unsaved data.  The filename and the searchpath
+     (_filePath_) are passed to the command defined by _fileCommand_.
+     If no filename is specified a file select box will popup.
+
+`le [filename]'
+     Loads an element description into the paste buffer.  The filename
+     and the searchpath (_elementPath_) are passed to the command
+     defined by _elementCommand_.  If no filename is specified a file
+     select box will popup.
+
+`m [filename]'
+     Loads an layout file into the paste buffer.  The filename and the
+     searchpath (_filePath_) are passed to the command defined by
+     _fileCommand_.  If no filename is specified a file select box will
+     popup.
+
+`q[!]'
+     Quits the program without saving any data (after confirmation).
+     q! doesn't ask for confirmation, it just quits.
+
+`s [filename]'
+     Data and the filename are passed to the command defined by the
+     resource _saveCommand_. It must read the layout data from _stdin_.
+     If no filename is entered, either the last one is used again or,
+     if it is not available, a file select box will pop up.
+
+`rn [filename]'
+     Reads in a netlist file.  If no filename is given a file select
+     box will pop up.  The file is read via the command defined by the
+     _RatCommand_ resource. The command must send its output to
+     _stdout_.
+
+     Netlists are used for generating rat's nests (see *Note Rats
+     Nest::) and for verifying the board layout (which is also
+     accomplished by the _Ratsnest_ command).
+
+`w[q] [filename]'
+     These commands have been added for the convenience of `vi' users
+     and have the same functionality as _s_ combined with _q_.
+
+`actionCommand'
+     Causes the actionCommand to be executed.  This allows you to
+     initiate actions for which no bindings exist in the resource file.
+     It can be used to initiate any action with whatever arguments you
+     enter.  This makes it possible to do things that otherwise would
+     be extremely tedious.  For example, to change the drilling hole
+     diameter of all vias in the layout to 32 mils, you could select
+     everything using the selection menu, then type
+     "_:ChangeDrillSize(SelectedVias, 32)_".  (This will only work
+     provided the via's diameter is sufficiently large to accommodate a
+     32 mil hole).  Another example might be to set the grid to 1 mil
+     by typing "_:SetValue(Grid, 1)_".  Note that some actions use the
+     current cursor location, so be sure to place the cursor where you
+     want before entering the command.  This is one of my favorite new
+     features in 1.5 and can be a powerful tool. Study the *Note
+     Actions:: section to see what actions are available.
+
+
+File: pcb.info,  Node: Command-Line Options,  Next: X11 Interface,  Prev: User Commands,  Up: Top
+
+Command-Line Options
+********************
+
+   There are several resources which may be set or reset in addition to
+the standard toolkit command-line options. For a complete list refer to
+*Note Resources::.
+
+   The synopsis is:
+
+   `pcb [-option ...] [-toolkit_option ...] [layout-file]'
+
+   or
+
+   `pcb -specialoption'
+
+* Menu:
+
+* Options::                `Pcb' command-line options.
+* Special Options::        Version and copyright information.
+
+
+File: pcb.info,  Node: Options,  Next: Special Options,  Up: Command-Line Options
+
+Options
+=======
+
+`-alldirections/+alldirections'
+     Disables or enables line clipping to 45 degree angles. Overwrites
+     the resource _allDirectionLines_.
+
+`-background file'
+     Selects a PPM file to be displayed as the board background (for
+     tracing).  See backgroundImage in *Note Resources:: for details.
+
+`-backup value'
+     Time between two backups in seconds. Passing zero disables the
+     backup feature.  Overwrites the resource _backupInterval_.
+
+`-c value'
+     Number of characters per output line. The resource
+     _charactersPerLine_ is overwritten.
+
+`-fontfile filename'
+     The default set of symbols (font) for a new layout is read from
+     this file.  All directories as defined by the resource _fontPath_
+     are scanned for the file. The scan is only performed if the
+     filename doesn't contain a directory component. The _fontFile_
+     resource is changed.
+
+`-lelement command-line'
+     Sets the command to be executed when an element is loaded from a
+     file to the paste buffer. The command may contain %f and %p to
+     pass the requested filename and the searchpath to the command. It
+     must write the data to its standard output. The related resource
+     is _elementCommand_.
+
+`-lfile command-line'
+     Sets the command to be executed when a new layout is loaded from a
+     file.  The command may contain %f and %p to pass the requested
+     filename and the searchpath to the command. It must write the data
+     to its standard output. The related resource is _fileCommand_.
+
+`-lfont command-line'
+     Sets the command to be executed when a font is loaded from a file.
+     The command may contain %f and %p to pass the requested filename
+     and the searchpath to the command. It must write the data to its
+     standard output. The related resource is _fontCommand_.
+
+`-lg layergroups'
+     This option overwrites the resource _layerGroups_. See its
+     description for more information. The value is used for new
+     layouts only.
+
+`-libname filename'
+     The default filename for the library. Overwrites the resource
+     _libraryFilename_.
+
+`-libpath path'
+     The default search path for the the library. Overwrites the
+     resource _libraryPath_.
+
+`-llib command-line'
+     Sets the command to be executed when an element is loaded from the
+     library.  The command may contain %f and %p to pass the requested
+     filename and the searchpath to the command. %a is replaces by the
+     three arguments _template_, _value_ and _package_. The command
+     must write the data to its standard output. The related resource
+     is _libraryCommand_.
+
+`-llibcont command-line'
+     The command lists the contents of the library.  The command may
+     contain %f and %p to pass the library filename and the searchpath
+     to the command. Also refer to *Note Library File:: and *Note
+     Library Contents File::.  The related resource is
+     _libraryContentsCommand_.
+
+`-loggeometry geometry'
+     Determines the geometry of the log window.
+
+`-pnl value'
+     Restricts the displayed length of the name of a pin in the pinout
+     window to the passed value. See also, the resource
+     _pinoutNameLength_.
+
+`-pz value'
+     Sets the zoom factor for the pinout window according to the
+     formula: scale = 1:(2 power value). The related resource is
+     _pinoutZoom_.
+
+`-reset/+reset'
+     If enabled, all connections are reset after each element is
+     scanned.  This feature is only used while scanning connections to
+     all elements.  See also, _resetAfterElement_.
+
+`-ring/+ring'
+     Overrides the resource _ringBellWhenFinished_. If enabled, the bell
+     sounds when connection searching has finished.
+
+`-rs string'
+     Overrides the resource _routeStyle_. The string defines a colon
+     separated list of route styles. The route styles consist of a
+     comma separated list of name, line thickness, via diameter, and
+     via drill size.  e.g.
+     "Fat,50,100,40:Skinny,8,35,20:75Ohm,110,110,20"
+
+`-s/+s'
+     Enables/Disables the saving of the previous commandline. Overrides
+     the _saveLastCommand_ resource.
+
+`-save/+save'
+     See the resource description of _saveInTMP_ for details.
+
+`-sfile command-line'
+     Sets the command to be executed when an layout file is saved.  The
+     command may contain %f which is replaced by the filename. The
+     command must read its data from the standard input.  The resource
+     _saveCommand_ is overwritten.
+
+`-script filename'
+     Specifies a script file containing PCB actions to be executed upon
+     startup.  Overwrites the resource _scriptFilename_.
+
+`-size <width>x<height>'
+     Overrides the resource _size_ which determines the maximum size of
+     a layout.
+
+`-v value'
+     Sets the volume of the X speaker. The value is passed to `XBell()'
+     and must be in the range -100..100.
+
+
+File: pcb.info,  Node: Special Options,  Prev: Options,  Up: Command-Line Options
+
+Special Options
+===============
+
+   There are some special options available in addition to normal
+command line options. Each of these must be the only option specified
+on a command line.  The available special options are:
+
+`-copyright'
+     Prints out the copyright notice and terminates.
+
+`-version'
+     Prints out the version ID and terminates.
+
+`-help'
+     Prints out the usage message and terminates.
+
+
+File: pcb.info,  Node: X11 Interface,  Next: File Formats,  Prev: Command-Line Options,  Up: Top
+
+X11 Interface
+*************
+
+   This chapter gives an overview about the additional `X11' resources
+which are defined by `Pcb' as well as the defined action routines.
+
+* Menu:
+
+* Resources::      Non-standard `X11' application resources.
+* Actions::        A list of available action routines.
+* Translations::   A list of the default key translations (as shipped).
+
+
+File: pcb.info,  Node: Resources,  Next: Actions,  Up: X11 Interface
+
+Non-Standard X11 Application Resources
+======================================
+
+   In addition to the toolkit resources, `Pcb' defines the following
+resources:
+
+`absoluteGrid (boolean)'
+     Selects if either the grid is relative to the position where it
+     has changed last or absolute, the default, to the origin (0,0).
+
+`alignmentDistance (dimension)'
+     Specifies the distance between the boards outline to the alignment
+     targets.
+
+`allDirectionLines (boolean)'
+     Enables (default) or disables clipping of new lines to 45 degree
+     angles.
+
+`backgroundImage (string)'
+     If specified, this image will be drawn as the background for the
+     board.  The purpose of this option is to allow you to use a scan
+     of an existing layout as a prototype for your new layout.  To do
+     this, there are some limitations as to what this image must be.
+     The image must be a PPM binary image (magic number `P6').  It must
+     have a maximum pixel value of 255 or less (i.e. no 16-bit images).
+     It must represent the entire board, as it will be scaled to fit
+     the board dimensions exactly.  Note that it may be scaled unevenly
+     if the image doesn't have the same aspect ratio of your board.
+     You must ensure that the image does not use more colors than are
+     available on your system (mostly this is for pseudo-color
+     displays, like old 8-bit displays).  For best results, I suggest
+     the following procedure using The Gimp: Load your image (any
+     type).  Image->Scale if needed.  Image->Colors->Curves and for
+     each of Red, Green, and Blue channel move the lower left point up
+     to about the 3/4 line (value 192).  This will make your image pale
+     so it doesn't interfere with the traces you'll be adding.
+     Image->Mode->Indexed and select, say, 32 colors with Normal F-S
+     dithering.  File->Save As, file type by extension, use `.ppm' as
+     the extension.  Select Raw formatting.
+
+`backupInterval (int)'
+     `Pcb' has an automatic backup feature which saves the current data
+     every n seconds. The default is _300_ seconds. A value of zero
+     disables the feature. The backup file is named
+     `/tmp/PCB.%i.backup' by default (this may have been changed at
+     compilation time via the `BACKUP_NAME' variable in
+     `globalconfig.h').  _%i_ is replaced by the process ID.  See also,
+     the command-line option _-backup_.
+
+`Bloat (dimension)'
+     Specifies the minimum spacing design rule in mils.
+
+`charactersPerLine (int)'
+     `Pcb' uses this value to determine the page width when creating
+     lists.  N, the number of characters per line, defaults to _80_.
+     See also, the command-line option _-c_.
+
+`connectedColor (color)'
+     All pins, vias, lines and rectangles which are selected during a
+     connection search are drawn with this color. The default value is
+     determined by _XtDefaultForeground_.
+
+`cross hairColor (color)'
+     This color is used to draw the cross hair cursor. The color is a
+     result of a _XOR_ operation with the contents of the Layout area.
+     The result also depends on the default colormap of the `X11'
+     server because only the colormap index is used in the boolean
+     operation and `Pcb' doesn't create its own colormap. The default
+     setting is _XtDefaultForeground_.
+
+`elementColor (color)'
+`elementSelectedColor (color)'
+     The elements package part is drawn in these colors, for normal and
+     selected mode, respectively, which both default to
+     _XtDefaultForeground_.
+
+`elementCommand (string)'
+     `Pcb' uses a user defined command to read element files. This
+     resources is used to set the command which is executed by the
+     users default shell.  Two escape sequences are defined to pass the
+     selected filename (%f) and the current search path (%p). The
+     command must write the element data to its standard output. The
+     default value is
+              M4PATH="%p";export M4PATH;echo 'include(%f)' | m4
+     Using the GNU version of `m4' is highly recommended.  See also,
+     the command-line option _-lelement_.
+
+`elementPath (string)'
+     A colon separated list of directories or commands (starts with
+     '|').  The path is passed to the program specified in
+     _elementCommand_ together with the selected element name. A
+     specified command will be executed in order to create entries for
+     the fileselect box. It must write its results to _stdout_ one
+     entry per line.  See also, the user-command _le[!]_.
+
+`fileCommand (string)'
+     The command is executed by the user's default shell whenever
+     existing layout files are loaded. Data is read from the command's
+     standard output.  Two escape sequences may be specified to pass
+     the selected filename (%f) and the current search path (%p). The
+     default value is:
+              cat %f
+     See also, the command-line option _-lfile_.
+
+`filePath (string)'
+     A colon separated list of directories or commands (starts with
+     '|').  The path is passed to the program specified in
+     _fileCommand_ together with the selected filename. A specified
+     command will be executed in order to create entries for the
+     fileselect box. It must write its results to _stdout_ one entry
+     per line.  See also, the user-command _l[!]_.
+
+`fontCommand (string)'
+     Loading new symbol sets also is handled by an external command.
+     You again may pass the selected filename and the current search
+     path by passing %f and %p in the command string. Data is read from
+     the commands standard output. This command defaults to
+              cat %f
+     See also, the command-line option _-lfont_.
+
+`fontFile (string)'
+     The default font for new layouts is read from this file which is
+     searched in the directories as defined by the resource _fontPath_.
+     Searching is only performed if the filename does not contain a
+     directory component.  The default filename is `default_font'.  See
+     also, the command-line option _-fontfile_.
+
+`fontPath (string)'
+     This resource, a colon separated list of directories, defines the
+     searchpath for font files. See also, the resource _fontFile_.
+
+`grid (int)'
+     This resources defines the initial value of one cursor step. It
+     defaults to _100 mil_ and any changes are saved together with the
+     layout data.
+
+`gridColor (color)'
+     This color is used to draw the grid. The color is a result of a
+     _INVERT_ operation with the contents of the Layout area. The result
+     also depends on the default colormap of the `X11' server because
+     only the colormap index is used in the boolean operation and `Pcb'
+     doesn't create its own colormap. The default setting is
+     _XtDefaultForeground_.
+
+`elementColor (color)'
+     Elements located on the opposite side of the board are drawn in
+     this color.  The default is _XtDefaultForeground_.
+
+`layerColor1..MAX_LAYER (color)'
+`layerSelectedColor1..MAX_LAYER (color)'
+     These resources define the drawing colors of the different layers
+     in normal and selected state. All values are preset to
+     _XtDefaultForeground_.
+
+`layerGroups (string)'
+     The argument to this resource is a colon separated list of comma
+     separated layer numbers (1..MAX_LAYER). All layers within one
+     group are switched on/off together. The default setting is
+     _1:2:3:...:MAX_LAYER_ which means all layers are handled
+     separately. Grouping layers one to three looks like
+     _1,2,3:4:...:MAX_LAYER_ See also, the command-line option _-lg_.
+
+`layerName1..MAX_LAYER (string)'
+     The default name of the layers in a new layout are determined by
+     these resources. The defaults are empty strings.
+
+`libraryCommand (string)'
+     `Pcb' uses a command to read element data from libraries.  The
+     resources is used to set the command which is executed by the users
+     default shell.  Three escape sequences are defined to pass the
+     selected filename (%f), the current search path (%p) as well (%a)
+     as the three parameters _template_, _value_ and _package_ to the
+     command.  It must write the element data to its standard output.
+     The default value is
+              NONE/share/pcb/oldlib/QueryLibrary.sh %p %f %a
+
+`libraryContentsCommand (string)'
+     Similar to _libraryCommand_, `Pcb' uses the command specified by
+     this resource to list the contents of a library.
+          	NONE/share/pcb/oldlib/ListLibraryContents.sh %p %f
+     is the default.
+
+`libraryFilename (string)'
+     The resource specifies the name of the library. The default value
+     is _pcblib_ unless changed at compile time with the
+     `LIBRARYFILENAME' variable in `globalconfig.h'.
+
+`libraryPath (string)'
+     A colon separated list of directories that will be passed to the
+     commands specified by _elementCommand_ and
+     _elementContentsCommand_.
+
+`lineThickness (dimension)'
+     The value, in the range [1..250] (the range may be changed at
+     compile time with the `MIN_LINESIZE' and `MAX_LINESIZE' variables
+     in `globalconfig.h'), defines the initial thickness of new lines.
+     The value is preset to _ten mil_.
+
+`media (<predefined> | <width>x<height>+-<left_margin>+-<top_margin>)'
+     The default (user defined) media of the `PostScript' device.
+     Predefined values are _a3_, _a4_, _a5_, _letter_, _tabloit_,
+     _ledger_, _legal_, and _executive_.  The second way is to specify
+     the medias width, height and margins in mil.  The resource
+     defaults to _a4_ size unless changed at compile time with the
+     `DEFAULT_MEDIASIZE' variable in `globalconfig.h'.
+
+`offLimitColor (color)'
+     The area outside the current maximum settings for width and height
+     is drawn with this color. The default value is determined by
+     _XtDefaultBackground_.
+
+`pinColor (color)'
+`pinSelectedColor(color)'
+     This resource defines the drawing color of pins and pads in both
+     states.  The values are preset to _XtDefaultForeground_.
+
+`pinoutFont (string)'
+     This fonts are used to display pin names. There is one font for
+     each zoom value. The values are preset to _XtdefaultFont_.
+
+`pinoutNameLength (int)'
+     This resource limits the number of characters which are displayed
+     for pin names in the pinout window. By default the string length
+     is limited to _eight_ characters per name.  See also, the
+     command-line option _-pnl_.
+
+`pinoutOffsetX (int)'
+`pinoutOffsetY (int)'
+     These resources determine the offset in _mil_ of the circuit from
+     the upper left corner of the window when displaying pinout
+     information.  Both default to _100 mil_.
+
+`pinoutTextOffsetX (int)'
+`pinoutTextOffsetY (int)'
+     The resources determine the distance in mil between the drilling
+     hole of a pin to the location where its name is displayed in the
+     pinout window.  They default to _X:50_ and _Y:0_.
+
+`pinoutZoom (int)'
+     Sets the zoom factor for the pinout window according to the
+     formula: scale = 1:(2 power value). Its default value is _two_
+     which results in a _1:4_ scale.  See also, the command-line option
+     _-pz_.
+
+`printCommand (string)'
+     Default file for printouts. If the name starts with a '|' the
+     output is piped through the command. A %f is replaced by the
+     current filename.  There is no default file or command.
+
+`raiseLogWindow (boolean)'
+     The log window will be raised when new messages arrive if this
+     resource is set _true_, the default.
+
+`ratCommand (string)'
+     Default command for reading a netlist. A %f is replaced by the
+     netlist filename. Its default value is "_cat %f_".
+
+`ratPath (string)'
+     Default path to look for netlist files. It's default value is "."
+
+`resetAfterElement (boolean)'
+     If set to _true_, all found connections will be reset before a new
+     element is scanned. This will produce long lists when scanning the
+     whole layout for connections. The resource is set to _false_ by
+     default.  The feature is only used while looking up connections of
+     all elements.  See also, the command-line option _-reset, +reset_.
+
+`ringBellWhenFinished (boolean)'
+     Whether to ring the bell (the default) when a possibly lengthy
+     operation has finished or not.  See also, the command-line option
+     _-ring, +ring_.
+
+`routeStyle (string)'
+     Default values for the menu of routing styles (seen in the sizes
+     menu).  The string is a comma separated list of name, line
+     thickness, via diameter, and via drill size.  e.g.
+     "Fat,50,100,40:Skinny,8,35,20:75Ohm,110,110,20" See also, the
+     command-line option _-rs_ and _Sizes Menu_
+
+`rubberBandMode (boolean)'
+     Whether rubberband move and rotate (attached lines stretch like
+     rubberbands) is enabled (the default).
+
+`saveCommand (string)'
+     This command is used to save data to a layout file. The filename
+     may be indicated by placing `%f' in the string. It must read the
+     data from its standard input.  The default command is:
+              cat - > %f
+     See also, the command-line option _-sfile_.
+
+`saveInTMP (boolean)'
+     Enabling this resource will save all data which would otherwise be
+     lost in a temporary file `/tmp/PCB.%i.save'.  The file name may be
+     changed at compile time with the `EMERGENCY_NAME' variable in
+     `globalconfig.h'.  .  _%i_ is replaced by the process ID.  As an
+     example, loading a new layout when the old one hasn't been saved
+     would use this resource.  See also, the command-line option
+     _-save, +save_.
+
+`saveLastCommand (boolean)'
+     Enables the saving of the last entered user command. The option is
+     _disabled_ by default.  See also, the command-line option _-s, +s_.
+
+`Shrink (dimension)'
+     Specifies the minimum overlap (touching) design rule in mils.
+
+`size (<width>x<height>)'
+     Defines the width and height of a new layout. The default is
+     _7000x5000_ unless changed at compile time with the `DEFAULT_SIZE'
+     variable in `globalconfig.h'.
+
+`stipllePolygons (boolean)'
+     Determines whether to display polygons on the screen with a
+     stippled pattern.  Stippling can create some amount of
+     transparency so that you can still (to some extent) see layers
+     beneath polygons.  It defaults to False.
+
+`textScale (dimension)'
+     The font scaling in percent is defined by this resource. The
+     default is _100_ percent.
+
+`useLogWindow (boolean)'
+     Several subroutines send messages to the user if an error occurs.
+     This resource determines if they appear inside the log window or
+     as a separate dialog box. See also, the resource _raiseLogWindow_
+     and the command line option _-loggeometry_.  The default value is
+     _true_.
+
+`viaColor (color)'
+
+`viaSelectedColor (color)'
+     This resource defines the drawing color of vias in both states.
+     The values are preset to _XtDefaultForeground_.
+
+`viaThickness (dimension)'
+`viaDrillingHole (dimension)'
+     The initial thickness and drilling hole of new vias. The values
+     must be in the range [30..400] (the range may be changed at compile
+     time with the `MIN_PINORVIASIZE' and `MAX_PINEORVIASIZE' variables
+     in `globalconfig.h'), with at least 20 mil of copper.  The default
+     thickness is _40 mil_ and the default drilling hole is _20 mil_.
+
+`volume (int)'
+     The value is passed to `XBell()' which sets the volume of the `X'
+     speaker.  The value lies in the range -100..100 and it defaults to
+     the maximum volume of _100_.
+
+`warnColor (color)'
+     This resources defines the color to be used for drawing pins and
+     pads when a warning has been issued about them.
+
+`zoom (int)'
+     The initial value for output scaling is set according to the
+     following formula: scale = 1:(2 power value). It defaults to
+     _three_ which results in an output scale of _1:8_.
+
+   Refer also to *Note Command-Line Options::.
+

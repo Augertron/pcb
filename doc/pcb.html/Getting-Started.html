@@ -1,0 +1,82 @@
+<html lang="en">
+<head>
+<title>Getting Started - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="Intro.html#Intro" title="Intro">
+<link rel="next" href="User-Commands.html#User-Commands" title="User Commands">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Getting-Started"></a>Next:&nbsp;<a rel="next" accesskey="n" href="User-Commands.html#User-Commands">User Commands</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Intro.html#Intro">Intro</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr><br>
+</div>
+
+   <p><a name="index-how-to-start-22"></a>
+
+<h2 class="chapter">3 Getting Started</h2>
+
+<p>The goal of this chapter is to give you enough information to learn how
+<code>Pcb</code> works and how to develop your layouts to make the best use of <code>Pcb</code>'s
+features. All event translations (<em>i.e.</em> the buttons and keys you
+press) refer to the default application resource file shipped with <code>Pcb</code>. 
+There is probably no need to change this unless your window
+manager uses some of the button events itself; however, if you <em>want</em>
+to customize the behavior of <code>Pcb</code> then changing the resource file
+is usually the best way to do it.
+
+   <p>Get yourself a printout of this chapter and <em>User Commands</em>, if you
+haven't already done so, and follow the examples.
+
+   <p>Start <code>Pcb</code> (the actual command will use all lower-case letters)
+without any additional options. 
+If you get the error message:
+
+<pre class="display">         can't find default font-symbol-file 'default_font'
+</pre>
+<p><br>then the font searchpath or filename in the application resource<br>
+   file is wrong. Be sure that your <code>m4</code> program supports search paths. 
+If not, get <code>GNU m4</code>. 
+For other messages, see <a href="problems.html#problems">problems</a>. 
+Another quick-start is provided by <code>pcbtest.sh</code> in the <span class="file">src</span>
+directory. If some features don't seem to work, try running <code>pcbtest.sh</code>,
+if that works, then <code>Pcb</code> hasn't been installed properly.
+
+<ul class="menu">
+<li><a accesskey="1" href="Application-Window.html#Application-Window">Application Window</a>:      The elements of the main window. 
+<li><a accesskey="2" href="Log-Window.html#Log-Window">Log Window</a>:              The optional logging window
+<li><a accesskey="3" href="Library-Window.html#Library-Window">Library Window</a>:          The circuit selection window
+<li><a accesskey="4" href="Netlist-Window.html#Netlist-Window">Netlist Window</a>:          The desired connections window
+<li><a accesskey="5" href="Drawing-and-Removing.html#Drawing-and-Removing">Drawing and Removing</a>
+<li><a accesskey="6" href="Moving-and-Copying.html#Moving-and-Copying">Moving and Copying</a>
+<li><a accesskey="7" href="Loading-and-Saving.html#Loading-and-Saving">Loading and Saving</a>
+<li><a accesskey="8" href="Printing.html#Printing">Printing</a>:                Creating Gerber files or postscript files
+<li><a accesskey="9" href="Arrow-Tool.html#Arrow-Tool">Arrow Tool</a>:              Selecting/Moving objects. 
+<li><a href="Rats-Nest.html#Rats-Nest">Rats Nest</a>: 		   Helps you place and route tracks against a netlist. 
+<li><a href="Design-Rule-Checking.html#Design-Rule-Checking">Design Rule Checking</a>:    Check for manufactureability
+<li><a href="Trace-Optimizer.html#Trace-Optimizer">Trace Optimizer</a>:         Optimization of layouts
+<li><a href="Searching-for-elements.html#Searching-for-elements">Searching for elements</a>:  Searching for elements
+<li><a href="Measuring-distances.html#Measuring-distances">Measuring distances</a>:     Measuring distances
+<li><a href="Vendor-drill-mapping.html#Vendor-drill-mapping">Vendor drill mapping</a>:    Mapping drills to a vendor specified list
+<li><a href="Connection-Lists.html#Connection-Lists">Connection Lists</a>:        How to get a list of all or some connections. 
+</ul>
+
+   </body></html>
+

@@ -1,0 +1,135 @@
+<html lang="en">
+<head>
+<title>Printing - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Getting-Started.html#Getting-Started" title="Getting Started">
+<link rel="prev" href="Loading-and-Saving.html#Loading-and-Saving" title="Loading and Saving">
+<link rel="next" href="Connection-Lists.html#Connection-Lists" title="Connection Lists">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Printing"></a>Next:&nbsp;<a rel="next" accesskey="n" href="Connection-Lists.html#Connection-Lists">Connection Lists</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Loading-and-Saving.html#Loading-and-Saving">Loading and Saving</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Getting-Started.html#Getting-Started">Getting Started</a>
+<hr><br>
+</div>
+
+   <p><a name="index-printing_002c-an-example-124"></a><a name="index-example-of-printing-125"></a>
+
+<h3 class="section">3.8 Printing</h3>
+
+<p><code>Pcb</code> now has support for device drivers,
+<code>PostScript</code>, <em>encapsulated PostScript</em>,
+and <em>Gerber RS-274-X</em> drivers are
+available so far.  The <em>Gerber RS-274-X</em>
+driver additionally generates a numerical control (NC) drill file for
+automated drilling,
+a bill of materials file to assist in materials procurement and
+inventory control, and a centroid (X-Y) file which includes the
+centroid data needed
+by automatic assembly (pick and place) machines. 
+ I recommend the use of <code>GhostScript</code> if you
+don't have a <code>PostScript</code> printer for handling the PostScript
+output. Printing always generates
+a complete set of files for a specified driver. 
+See the page about
+the <em>Print()</em> action for additional information about the filenames. 
+The control panel offers a number of options. Most of them are not available
+for Gerber output because it wouldn't make sense, for example,  to scale the gerber output
+(you'd get an incorrectly made board!)  The options are:
+
+     
+<a name="index-device_002c-selecting-an-output-126"></a>
+<a name="index-output-device-127"></a>
+<dl><dt><span class="samp">device</span><dd>The top menu button selects from the available device drivers.
+
+     <p><a name="index-rotating-printout-128"></a><br><dt><span class="samp">rotate</span><dd>Rotate layout 90 degrees counter-clockwise before printing (default).
+
+     <p><a name="index-mirroring-printout-129"></a><br><dt><span class="samp">mirror</span><dd>Mirror layout before printing. Use this option depending
+on your production line.
+
+     <p><a name="index-color-printout-130"></a><br><dt><span class="samp">color</span><dd>Created colored output. All colors will be converted to black if this option
+is inactive.
+
+     <p><a name="index-outline-printout-131"></a><br><dt><span class="samp">outline</span><dd>Add a board outline to the output file. The size is determined by the
+maximum board size changeable from the <em>sizes</em> menu. The outline appears
+on the top and bottom sides of the board, but not on the internal layers. 
+An outline can be useful for determining where to shear the board from the
+panel, but be aware that it creates a copper line.  Thus it has the potential
+to cause short circuits if you don't leave enough room from your wiring
+to the board edge.  Use a viewer to see what the output outline looks like
+if you want to know what it looks like.
+
+     <p><a name="index-alignment-targets-132"></a><br><dt><span class="samp">alignment</span><dd>Additional alignment targets are added to the output. The distances between
+the board outline is set by the resource <em>alignmentDistance</em>.  Alignment
+targets should only be used if you know for certain that YOU WILL BE USING
+THEM YOURSELF.  It is extremely unlikely that you will want to have alignment
+targets if you send gerber files to a commercial pcb manufacture to be made.
+
+     <p><a name="index-scaling-a-printout-133"></a><br><dt><span class="samp">scaling</span><dd>It's quite useful to enlarge your printout for checking the layout. 
+Use the scrollbar to adjust the scaling factor to your needs.
+
+     <p><a name="index-print-media-134"></a><a name="index-media_002c-size-of-135"></a><br><dt><span class="samp">media</span><dd>Select the size of the output media from this menu. The user defined size
+may be set by the resource <em>media</em> either from one of the well known
+paper sizes or by a <code>X11</code> geometry specification. 
+This entry is only available if you use <code>X11R5</code> or later. 
+For earlier releases the user defined size or, if not available, <em>A4</em>
+is used. 
+Well known size are:
+     <pre class="display">          	A3
+          	A4
+          	A5
+          	letter
+          	tabloid
+          	ledger
+          	legal
+          	executive
+     </pre>
+     <p><a name="index-offset-of-printout-136"></a><a name="index-print-offset-137"></a><br><dt><span class="samp">offset</span><dd>Adjust the offsets of the printout by using the panner at the right side
+of the dialog box. 
+This entry is only available if you use <code>X11R5</code> or later. A zero
+offset is used for earlier releases.
+
+     <p><a name="index-DOS-filenames-138"></a><br><dt><span class="samp">8.3 filenames</span><dd>Select this button to generate DOS compatible filenames for the output files. 
+The <em>command</em> input area will disappear if selected.
+
+     <p><a name="index-print-command-139"></a><br><dt><span class="samp">commandline</span><dd>Use this line to enter a command (starts with <kbd>|</kbd>) or a filename. 
+A %f is replaced by the current filename. 
+The default is set by the resource <em>printCommand</em>.
+
+   </dl>
+
+   <p>The created file includes some labels which are guaranteed to stay unchanged
+     <dl>
+<dt><span class="samp">PCBMIN</span><dd>identifies the lowest x and y coordinates in mil.
+
+     <br><dt><span class="samp">PCBMAX</span><dd>identifies the highest x and y coordinates in mil.
+
+     <br><dt><span class="samp">PCBOFFSET</span><dd>is set to the x and y offset in mil.
+
+     <br><dt><span class="samp">PCBSCALE</span><dd>is a floating point value which identifies the scaling factor.
+
+     <br><dt><span class="samp">PCBSTARTDATA</span><dt><span class="samp">PCBENDDATA</span><dd>all layout data is included between these two marks. You may use them with an
+<code>awk</code> script to produce several printouts on one piece of paper by
+duplicating the code and putting some <code>translate</code> commands in front. 
+Note, the normal <code>PostScript</code> units are 1/72 inch. 
+</dl>
+
+   </body></html>
+

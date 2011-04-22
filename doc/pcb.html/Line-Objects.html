@@ -1,0 +1,87 @@
+<html lang="en">
+<head>
+<title>Line Objects - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Intro.html#Intro" title="Intro">
+<link rel="prev" href="Layer-Objects.html#Layer-Objects" title="Layer Objects">
+<link rel="next" href="Arc-Objects.html#Arc-Objects" title="Arc Objects">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Line-Objects"></a>Next:&nbsp;<a rel="next" accesskey="n" href="Arc-Objects.html#Arc-Objects">Arc Objects</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Layer-Objects.html#Layer-Objects">Layer Objects</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Intro.html#Intro">Intro</a>
+<hr><br>
+</div>
+
+   <p><a name="index-lines_002c-an-overview-13"></a>
+
+<h3 class="section">2.5 Lines</h3>
+
+<p>Lines are used to draw tracks on the pc board. 
+When in the line mode, each <em>Btn1</em>
+press establishes one end of a line. 
+Once the second point is defined, the line is drawn
+and a new line started where the first one ended. 
+You can abandon the new starting point in favor
+of another by pressing <em>Ctrl-Btn1</em>, or
+<em>Btn3</em>, but don't use <em>Btn2</em>. 
+The undo function (<em>U</em> key or <span class="samp">undo last operation</span>
+from the <b>Edit</b> menu) will take you back
+point by point if you use it while in the line mode. If you drag
+the pointer out of the Layout area while drawing a line, the
+display will auto-scroll (assuming sufficient zoom for scrolling). 
+To stop auto-scroll, simply pass the pointer over the panner control.
+
+   <p><a name="index-two-line-mode-14"></a>New lines can be restricted to 45 degree angles if desired. You can toggle this
+restriction on and off while creating lines by pressing the <em>period</em> key. 
+If the 45 degree restriction is turned on, then the <em>/</em> (forward slash) key
+can be used to cycle through three different modes of 45 degree line creation. 
+One mode just creates a single line forced to the nearest 45 degree vector.  The next
+mode creates two lines from the start to end points such that the first line leaves the
+start point at a 90 degree vector, and the second line enters the end point on a 45
+degree vector. The last mode creates two lines such that the first line leaves the
+start point on a 45 degree vector and arrives at the end point on a 90 degree vector. 
+You can temporarily swap between the last two modes by holding the <em>Shift</em> key down.
+
+   <p>It is simple to edit a line object by breaking it into pieces (insert point mode),
+moving an end point or the whole line (<em>Arrow tool</em>),
+or changing the layer it resides on (<em>M</em> key moves the line under the pointer
+to the active layer). 
+In the case when two line segments meet at exactly the same
+point you can delete the intermediate point, otherwise the delete tool removes an entire line. 
+Feel free to experiment
+since <code>Pcb</code> will allow you to undo and redo anything that materially affects your work. 
+If you switch active layers in the midst of placing lines a via will automatically be
+placed, when necessary, in order to continue the connection.
+
+   <p><a name="index-clearance-15"></a>If you draw a line inside a polygon, it will either plow through the
+polygon creating a clearance, or touch the polygon. This behavior is
+selectable in the <b>Settings</b> menu for new lines. To change the
+behavior of an existing line, hit the <em>J</em> key with the cross hair
+over the line. You can increase the size of the clearance with the
+<em>K</em> key. <em>Shift-K</em> will decrease the clearance.
+
+   <p>Lines do not need to intersect the center of a pin, pad, via, or other
+line for <code>Pcb</code> to understand that they make electrical connection. 
+If the connection is too tenuous, running the design rule checker will report
+that the connection may break if the line width shrinks slightly.
+
+   </body></html>
+

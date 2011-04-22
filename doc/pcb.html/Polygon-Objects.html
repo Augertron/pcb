@@ -1,0 +1,80 @@
+<html lang="en">
+<head>
+<title>Polygon Objects - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Intro.html#Intro" title="Intro">
+<link rel="prev" href="Arc-Objects.html#Arc-Objects" title="Arc Objects">
+<link rel="next" href="Text-Objects.html#Text-Objects" title="Text Objects">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Polygon-Objects"></a>Next:&nbsp;<a rel="next" accesskey="n" href="Text-Objects.html#Text-Objects">Text Objects</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Arc-Objects.html#Arc-Objects">Arc Objects</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Intro.html#Intro">Intro</a>
+<hr><br>
+</div>
+
+   <p><a name="index-polygon_002c-an-overview-17"></a>
+
+<h3 class="section">2.7 Polygons</h3>
+
+<p>Sometimes it's useful to fill large areas with solid copper. 
+The way to do this is with polygons. 
+Polygons can be created in either the polygon mode or the rectangle mode. 
+In the polygon mode, you'll have to define each corner of the polygon
+with a mouse click (<em>Btn1</em>). When the last point is clicked
+exactly on top of the starting point, the polygon is finished. 
+Since this can be hard to do, the <em>Shift-P</em> key will enter the
+final point for you, closing the polygon. 
+If the 45 degree angle restriction is turned on
+and you try to close the polygon when it is not possible, you'll get a
+warning instead. If you haven't finished entering a polygon, but want to
+undo one (or more) of the points that you've already defined, use the
+undo command (<em>U</em> key).
+
+   <p>With the rectangle tool, defining
+the two diagonally opposite corners is sufficient, but of course the resulting
+polygon is a rectangle. 
+Like lines, a polygon can by edited by deleting, inserting and moving the points
+that define it. Pins and vias <em>always</em> clear through polygons without
+touching them when first positioned. You must add a thermal with the thermal
+tool in order to connect pins and vias to polygons. Thermals can be added and removed by
+clicking <em>Btn1</em> with the thermal tool over the pin or via. 
+The thermal tool always
+places a thermal to polygons on the active layer, so if the tool doesn't
+seem to work, it's probably because the polygon you want to touch is not
+on the active layer.
+
+   <p><code>Pcb</code> is capable of handling complex polygons, but
+using a number of simpler ones improves performance of the connection tracing code. 
+You also must be careful not to create polygons that touch or overlap themselves. 
+The fabricated board may not look the way you expect if you violate this
+principle. It is always ok to have two (or more) polygons touch or overlap
+each other, but not for points within the same polygon to do so.
+
+   <p>The great advantage to this new polygon behavior is that simple or complex ground
+and/or power planes can be easily made with polygons and seen on the screen. 
+If you don't want this auto-clearance behavior, or you load a layout created by
+an early version of <code>Pcb</code>, the old behavior
+(shorts to all piercing pins and vias) is available.  A <span class="samp">ChangeSize</span>
+operation (<em>S</em> key) toggles a polygon between the new and old polygon/pin
+behavior.
+
+   </body></html>
+

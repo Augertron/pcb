@@ -1,0 +1,90 @@
+<html lang="en">
+<head>
+<title>Status-line and Input-field - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Application-Window.html#Application-Window" title="Application Window">
+<link rel="prev" href="Menu.html#Menu" title="Menu">
+<link rel="next" href="Panner-Control.html#Panner-Control" title="Panner Control">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Status_002dline-and-Input_002dfield"></a>Next:&nbsp;<a rel="next" accesskey="n" href="Panner-Control.html#Panner-Control">Panner Control</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Menu.html#Menu">Menu</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Application-Window.html#Application-Window">Application Window</a>
+<hr><br>
+</div>
+
+   <p><a name="index-status-information-56"></a><a name="index-displaying-status-information-57"></a><a name="index-input_002dfield_002c-position-of-58"></a>
+
+<h4 class="subsection">3.1.2 The Status-line and Input-field</h4>
+
+<p>The status-line is located at the bottom edge of the main window. 
+During normal operation the status information is visible there. 
+When a selected menu operation requires an additional button click, the
+status-line is replaced by a message telling you to position the cursor
+and click. 
+When a text input is required, the status-line is replaced by the
+Input-field which has a prompt for typing the input.
+
+   <p>The status-line shows, from left to right, the side of the board that you
+are viewing (<em>Tab</em> key changes this), the current grid values,
+if new lines are restricted to 45 degrees,
+which type of 45 degree line mode is active, whether rubberband move and
+rotate mode is on (R), and the zoom factor. 
+This information is followed by the active line-width, via-size
+and drilling hole, keepaway spacing, and text scaling. Last is the active buffer number and the
+name of the layout. An asterisk appearing at the far left indicates that the
+layout has been modified since the last save. 
+Note that the name of the layout is not the same
+thing as the filename of the layout. 
+Change the grid factor to 1.0 mm from the <b>Screen</b> menu. Observe how the
+status line shows the new grid setting. Except for the case of the metric
+grid, all dimensions in the status line are in units of 0.001 inch (1 mil).
+
+   <p>The input-field pops up (temporarily replacing the status-line) whenever user input
+is required. Two keys are bound to the input field: the <em>Escape</em> key
+aborts the input, <em>Return</em> accepts it. Let's change the name of a component
+on the board to see how the input-field works. Position the cross hair over
+R5, and press the <em>N</em> key. The input field pops-up showing the name
+for you to edit. Go ahead and change the name, then hit return. Notice the name
+of the element changed. Now undo the change by pressing the <em>U</em> key. You can
+position the cross hair over the name, or the element before pressing the
+<em>N</em> key.
+
+   <p>Now select <span class="samp">realign grid</span> from the <b>Screen</b> menu. Notice that the
+status line has been replaced with an instruction to position the cursor
+where you want a grid point to fall. In this case, since the cross hair
+can only fall on a grid point, you must move the tip of the finger cursor
+to the place where you want a grid point to appear. Do not worry that
+the cross hair is not coincident with the cursor. Click <em>Btn1</em> at
+your chosen location. See how the grid has shifted, and the status line
+has returned.
+
+   <p>The present cross hair position is displayed in the upper right corner of the window. 
+Normally this position is an absolute coordinate, but you can anchor a marker at
+the cross hair location by pressing <em>Ctrl-M</em> (try it now) and then the
+display will read both the absolute cross hair position as well as the difference
+between it and the marker. The numbers enclosed in &lt; &gt; are the X and Y distances
+between the cross hair and the mark, while the numbers enclosed in parenthesis
+are the distance and angle from the mark to the cross hair. The values displayed
+are always in units of 0.001 inch (1 mil). 
+Pressing <em>Ctrl-M</em> again turns the marker off.
+
+   </body></html>
+

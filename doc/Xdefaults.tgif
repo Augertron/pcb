@@ -1,0 +1,6 @@
+# $Id: Xdefaults.tgif,v 1.1.1.1 2006/04/10 22:05:23 tim Exp $
+
+# Needed to ensure the correct XPM version
+Tgif.XPmOutputVersion: 3
+
+

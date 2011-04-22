@@ -1,0 +1,60 @@
+<html lang="en">
+<head>
+<title>Loading and Saving - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Getting-Started.html#Getting-Started" title="Getting Started">
+<link rel="prev" href="Moving-and-Copying.html#Moving-and-Copying" title="Moving and Copying">
+<link rel="next" href="Printing.html#Printing" title="Printing">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Loading-and-Saving"></a>Next:&nbsp;<a rel="next" accesskey="n" href="Printing.html#Printing">Printing</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Moving-and-Copying.html#Moving-and-Copying">Moving and Copying</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Getting-Started.html#Getting-Started">Getting Started</a>
+<hr><br>
+</div>
+
+<h3 class="section">3.7 Loading and Saving</h3>
+
+<p><a name="index-loading_002c-an-example-114"></a><a name="index-saving_002c-an-example-115"></a><a name="index-example-of-saving-116"></a><a name="index-example-of-loading-117"></a>After your first experience with <code>Pcb</code> you will probably want to save
+your work. <kbd>:s name</kbd> passes the data to an external program which
+is responsible for saving it. For details see <em>saveCommand</em> in
+<a href="Resources.html#Resources">Resources</a>. 
+Saving also is available from the <em>File</em> menu, either with or
+without supplying a filename. <code>Pcb</code> reuses the last
+filename if you do not pass a new one to the save routine.
+
+   <p>To load an existing layout either select <em>load layout data</em> from the
+<em>File</em> menu or use <kbd>:l filename</kbd>. A file select box pops up if you
+don't specify a filename. Merging existing layouts into the new one is
+supported either by the <em>File</em> menu or by <kbd>:m filename</kbd>.
+
+   <p><a name="index-backup-118"></a><a name="index-saving-layouts-119"></a><a name="index-preventing-loss-of-data-120"></a><a name="index-_002ftmp-121"></a><a name="index-directory-_002ftmp-122"></a><a name="index-temporary-files-123"></a><code>Pcb</code> saves a backup of the current layout depending on the resource
+<em>backup</em>. The file is named <span class="file">/tmp/PCB.%i.backup</span> by default
+(this may have been changed at compilation time via the
+<code>BACKUP_NAME</code>
+variable in <span class="file">globalconfig.h</span>).  During critical
+sections of the program or when data would be lost it is saved as
+<span class="file">/tmp/PCB.%i.save</span>.  This file name may be changed at compile time
+with the <code>DEFAULT_MEDIASIZE</code> variable in <span class="file">globalconfig.h</span>.
+
+   <p><em>%i</em> is replaced by the process ID.
+
+   </body></html>
+

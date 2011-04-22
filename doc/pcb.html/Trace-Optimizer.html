@@ -1,0 +1,71 @@
+<html lang="en">
+<head>
+<title>Trace Optimizer - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Getting-Started.html#Getting-Started" title="Getting Started">
+<link rel="prev" href="Design-Rule-Checking.html#Design-Rule-Checking" title="Design Rule Checking">
+<link rel="next" href="Searching-for-elements.html#Searching-for-elements" title="Searching for elements">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Trace-Optimizer"></a>Next:&nbsp;<a rel="next" accesskey="n" href="Searching-for-elements.html#Searching-for-elements">Searching for elements</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Design-Rule-Checking.html#Design-Rule-Checking">Design Rule Checking</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Getting-Started.html#Getting-Started">Getting Started</a>
+<hr><br>
+</div>
+
+   <p><a name="index-trace-optimizer-153"></a><a name="index-optimizer-154"></a>
+
+<h3 class="section">3.13 Trace Optimizer</h3>
+
+<p>PCB includes a flexible trace optimizer.  The trace optimizer can be run
+after auto routing or hand routing to clean up the traces.
+
+     <dl>
+<dt><b>Auto-Optimize</b><dd>Performs debumpify, unjaggy, orthopull, vianudge, and viatrim, in that
+order, repeating until no further optimizations are performed.
+
+     <br><dt><b>Debumpify</b><dd>Looks for U shaped traces that can be shortened or eliminated.
+
+     <br><dt><b>Unjaggy</b><dd>Looks for corners which could be flipped to eliminate one or more
+corners (i.e. jaggy lines become simpler).
+
+     <br><dt><b>Vianudge</b><dd>Looks for vias where all traces leave in the same direction. Tries to
+move via in that direction to eliminate one of the traces (and thus a
+corner).
+
+     <br><dt><b>Viatrim</b><dd>Looks for traces that go from via to via, where moving that trace to a
+different layer eliminates one or both vias.
+
+     <br><dt><b>Orthopull</b><dd>Looks for chains of traces all going in one direction, with more traces
+orthogonal on one side than on the other. Moves the chain in that
+direction, causing a net reduction in trace length, possibly eliminating
+traces and/or corners.
+
+     <br><dt><b>SimpleOpts</b><dd>Removing unneeded vias, replacing two or more trace segments in a row
+with a single segment. This is usually performed automatically after
+other optimizations.
+
+     <br><dt><b>Miter</b><dd>Replaces 90 degree corners with a pair of 45 degree corners, to reduce
+RF losses and trace length.
+
+   </dl>
+
+   </body></html>
+

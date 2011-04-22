@@ -1,0 +1,127 @@
+<html lang="en">
+<head>
+<title>History - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="Copying.html#Copying" title="Copying">
+<link rel="next" href="Overview.html#Overview" title="Overview">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="History"></a>Next:&nbsp;<a rel="next" accesskey="n" href="Overview.html#Overview">Overview</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Copying.html#Copying">Copying</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr><br>
+</div>
+
+<h2 class="unnumbered">History</h2>
+
+<p><a name="index-Atari-version-1"></a><code>Pcb</code> is a handy tool for laying out printed circuit
+boards.
+
+   <p><code>Pcb</code> was first written by Thomas Nau for an Atari ST in 1990 and
+ported to <code>UNIX</code> and <code>X11</code> in 1994. 
+It was not intended as a professional layout system,
+but as a tool which supports people who do some
+home-developing of hardware.
+
+   <p>The second release 1.2 included menus for the first time. This made
+<code>Pcb</code> easier to use and thus a more important tool.
+
+   <p>Release 1.3 introduced undo for highly-destructive commands,
+more straightforward action handling and scalable fonts. Layer-groups
+were introduced to group signal-layers together.
+
+   <p>Release 1.4 provided support for add-on device drivers. 
+Two layers (the solder and the component side)
+were added to support SMD elements. The handling of libraries
+was also improved in 1.4.1. Support for additional devices like
+GERBER plotters started in 1.4.4. The undo feature was expanded
+and the redo-feature added in 1.4.5.
+
+   <p>harry eaton took over pcb development beginning with Release 1.5,
+although he contributed some code beginning with Release 1.4.3
+
+   <p>Release 1.5 provides support for rats-nest generation from simple net
+lists.  It also allows for automatic clearances around pins that pierce
+a polygon.  A variety of other enhancements including a Gerber RS-274-X
+driver and NC drill file generation have also been added.
+
+   <p>Release 1.6 provides automatic screen updates of changed regions. 
+This should eliminate most of the need for the redraw ((<em>R</em> key). 
+Also some changes to what order items under the cursor are selected
+were made for better consistency - it is no longer possible to
+accidentally move a line or line point that is completely obscured
+by a polygon laying over top of it.  Larger objects on the upper
+most layers can be selected ahead of smaller objects on lower layers. 
+These changes make operations more intuitive.  A new mode of line
+creation was added that creates two line on 45 degree angles
+with a single click. The actual outline of the prospective line(s) are
+now shown during line creation.  An arc creation mode was added. 
+Drawn arcs are quarter circles and can be useful for high frequency
+controlled impedance lines.  (You can have eighth circle arc if the
+source is compiled with -DARC45, but be aware that the ends of such
+arcs can never intersect a grid point).  Two new flags for pins and
+vias were created - one indicates that the pin or via is purely a
+drill hole and has no copper annulus.  You can only toggle this flag
+for vias - for elements, it must be an integral part of the element
+definition.  The other flag controls whether the pad will be round
+or octagonal.  There is also now a feature for converting the contents
+of a buffer into an element.
+
+   <p>Release 1.6.1 added the ability to make groups of action commands bound to
+a single X11 event to be undone by a single undo. Also a simple design rule
+checker was added - it checks for minimum spacing and overlap rules. Plus
+many fixes for bugs introduced with the many changes of 1.6
+
+   <p>Release 1.7 added support for routing tracks through polygons without touching
+them. It also added support for unplated drill files, and drawing directly
+on the silk layer. A Netlist window for easily working with netlist was also added.
+
+   <p>Release 2.0 adds an auto-router, a new simpler library mechanism, much improved
+support for graphically creating (and editing) elements, viewable solder-mask
+layers (and editing), snap to pins and pads, netlist entry by drawing rats, element
+files (and libraries) that can contain whole sub-layouts, metric grids, improved
+user interface, a GNU autoconf/automake based build system, and a host
+of other improvements.
+
+   <p>Special thanks goes to:
+<pre class="display">     Thomas Nau (who started the project and wrote the early versions).
+     C. Scott Ananian (who wrote the auto-router code).
+     Bernhard Daeubler (Bernhard.Daeubler@physik.uni-ulm.de)
+     Harald Daeubler (Harald.Daeubler@physik.uni-ulm.de)
+     DJ Delorie (djdelorie@users.sourceforge.net)
+     Larry Doolittle (ldoolitt@recycle.lbl.gov)
+     Dan McMahill (danmc@users.sourceforge.net)
+     Roland Merk (merk@faw.uni-ulm.de)
+     Erland Unruh (Erland.Unruh@malmo.trab.se)
+     Albert John FitzPatrick III (ajf_nylorac@acm.org)
+     Boerge Strand (borges@ifi.uio.no)
+     Andre M. Hedrick (hedrick@Astro.Dyer.Vanderbilt.Edu)
+</pre>
+<p><br>who provided all sorts of help including porting <code>Pcb</code> to<br>
+   several operating systems and platforms, bug fixes, library enhancement,
+user interface suggestions and more. In addition to these people,
+many others donated time for bug-fixing and
+other important work. Some of them can be identified in the source code
+files.  Thanks to all of them. If you feel left out of this list, I
+apologize; please send me an e-mail and I'll try to correct the omission.
+
+<!--  overview chapter - -->
+</body></html>
+

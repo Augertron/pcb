@@ -1,0 +1,64 @@
+<html lang="en">
+<head>
+<title>Netlist Window - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Getting-Started.html#Getting-Started" title="Getting Started">
+<link rel="prev" href="Library-Window.html#Library-Window" title="Library Window">
+<link rel="next" href="Drawing-and-Removing.html#Drawing-and-Removing" title="Drawing and Removing">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Netlist-Window"></a>Next:&nbsp;<a rel="next" accesskey="n" href="Drawing-and-Removing.html#Drawing-and-Removing">Drawing and Removing</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Library-Window.html#Library-Window">Library Window</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Getting-Started.html#Getting-Started">Getting Started</a>
+<hr><br>
+</div>
+
+   <p><a name="index-Netlist-Window-72"></a>
+
+<h3 class="section">3.4 Netlist Window</h3>
+
+<p>The netlist window is very similar to the library window. On the left
+is a list of all of the nets, on the right is the list of connections
+belonging to the chosen net. The chosen net is highlighted in the
+list and also shown on the second line of the window in red. If the
+net name has a star to the left of it then it is "disabled". A disabled
+net is treated as if it were not in the net list. This is useful, for
+example, if you plan to use a ground plane and don't want the ground
+net showing up in the rat's nest. You can enable/disable individual
+nets by double-clicking the net name. If you want to enable or disable
+all nets at once, there are two buttons at the top of the netlist
+window for this purpose.
+
+   <p>The button labeled <span class="samp">Sel Net On Layout</span>
+can be used to select (on the layout) everything that is connected
+(or is supposed to be connected) to the net. If you click on a
+connection in the connection list, it will select/deselect
+the corresponding pin or pad in the layout and also center the layout
+window where it is located. If you "Find" (<span class="samp">lookup connection
+to object</span> in the <b>Connects</b> menu [also <em>F</em> key]), a pin
+or pad it will also choose the net and connection in the netlist window
+if it exists in the netlist.
+
+   <p>If no netlist exists for the layout, then the netlist window does not
+appear. You can load a netlist from a file from the <b>File</b> menu. The
+format for netlist files is described in <a href="Netlist-File.html#Netlist-File">Netlist File</a>.
+
+   </body></html>
+

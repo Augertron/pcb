@@ -1,0 +1,56 @@
+<html lang="en">
+<head>
+<title>Menu Files and Defaults - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Custom-Menus.html#Custom-Menus" title="Custom Menus">
+<link rel="prev" href="Menu-Definitions.html#Menu-Definitions" title="Menu Definitions">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Menu-Files-and-Defaults"></a>Previous:&nbsp;<a rel="previous" accesskey="p" href="Menu-Definitions.html#Menu-Definitions">Menu Definitions</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Custom-Menus.html#Custom-Menus">Custom Menus</a>
+<hr><br>
+</div>
+
+<h3 class="section">B.3 Menu Files and Defaults</h3>
+
+<p>Pcb will look for a file which defines its menus, trying the following
+names:
+
+<pre class="example">     ./pcb-menu.res
+     $HOME/.pcb-menu.res
+     $PCBLIBDIR/pcb-menu.res
+     &lt;internal&gt;
+</pre>
+   <p>Note that <var>pcblibdir</var> defaults to <span class="file">/usr/local/share/pcb</span>
+(hence, <span class="file">/usr/local/share/pcb/pcb-menu.res</span>).  The
+<span class="file">&lt;internal&gt;</span> entry refers to a menu definition within the Pcb
+application itself.  The master file for all this is the file
+<span class="file">src/pcb-menu.res</span> in the Pcb source tree.  This master source is
+used to create the internal menu definition as well as being installed
+in <span class="file">$pcblibdir</span>.
+
+   <p>You can view the internal menu definition (the default) by running
+<span class="file">pcb</span> with the <code>-dumpmenu</code> option, like this:
+
+<pre class="example">     pcb -dumpmenu
+</pre>
+   <!--  Appendix C - -->
+</body></html>
+

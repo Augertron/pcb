@@ -1,0 +1,65 @@
+<html lang="en">
+<head>
+<title>Netlist File - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="File-Formats.html#File-Formats" title="File Formats">
+<link rel="prev" href="Font-File.html#Font-File" title="Font File">
+<link rel="next" href="Library-Contents-File.html#Library-Contents-File" title="Library Contents File">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Netlist-File"></a>Next:&nbsp;<a rel="next" accesskey="n" href="Library-Contents-File.html#Library-Contents-File">Library Contents File</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Font-File.html#Font-File">Font File</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="File-Formats.html#File-Formats">File Formats</a>
+<hr><br>
+</div>
+
+   <p><a name="index-netlist_002c-file-format-750"></a><a name="index-netlist_002c-reading-751"></a>
+
+<h3 class="section">7.5 Netlist File Format</h3>
+
+<p>Netlists read by <code>Pcb</code> must have this simple text form:
+
+<pre class="example">     netname [style] NAME-PINNUM NAME2-PINNUM2 NAME3-PINNUM3 ... [\]
+</pre>
+<p><br>for each net on the layout.<br>
+   where "netname" is the name of the net which must be unique for each
+net, [style] is an optional route-style name,
+NAME is the layout-name name given to an element,
+and PINNUM is the (usually numeric)
+pin number of the element that connects to the net
+(for details on pin numbering see <a href="Element-Objects.html#Element-Objects">Element Objects</a>). 
+Spaces or tabs separate the fields. 
+If the line ends with a "\" the
+net continues on the next line and the "\" is treated exactly as if it
+were a space.  If a NAME ends with a lower-case letter,
+all lower-case letters are stripped from the end of the NAME to determine the
+matching layout-name name.  For example:
+
+<pre class="example">          Data U1-3 U2abc-4 FLOP1a-7 Uabc3-A9
+</pre>
+   <p>specifies that the net called "Data" should have
+pin 3 of U1 connected to pin 4 of U2, to pin 7 of
+FLOP1 and to pin A9 of Uabc3.  Note that element name and
+pin number strings are case-sensitive. 
+It is up to you to name the elements so that their layout-name names
+agrees with the netlist.
+
+   </body></html>
+

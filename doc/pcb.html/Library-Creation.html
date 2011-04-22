@@ -1,0 +1,455 @@
+<html lang="en">
+<head>
+<title>Library Creation - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="File-Formats.html#File-Formats" title="File Formats">
+<link rel="next" href="Schematic-Frontends.html#Schematic-Frontends" title="Schematic Frontends">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Library-Creation"></a>Next:&nbsp;<a rel="next" accesskey="n" href="Schematic-Frontends.html#Schematic-Frontends">Schematic Frontends</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="File-Formats.html#File-Formats">File Formats</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr><br>
+</div>
+
+   <p><a name="index-library-creation-758"></a>
+
+<h2 class="chapter">8 Library Creation</h2>
+
+<p>This chapter provides a detailed look at how footprint libraries are
+created and used.  The chapter is split into two section, the first
+section covers the "old" style libraries which use the <code>m4</code> macro
+processor and the second section covers the "new" style libraries.
+
+   <p>Despite the names "old" and "new", both styles of libraries are useful
+and the "old" style should not be discounted because of its name.  The
+advantage of the old style libraries is that one can define a family of
+footprints, say a DIP package, and then quickly produce all the members
+of that family.  Because the individual packages make use of a base
+definition, corrections made to the base definition propagate to all the
+members of a family.  The primary drawback to using this library
+approach is that the effort to create a single footprint is more than a
+graphical interface and may take even longer if the user has not used
+the <code>m4</code> macro language previously.
+
+   <p>The new style of footprint libraries stores each footprint in its own
+file.  The footprints are created graphically by placing pads and then
+converting a group of pads to a component.  This library method has the
+advantage of being quick to learn and it is easily to build single
+footprints quickly.  If you are building a family of parts, however, the
+additional effort in creating each one individually makes this approach
+undesirable.  In addition, creating a part with a large pin count
+can be quite tedious when done by hand.
+
+<h3 class="section">8.1 Old Style (m4) Libraries</h3>
+
+<p>The old style libraries for pcb use the <code>m4</code> macro processor to
+allow the definition of a family of parts.  There are several files
+associated with the old style library.  The file <span class="file">common.m4</span> is the
+top level file associated with the library.  <span class="file">common.m4</span> defines a
+few utility macros which are used by other portions of the library,
+and then includes a predefined set of library files (the lines like
+<code>include(geda.inc)</code>).
+
+<h4 class="subsection">8.1.1 Overview of Oldlib Operation</h4>
+
+<p>The big picture view of the old style library system is that the library
+is simply a collection of macro definitions.  The macros are written in
+the <code>m4</code> macro language.  An example of a macro and what it expands
+to is the following.  One of the predefined footprints in the library
+which comes with PCB is the <code>PKG_SO8</code> macro.  Note that all the
+footprint macros begin with <code>PKG_</code>.  For this particular example,
+<code>PKG_SO8</code> is a macro for an 8-pin small outline surface mount
+package.  All of the footprint macros take 3 arguments.  The first is the
+canonical name of the footprint on the board.  In this case "SO8" is an
+appropriate name.  The second argument is the reference designator on
+the board such as "U1" or "U23".  The third and final argument is the
+value.  For an integrated circuit this is usually the part number such
+as "MAX4107" or "78L05" and for a component such as a resistor or
+capacitor it is the resistance or capacitance.  The complete call to the
+macro in our example is <span class="samp">PKG_SO8(SO8, U1, MAX4107)</span>.  When
+processed by <code>m4</code> using the macros defined in the PCB library, this
+macro expands to
+<pre class="example">     Element(0x00 "SO8" "U1" "MAX4107" 146 50 3 100 0x00)
+     (
+     	Pad(10 25 38 25 20 "1" 0x00)
+     	Pad(10 75 38 75 20 "2" 0x100)
+     	Pad(10 125 38 125 20 "3" 0x100)
+     	Pad(10 175 38 175 20 "4" 0x100)
+     	Pad(214 175 242 175 20 "5" 0x100)
+     	Pad(214 125 242 125 20 "6" 0x100)
+     	Pad(214 75 242 75 20 "7" 0x100)
+     	Pad(214 25 242 25 20 "8" 0x100)
+     	ElementLine(0 0 151 0 10)
+     	ElementArc(126 0 25 25 0 180 10)
+     	ElementLine(101 0 252 0 10)
+     	ElementLine(252 0 252 200 10)
+     	ElementLine(252 200 0 200 10)
+     	ElementLine(0 200 0 0 10)
+     	Mark(29 25)
+     )
+</pre>
+   <p>which is the actual definition of the footprint that the PCB program
+works with.  As a user of PCB the only time you will need or want to run
+<code>m4</code> directly is when you are debugging a new library addition.  In
+normal operation, the calls to <code>m4</code> are made by helper scripts that
+come with PCB.
+
+   <p>Tools such as <code>gsch2pcb</code> (used to interface the gEDA schematic
+capture program to PCB layout) will call <code>m4</code> to produce an initial
+PCB layout that includes all the components on a schematic.  In
+addition, when manually instantiating parts from within PCB, <code>m4</code>
+will be called by PCB's helper scripts to produce the footprints.
+
+<h4 class="subsection">8.1.2 The Library Scripts</h4>
+
+<p>There are several scripts that are used for processing the m4
+libraries.  This section briefly describes these scripts and details how
+they are used by PCB.
+
+<h5 class="subsubsection">8.1.2.1 Scripts Used During Compilation</h5>
+
+<p>The scripts described in this section are used during compilation of
+PCB.  They are run automatically by the build system, but are described
+here to help document the complete library processing that occurs. 
+During the build of PCB, the following actions are taken.  The
+<code>CreateLibrary.sh</code> script is run to produce an M4 "frozen file". 
+This frozen file is simply a partially processed M4 input file which can
+be loaded by M4 more quickly than the original input file.
+
+   <p>A typical call to <code>CreateLibrary.sh</code> used during the compilation of
+PCB is:
+<pre class="example">     ./CreateLibrary.sh -I . pcblib ./common.m4 TTL_74xx_DIL.m4
+     connector.m4 crystal.m4 generic.m4 genericsmt.m4 gtag.m4
+     jerry.m4 linear.m4 logic.m4 lsi.m4 memory.m4 optical.m4 pci.m4
+     resistor_0.25W.m4 resistor_adjust.m4 resistor_array.m4
+     texas_inst_amplifier.m4 texas_inst_voltage_reg.m4
+     transistor.m4 geda.m4
+</pre>
+   <p>The <span class="samp">-I .</span> says to search in the current directory for the
+<span class="file">.m4</span> files.  The output frozen file is <span class="file">pcblib</span>.  The main
+<span class="file">common.m4</span> file is listed as well as all of the <span class="file">*.m4</span> files
+which define the components in the library.
+
+   <p>In addition, a library contents file is created during the build with
+the <code>CreateLibraryContents.sh</code> script. 
+A typical call to <code>CreateLibrary.sh</code> used during the compilation of
+PCB is:
+<pre class="example">     ./CreateLibraryContents.sh -I . ./common.m4 TTL_74xx_DIL.list
+     connector.list crystal.list generic.list genericsmt.list gtag.list
+     jerry.list linear.list logic.list lsi.list memory.list optical.list
+     pci.list resistor_0.25W.list resistor_adjust.list resistor_array.list
+     texas_inst_amplifier.list texas_inst_voltage_reg.list transistor.list
+     geda.list &gt; pcblib.contents
+</pre>
+   <p>The <span class="file">pcblib.contents</span> file is used by the PCB program to define the
+libraries and components which will be displayed when you bring up
+the library window from within PCB.  An example of part of the
+<span class="file">pcblib.contents</span> file is:
+<pre class="example">     TYPE=~TTL 74xx DIL
+     7400_dil:N:7400:4 dual-NAND
+     7401_dil:N:7401:4 dual-NAND OC
+     7402_dil:N:7402:4 dual-NOR
+     TYPE=~geda
+     geda_DIP6:DIP6:DIP6:Dual in-line package, narrow (300 mil)
+     geda_DIP8:DIP8:DIP8:Dual in-line package, narrow (300 mil)
+     geda_DIP14:DIP14:DIP14:Dual in-line package, narrow (300 mil)
+     geda_ACY300:ACY300:ACY300:Axial non-polar component,
+</pre>
+   <p>The <code>TYPE=</code> lines define the library name that will show up in the
+library window in PCB.  The other lines define the actual components in
+the library.
+
+<h5 class="subsubsection">8.1.2.2 Scripts Used by PCB at Runtime</h5>
+
+<p>When PCB is first executed, it makes a call to the
+<code>ListLibraryContents.sh</code> script.  This script provides the PCB
+program with the contents of the library contents file created when PCB
+was compiled.  A typical call to <code>ListLibraryContents.sh</code> is
+<pre class="example">     ../lib/ListLibraryContents.sh .:/tmp/pcb-20030903/src/../lib pcblib
+</pre>
+   <p>This command says to search the path
+<span class="samp">.:/tmp/pcb-20030903/src/../lib</span> for a file called
+<span class="file">pcblib.contents</span> (the <span class="file">.contents</span> part is added
+automatically) and display the contents of the file. 
+PCB parses this output and generates the library window entries.
+
+   <p>When you pick a library component from the library window, PCB calls the
+<code>QueryLibrary.sh</code> script to actually pull the footprint into the
+layout.  For example, when the ACY300 component is selected from the
+<code>~geda</code> library, the generated call may be:
+
+<pre class="example">     /tmp/pcb-20030903/src/../lib/QueryLibrary.sh
+     .:/tmp/pcb-20030903/src/../lib pcblib geda_ACY300 ACY300
+     ACY300
+</pre>
+   <p>If you were to run this command by hand you would see the PCB code for
+the element:
+<pre class="example">     Element(0x00 "Axial non-polar component," "" "ACY300" 245 70 0 100 0x00)
+     (
+     	Pin(0 25 50 20 "1" 0x101)
+     	Pin(300 25 50 20 "2" 0x01)
+     
+     	ElementLine(0 25 75 25 10)
+     	ElementLine(225 25 300 25 10)
+     
+     	ElementLine(75 0 225 0 10)
+     	ElementLine(225 0 225 50 10)
+     	ElementLine(225 50 75 50 10)
+     	ElementLine(75 50 75 0 10)
+     
+     #       ElementArc(X1 Y 50 50 270 180 10)
+     #       ElementArc(X2 Y 50 50 90 180 10)
+     
+     	Mark(75 25)
+     )
+</pre>
+   <h4 class="subsection">8.1.3 Creating an Oldlib Footprint</h4>
+
+<p>This section provides a complete example of defining a family of
+footprints using the M4 style library.  As a vehicle for this example, a
+family of footprints for surface mount resistors and capacitors will be
+developed.   The file <span class="file">example.inc</span> should have been installed on
+your system as <span class="file">$prefix/share/examples/oldlib/example.inc</span> where
+<span class="file">$prefix</span> is often times <span class="file">/usr/local</span>.
+
+   <p>The <span class="file">example.inc</span> file defines a macro called
+<code>COMMON_PKG_RCSMT</code> which is a generic definition for a surface
+mount footprint with two identical, rectangular pads.  This macro will
+be called with different parameters to fill out the family of parts. 
+The arguments to the <code>COMMON_PKG_RCSMT</code> are:
+<pre class="example">     # -------------------------------------------------------------------
+     # the definition for surface mount resistors and capacitors
+     # $1: canonical name
+     # $2: name on PCB
+     # $3: value
+     # $4: pad width   (in direction perpendicular to part)
+     # $5: pad length  (in direction parallel with part)
+     # $6: pad spacing (center to center)
+     # $7: distance from edge of pad to silk (in direction
+     #     perpendicular to part)
+     # $8: distance from edge of pad to silk (in direction parallel
+     #     with part)
+     # $9: Set to "no" to skip silk screen on the sides of the part
+</pre>
+   <pre class="example">     define(`COMMON_PKG_RCSMT',
+     	`define(`XMIN', `eval( -1*`$6'/2 - `$5'/2 - `$8')')
+     	define(`XMAX', `eval(  `$6'/2 + `$5'/2 + `$8')')
+     	define(`YMIN', `eval(-1*`$4'/2 - `$7')')
+     	define(`YMAX', `eval(   `$4'/2 + `$7')')
+     Element(0x00 "$1" "$2" "$3" eval(XMIN+20) eval(YMAX+20) 0 100 0x00)
+     (
+     	ifelse(0, eval($4&gt;$5),
+     	# Pads which have the perpendicular pad dimension less
+     	# than or equal to the parallel pad dimension
+     	Pad(eval(-1*(   $6 + $5 - $4)/2) 0
+     	    eval((-1*$6 + $5 - $4)/2) 0 eval($4) "1" 0x100)
+     	Pad(eval(-1*(-1*$6 + $5 - $4)/2) 0
+     	    eval((   $6 + $5 - $4)/2) 0 eval($4) "2" 0x100)
+     	,
+     	# Pads which have the perpendicular pad dimension greater
+     	# than or equal to the parallel pad dimension
+     	Pad(eval(-1*$6/2) eval(-1*($4 - $5)/2)
+     	    eval(-1*$6/2)  eval(($4 - $5)/2) eval($5) "1" 0x100)
+     	Pad(eval(   $6/2) eval(-1*($4 - $5)/2)
+     	    eval(   $6/2)  eval(($4 - $5)/2) eval($5) "2" 0x100)
+     	)
+     
+     	# silk screen
+     	# ends
+     	ElementLine(XMIN YMIN XMIN YMAX 10)
+     	ElementLine(XMAX YMAX XMAX YMIN 10)
+     	# sides
+     ifelse($9,"no",
+     	#skip side silk
+     	,
+     	ElementLine(XMIN YMIN XMAX YMIN 10)
+     	ElementLine(XMAX YMAX XMIN YMAX 10)
+     )
+     	Mark(0 0)
+     )')
+</pre>
+   <p>Note that the part has been defined with the mark located at
+<code>(0,0)</code> and that the pads have been placed with the mark at the
+common centroid of the footprint.  While not a requirement, this is
+highly desirable when developing a library that will need to interface
+with a pick and place machine used for factory assembly of a board.
+
+   <p>The final part of <span class="file">example.inc</span> defines particular versions of the
+generic footprint we have created.  These particular versions correspond
+to various industry standard package sizes.
+<pre class="example">     # 0402 package
+     #
+     # 30x30 mil pad, 15 mil metal-metal spacing=&gt;
+     # 15 + 15 + 15 = 45 center-to-center
+     define(`PKG_RC0402',
+       `COMMON_PKG_RCSMT(`$1', `$2', `$3', 30, 30, 45, 0, 10, "no")')
+     
+     # 0603 package
+     #
+     # 40x40 mil pad, 30 mil metal-metal spacing=&gt;
+     #  30 + 20 + 20 = 70 center-to-center
+     define(`PKG_RC0603',
+       `COMMON_PKG_RCSMT(`$1', `$2', `$3', 40, 40, 70, 10, 10)')
+     
+     # 1206 package
+     #
+     # 40x60 mil pad, 90 mil metal-metal spacing=&gt;
+     #  90 + 20 + 20 = 130 center-to-center
+     define(`PKG_RC1206',
+       `COMMON_PKG_RCSMT(`$1', `$2', `$3', 60, 40, 130, 10, 10)')
+</pre>
+   <p>At this point, the <span class="file">example.inc</span> file could be used by third party
+tools such as <code>gsch2pcb</code>.  However to fully integrate our
+footprints into PCB we need to create the <span class="file">example.m4</span> and
+<span class="file">example.list</span> files.  The <span class="file">example.m4</span> file defines
+descriptions for the new footprints.
+<pre class="example">     define(`Description_my_RC0402',
+       ``Standard SMT resistor/capacitor (0402)'')
+     define(`Description_my_RC0603',
+       ``Standard SMT resistor/capacitor (0603)'')
+     define(`Description_my_RC1206',
+       ``Standard SMT resistor/capacitor (1206)'')
+</pre>
+   <p>Finally we need to create the <span class="file">example.list</span> file.
+<pre class="example">     my_RC0402:RC0402:RES0402
+     my_RC0402:RC0402:CAP0402
+     my_RC0603:RC0603:RES0603
+     my_RC0603:RC0603:CAP0603
+     my_RC1206:RC1206:RES1206
+     my_RC1206:RC1206:CAP1206
+</pre>
+   <p>The first field in the list file has the name corresponding to the
+Description definitions in <span class="file">example.m4</span>.  The second field is the
+template name which corresponds to the macros <code>PKG_*</code> we defined in
+<span class="file">example.inc</span> with the leading <code>PKG_</code> removed.  It is the
+second field which controls what footprint will actually appear on the
+board.  The final
+field is the name of the part type on the board.  The first line in our
+<span class="file">example.list</span> file will produce a menu entry in the library window
+that reads:
+<pre class="example">     CAP0402, Standard SMT resistor/capacitor (0402)
+</pre>
+   <p>The <code>CAP0402</code> portion comes directly from the third field in
+<code>example.list</code> and the longer description comes from descriptions
+macros in <code>example.m4</code>.  Please note that any extra white space
+at the end of a line in the <span class="file">.list</span> files will cause them to
+not work properly.
+
+<h4 class="subsection">8.1.4 Troubleshooting Old Style Libraries</h4>
+
+<p>A powerful technique to help debug problems with libraries is to invoke
+the <code>m4</code> processor directly.  This approach will provide error
+output which is not visible from within PCB.  The following example
+shows how one might try to debug an 8 pin small outline (SO8) package.  The
+macro name for the package is PKG_SO8.  In this example, the
+canonical name that is to be associated with the part is SO8, the
+reference designator is U1, and the value is MAX4107 (the part number).
+
+<pre class="example">     echo "PKG_SO8(SO8, U1, MAX4107)" | \
+        gm4 common.m4 - | \
+        awk '/^[ \t]*$/ {next} {print}' | \
+        more
+</pre>
+   <p>The <code>awk</code> call simply removes blank lines which make the output
+hard to read.
+
+   <p>For this particular example, the output is:
+<pre class="example">     Element(0x00 "SO8" "U1" "MAX4107" 146 50 3 100 0x00)
+     (
+     	Pad(10 25 38 25 20 "1" 0x00)
+     	Pad(10 75 38 75 20 "2" 0x100)
+     	Pad(10 125 38 125 20 "3" 0x100)
+     	Pad(10 175 38 175 20 "4" 0x100)
+     	Pad(214 175 242 175 20 "5" 0x100)
+     	Pad(214 125 242 125 20 "6" 0x100)
+     	Pad(214 75 242 75 20 "7" 0x100)
+     	Pad(214 25 242 25 20 "8" 0x100)
+     	ElementLine(0 0 151 0 10)
+     	ElementArc(126 0 25 25 0 180 10)
+     	ElementLine(101 0 252 0 10)
+     	ElementLine(252 0 252 200 10)
+     	ElementLine(252 200 0 200 10)
+     	ElementLine(0 200 0 0 10)
+     	Mark(29 25)
+     )
+</pre>
+   <h3 class="section">8.2 New Style Libraries</h3>
+
+<p>Footprints for the new style library are created graphically using the
+PCB program.  A single footprint is saved in each file.
+
+<h4 class="subsection">8.2.1 Creating Newlib Footprints</h4>
+
+<p>To create
+     <ol type=1 start=1>
+<li>Start PCB with an empty layout. 
+<li>Make the component layer active. 
+<li>For a leaded part, select the via tool and place vias where the
+pads for the part should go.  For surface mount pads, draw line
+segments.  Note that until the footprint is completed, the surface
+mount pads will remain rounded.  Currently a rectangle or polygon
+may not be used as a pad. 
+<li>For each via and line segment which will become a pad, select it,
+right-click to bring up the popup menu and choose "edit name".  Enter
+the pin number and press enter.  Alternatively, you can use the "n"
+hotkey to activate the rename command. 
+<li>Make the silk layer active. 
+<li>Using the line and arc tools, draw a silk screen outline for the
+part. 
+<li>Using the selection tool, select all of the pins and silk screen
+for the part. 
+<li>Place the pointer above the reference point for the part.  This is
+typically the common centroid.  Keeping the pointer there, right-click
+to bring up the popup menu and choose "convert
+selection to element". 
+<li>At this point, the vias, line segments, and silk screen will have
+been converted to an element.  To change any of the line segments to
+have square ends rather than round ends, select the pads by holding
+down the shift key and clicking each pad with the center mouse button. 
+Now under the Select menu, "Change square-flag of selected objects"
+section, choose "Pins". 
+<li>Select the element, right-click to bring up the popup menu, and
+choose "Copy Selection to Buffer".  Now left-click on the center of
+the new element. 
+<li>Under the buffer menu, choose "save buffer elements to file" to
+save the new footprint to a file. 
+<li>Press ESC to exit from buffer mode.
+        </ol>
+
+<h4 class="subsection">8.2.2 Modifying Newlib Footprints</h4>
+
+     <ol type=1 start=1>
+<li>In the <code>Pcb</code> program, instantiate the footprint you wish to modify. 
+<li>Using the selection tool, select the footprint. 
+<li>Now left-click on the selected element, this brings up a popup menu, choose
+"Cut Selection to Buffer" from the popup menu. 
+<li>Under the buffer menu, choose "break buffer element to pieces",
+and then left-click to place the broken apart footprint to an open area of
+the layout.  Note that you must use the items under the buffer menu, the
+items with the same names in the popup menu do not work. 
+<li>Make your desired modifications to the footprint and then convert
+the pieces back to an element using the same procedure as when starting
+from scratch on a new footprint.
+     </ol>
+
+<!--  chapter 8 - -->
+</body></html>
+

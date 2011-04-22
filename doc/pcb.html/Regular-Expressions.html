@@ -1,0 +1,68 @@
+<html lang="en">
+<head>
+<title>Regular Expressions - Pcb</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Pcb">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="Custom-Menus.html#Custom-Menus" title="Custom Menus">
+<link rel="next" href="Index.html#Index" title="Index">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Regular-Expressions"></a>Next:&nbsp;<a rel="next" accesskey="n" href="Index.html#Index">Index</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Custom-Menus.html#Custom-Menus">Custom Menus</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr><br>
+</div>
+
+   <p><a name="index-Element-Search-802"></a><a name="index-Regular-Expressions-803"></a><a name="index-Element-Search-804"></a><a name="index-Regular-Expressions-805"></a>
+
+<h2 class="appendix">Appendix C Element Search/Regular Expressions</h2>
+
+<h3 class="section">C.1 Element Search/Regular Expressions</h3>
+
+<p><code>Pcb</code>'s search is based on POSIX 1003.2 Regular Expressions.  Full POSIX
+Regular Expressions are supported by <code>Pcb</code> if the regex library was
+available when <code>Pcb</code> was built. 
+It is easier to show by example how to search than explain POSIX 1003.2.  The following table shows the most common
+Regular Expression characters used to find elements in <code>Pcb</code>:
+
+     <dl>
+<dt><span class="samp">\</span><dd>Indicates next character should not be interpreted literally if it
+normally is, and should be interpreted literally if it normally isn't. 
+<br><dt><span class="samp">*</span><dd>Matches 0 or more instances of preceding character. 
+<br><dt><span class="samp">+</span><dd>Matches 1 or more instances of preceding character. 
+<br><dt><span class="samp">?</span><dd>Matches 0 or 1 instances of preceding character. 
+<br><dt><span class="samp">.</span><dd>Matches any single character other than the newline character. 
+</dl>
+
+   <p>The following examples illustrate how regular expressions are used to
+specify element names (reference designators) to search for.
+     <dl>
+<dt><span class="samp">Search for "C1":</span><dd>Enter "C1". 
+<br><dt><span class="samp">Search for all elements that start with "C", such as capacitors:</span><dd>Enter "C.*", that is "C-dot-star". 
+<br><dt><span class="samp">Search for all elements that start with "C" and end with "1",</span><dd>such as "C1", or "C51":
+Enter "C.*1", that is "C-dot-star-1". 
+<br><dt><span class="samp">Search for only R1 or R10, will not match R100:</span><dd>Enter "R10?". 
+<br><dt><span class="samp">Search for all parts starting with "R12" and ending with the number eight, or eighty-eight etc:</span><dd>Enter "R128+". 
+<br><dt><span class="samp">Search for all terminal blocks having a one digit designator such as TB1 or TB2:</span><dd>"TB.", that is "TB-dot". 
+<br><dt><span class="samp">Search for all terminal blocks having a two digit designator such as TB21 or TB15:</span><dd>"TB..", that is "TB-dot-dot". 
+</dl>
+
+<!--  -->
+</body></html>
+
