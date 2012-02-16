@@ -1,6 +1,6 @@
 #!/bin/sh
 # \
-exec wish "$0" ${1+"$@"}
+exec ${PCB_WISH:=wish} "$0" ${1+"$@"}
 
 #
 ## tkcon.tcl
@@ -44,7 +44,7 @@ exec wish "$0" ${1+"$@"}
 if {$tcl_version < 8.0} {
     return -code error "tkcon requires at least Tcl/Tk8"
 } else {
-    package require -exact Tk $tcl_version
+    package require Tk $tcl_version
 }
 
 catch {package require bogus-package-name}

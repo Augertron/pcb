@@ -9176,6 +9176,8 @@ cat >>confdefs.h <<_ACEOF
 _ACEOF
 
 
+# name for wish executable
+CPPFLAGS="$CPPFLAGS -DWISH_EXE=\\\"$WISH_EXE\\\""
 
 # directory for new library
 PCBTREEDIR=${datadir}/pcb/newlib

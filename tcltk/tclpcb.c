@@ -243,8 +243,11 @@ int resolve_conflict(ClientData clientData, Tcl_Interp *interp, int objc,
 
    newobjv = (Tcl_Obj **)Tcl_Alloc(objc * sizeof(Tcl_Obj *));
    newobjv[0] = Tcl_NewStringObj(tcl_name, -1);
-   for (i = 1; i < objc; i++)
+   Tcl_IncrRefCount(newobjv[0]);
+   for (i = 1; i < objc; i++) {
       newobjv[i] = objv[i];
+      Tcl_IncrRefCount(newobjv[i]);
+   }
 
    result = Tcl_EvalObjv(interp, objc, newobjv, 0);
 

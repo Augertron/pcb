@@ -1165,6 +1165,8 @@ LIBRARYFILENAME=pcblib
 AC_SUBST(LIBRARYFILENAME)
 AC_DEFINE_UNQUOTED(LIBRARYFILENAME,"$LIBRARYFILENAME",[library file name])
 
+# name for wish executable
+CPPFLAGS="$CPPFLAGS -DWISH_EXE=\\\"$WISH_EXE\\\""
 
 # directory for new library
 PCBTREEDIR=${datadir}/pcb/newlib
