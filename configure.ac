@@ -359,6 +359,8 @@ if test "x$pcb_with_tcl" != "x" ; then
        /usr/local/tcl \
        /usr/local/lib \
        /usr/local \
+       /usr/lib \
+       /usr/lib64 \
        /sw/lib \
        /usr
       do
@@ -440,9 +442,13 @@ if test "x$pcb_with_tcl" != "x" ; then
     if test "x$tk_config_sh" = "x" ; then
       for dir in \
        /usr/local \
+       /usr/lib \
+       /usr/local/lib \
+       /usr/lib64 \
        /usr \
        `ls -dr /usr/local/lib/tk[[7-9]].[[0-9]]* 2>/dev/null` \
        `ls -dr /usr/lib/tk[[7-9]].[[0-9]]* 2>/dev/null` \
+       `ls -dr /usr/lib64/tk[[7-9]].[[0-9]]* 2>/dev/null` \
        `ls -dr /usr/local/tk/tk[[7-9]].[[0-9]]* 2>/dev/null` \
        `ls -dr /usr/local/tk[[7-9]].[[0-9]]* 2>/dev/null` \
 	/usr/local/tk \
@@ -647,7 +653,8 @@ if test "x$pcb_with_tcl" != "x" ; then
     fi
   else
     for libname in \
-     "${TCL_EXEC_PREFIX}/lib/lib${TCL_LIB_NAME}${SHDLIB_EXT}"
+     "${TCL_EXEC_PREFIX}/lib/lib${TCL_LIB_NAME}${SHDLIB_EXT}" \
+     "${TCL_EXEC_PREFIX}/lib64/lib${TCL_LIB_NAME}${SHDLIB_EXT}"
     do
       if test -r "$libname" ; then
         TCL_LIB_DIR="${TCL_EXEC_PREFIX}/lib"
@@ -679,7 +686,8 @@ if test "x$pcb_with_tcl" != "x" ; then
     fi
   else
     for libname in \
-     "${TK_EXEC_PREFIX}/lib/lib${TK_LIB_NAME}${SHDLIB_EXT}"
+     "${TK_EXEC_PREFIX}/lib/lib${TK_LIB_NAME}${SHDLIB_EXT}" \
+     "${TK_EXEC_PREFIX}/lib64/lib${TK_LIB_NAME}${SHDLIB_EXT}"
     do
       if test -r "$libname" ; then
         TK_LIB_DIR="${TK_EXEC_PREFIX}/lib"
